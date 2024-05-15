@@ -7,10 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -19,10 +18,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,25 +46,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import com.timkom.carpaw.ui.theme.Purple80
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CarPawTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .padding(innerPadding),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        LoginCard(
-                            modifier = Modifier,
+            CarPawTheme(dynamicColor = false) {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        CenterAlignedTopAppBar(
+                            title = { Text("CarPaw") },
+                            colors = TopAppBarDefaults.topAppBarColors().copy(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                            )
                         )
+                    }
+                ) { innerPadding ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoginCard()
                     }
                 }
             }
@@ -108,14 +121,14 @@ fun LoginCard(modifier: Modifier = Modifier) {
     ) {
         Column(
             modifier = modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+                .align(Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
                 modifier = modifier
-                    .fillMaxWidth()
                     .height(48.dp)
-                    .background(color = Color(0xFF216A4D)),
+                    .background(color = MaterialTheme.colorScheme.primary),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -169,7 +182,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                         lineHeight = 22.sp,
                         fontFamily = FontFamily(Font(R.font.outfit)),
                         fontWeight = FontWeight(400),
-                        color = Color(0xFF216A4D),
+                        color = MaterialTheme.colorScheme.primary,
                         letterSpacing = 0.25.sp,
                         textDecoration = TextDecoration.Underline,
                     ),
@@ -181,7 +194,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
             Button(
                 onClick = {  },
                 colors = ButtonDefaults.buttonColors().copy(
-                    containerColor = Color(0xFF216A4D)
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
                 modifier = modifier
                     .padding(
@@ -199,7 +212,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
             OutlinedButton(
                 onClick = {  },
                 colors = ButtonDefaults.outlinedButtonColors().copy(
-                    contentColor = Color(0xFF216A4D)
+                    contentColor = MaterialTheme.colorScheme.primary
                 ),
                 modifier = modifier
                     .padding(
@@ -241,7 +254,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     lineHeight = 22.sp,
                     fontFamily = FontFamily(Font(R.font.outfit)),
                     fontWeight = FontWeight(400),
-                    color = Color(0xFF216A4D),
+                    color = MaterialTheme.colorScheme.primary,
                     letterSpacing = 0.25.sp,
                     textDecoration = TextDecoration.Underline,
                 ),
@@ -261,7 +274,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun LoginCardPreview() {
-    CarPawTheme {
+    CarPawTheme(dynamicColor = false) {
         LoginCard()
     }
 }
