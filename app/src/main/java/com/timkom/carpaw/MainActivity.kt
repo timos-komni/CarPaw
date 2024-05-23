@@ -2,6 +2,7 @@ package com.timkom.carpaw
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,16 +26,15 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -47,8 +47,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import com.timkom.carpaw.ui.theme.Purple80
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.serializer.KotlinXSerializer
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -102,6 +109,25 @@ fun GreetingPreview() {
 
 @Composable
 fun LoginCard(modifier: Modifier = Modifier) {
+    // TODO remove [begin]
+    LaunchedEffect(Unit) {
+        withContext(Dispatchers.IO) {
+            Log.e("@LoginCard", "begin")
+            val supabase = createSupabaseClient(
+                "https://dbotdsoisimvllrhvglf.supabase.co",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib3Rkc29pc2ltdmxscmh2Z2xmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY0OTc2MTYsImV4cCI6MjAzMjA3MzYxNn0.2Xu89wxSl0ryQhWJ4P9UYsOIiG_q0DFRkviqfoa2jjE"
+            ) {
+                install(Postgrest)
+            }
+            val users: List<User> = supabase.from("User")
+                .select().decodeList<User>()
+            for (user in users) {
+                Log.e("@LoginCard", user.toString())
+            }
+            Log.e("@LoginCard", "end")
+        }
+    }
+    // TODO remove [end]
     var user by rememberSaveable {
         mutableStateOf("")
     }
