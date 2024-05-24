@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.timkom.carpaw.BuildConfig
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.theme.CarPawTheme
@@ -74,8 +75,8 @@ fun LoginCard(modifier: Modifier = Modifier) {
         withContext(Dispatchers.IO) {
             Log.e("@LoginCard", "begin")
             val supabase = createSupabaseClient(
-                "https://dbotdsoisimvllrhvglf.supabase.co",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRib3Rkc29pc2ltdmxscmh2Z2xmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTY0OTc2MTYsImV4cCI6MjAzMjA3MzYxNn0.2Xu89wxSl0ryQhWJ4P9UYsOIiG_q0DFRkviqfoa2jjE"
+                BuildConfig.SUPABASE_URL,
+                BuildConfig.SUPABASE_ANON_KEY
             ) {
                 install(Postgrest)
             }

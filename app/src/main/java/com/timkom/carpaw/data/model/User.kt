@@ -17,5 +17,8 @@ data class User(
     val middleName: String?,
     @SerialName("last name")
     val lastName: String,
-    val birthdate: String?
+    val birthdate: String?,
+    val email: String,
+    @SerialName("phone number")
+    val phoneNumber: String?
 )

@@ -1,3 +1,7 @@
+import java.io.FileInputStream
+import java.util.Properties
+import com.android.build.api.variant.BuildConfigField
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -19,6 +23,11 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val serverProperties = Properties()
+        serverProperties.load(FileInputStream(rootProject.file("server.properties")))
+        buildConfigField("String", "SUPABASE_URL", "\"${serverProperties.getProperty("SUPABASE_URL")}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${serverProperties.getProperty("SUPABASE_ANON_KEY")}\"")
     }
 
     buildTypes {
@@ -39,6 +48,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.12"

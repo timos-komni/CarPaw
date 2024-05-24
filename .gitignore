@@ -210,3 +210,8 @@ fabric.properties
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+### Other
+
+keystore.properties
+server.properties
