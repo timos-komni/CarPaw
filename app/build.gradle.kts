@@ -64,6 +64,7 @@ dependencies {
     implementation(platform(libs.io.supabase.bom))
     implementation(libs.io.supabase.postgrest.kt)
     implementation(libs.io.ktor.client.android)
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

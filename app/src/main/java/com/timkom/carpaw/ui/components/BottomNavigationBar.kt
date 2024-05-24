@@ -27,10 +27,10 @@ fun BottomNavigationBar(modifier: Modifier = Modifier) {
             .background(color = Color(0xffd2ebe4))
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        NavigationIcon(R.drawable.searchicon, "Search", "Search")
-        //NavigationIcon(R.drawable.add_location, "Create a Ride", "Create a Ride")
-        //NavigationIcon(R.drawable.folder_data, "My Rides", "My Rides")
-        //NavigationIcon(R.drawable.account_circle, "Login", "Login")
+        NavigationIcon(R.drawable.search, "Search", "Search")
+        NavigationIcon(R.drawable.add_location, "Create a Ride", "Create a Ride")
+        NavigationIcon(R.drawable.folder_data, "My Rides", "My Rides")
+        NavigationIcon(R.drawable.account_circle, "Login", "Login")
     }
 }
 
