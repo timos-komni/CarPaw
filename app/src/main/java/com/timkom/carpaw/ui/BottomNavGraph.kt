@@ -1,36 +1,37 @@
 package com.timkom.carpaw.ui
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.timkom.carpaw.ui.screens.CreateRideScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
-import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
-import com.timkom.carpaw.ui.screens.CreateRideScreen
+import com.timkom.carpaw.ui.screens.SearchScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.Home.route
+        startDestination = BottomNavigationItem.Home.route,
+        modifier = modifier
     ) {
-        composable(route = BottomBarScreen.Home.route) {
+        composable(route = BottomNavigationItem.Home.route) {
             HomeScreen()
         }
-        composable(route = BottomBarScreen.Profile.route) {
-            LoginScreen()
-        }
-        composable(route = BottomBarScreen.CreateRide.route) {
+        composable(route = BottomNavigationItem.CreateRide.route) {
             CreateRideScreen()
         }
-        composable(route = BottomBarScreen.Search.route) {
+        composable(route = BottomNavigationItem.Search.route) {
             SearchScreen()
         }
-        composable(route = BottomBarScreen.MyRides.route) {
+        composable(route = BottomNavigationItem.MyRides.route) {
             MyRidesScreen()
+        }
+        composable(route = BottomNavigationItem.Profile.route) {
+            LoginScreen()
         }
     }
 }

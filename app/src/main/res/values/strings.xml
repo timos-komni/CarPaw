@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">CarPaw</string>
+    <string name="app_name" translatable="false">CarPaw</string>
+
+    <!--BottomNavigationItem-->
+    <string name="bottom_navigation_item__home__title">Home</string>
+    <string name="bottom_navigation_item__search__title">Search</string>
+    <string name="bottom_navigation_item__create_ride__title">Create Ride</string>
+    <string name="bottom_navigation_item__my_rides__title">My Rides</string>
+    <string name="bottom_navigation_item__login__title">Login</string>
 </resources>

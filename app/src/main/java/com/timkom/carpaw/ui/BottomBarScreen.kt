@@ -1,46 +1,48 @@
 package com.timkom.carpaw.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.timkom.carpaw.R
+import com.timkom.carpaw.util.Either
 
-sealed class BottomBarScreen(
+sealed class BottomNavigationItem(
     val route: String,
-    val title: String,
-    val icon: ImageVector
-){
-    object Home : BottomBarScreen(
+    @StringRes val title: Int,
+    val icon: Either<ImageVector, Int>
+) {
+
+    data object Home : BottomNavigationItem(
         route = "home",
-        title = "Home",
-        icon = Icons.Default.Home
+        title = R.string.bottom_navigation_item__home__title,
+        icon = Either.Left(Icons.Default.Home)
     )
 
-    object Search : BottomBarScreen(
+    data object Search : BottomNavigationItem(
         route = "search",
-        title = "Search",
-        icon = Icons.Default.Search
+        title = R.string.bottom_navigation_item__search__title,
+        icon = Either.Left(Icons.Default.Search)
     )
 
-    object CreateRide : BottomBarScreen(
+    data object CreateRide : BottomNavigationItem(
         route = "createRide",
-        title = "Create a Ride",
-        icon = Icons.Default.Place
+        title = R.string.bottom_navigation_item__create_ride__title,
+        icon = Either.Right(R.drawable.add_location)
     )
 
-    object MyRides : BottomBarScreen(
+    data object MyRides : BottomNavigationItem(
         route = "myRides",
-        title = "My Rides",
-        icon = Icons.Default.Favorite
+        title = R.string.bottom_navigation_item__my_rides__title,
+        icon = Either.Right(R.drawable.folder_data)
     )
 
-    object Profile : BottomBarScreen(
+    data object Profile : BottomNavigationItem(
         route = "login",
-        title = "Login",
-        icon = Icons.Default.AccountCircle
+        title = R.string.bottom_navigation_item__login__title,
+        icon = Either.Left(Icons.Default.AccountCircle)
     )
 
 }

@@ -48,6 +48,27 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun  LoginScreen(modifier: Modifier = Modifier) {
+    LoginCard(modifier)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    CarPawTheme(dynamicColor = false) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            contentAlignment = Alignment.Center
+        ){
+            LoginScreen()
+        }
+
+    }
+}
+
+@Composable
+fun LoginCard(modifier: Modifier = Modifier) {
     // TODO remove [begin]
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -241,16 +262,8 @@ fun  LoginScreen(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun LoginCardPreview() {
     CarPawTheme(dynamicColor = false) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            contentAlignment = Alignment.Center
-        ){
-            LoginScreen()
-        }
-
+        LoginCard()
     }
 }
