@@ -31,7 +31,7 @@ fun MyRidesScreen(modifier: Modifier = Modifier){
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(MaterialTheme.colorScheme.background)
     )  {
         Column(
             modifier = Modifier

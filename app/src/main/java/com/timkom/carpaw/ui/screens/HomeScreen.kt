@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,14 +32,14 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
                 .fillMaxWidth()
                 .requiredHeight(height = 210.dp)
-                .background(color = Color(0xffd2ebe4))
+                .background(color = MaterialTheme.colorScheme.primaryContainer)
                 .padding(horizontal = 20.dp)
         ){
             Image(
@@ -49,7 +50,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     .requiredHeight(height = 149.dp))
             Text(
                 text = "Find a low cost ride for your companion animal",
-                color = Color(0xff006b5f),
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
                 lineHeight = 1.4.em,
                 style = TextStyle(
