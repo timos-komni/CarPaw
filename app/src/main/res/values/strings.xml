@@ -7,4 +7,11 @@
     <string name="bottom_navigation_item__create_ride__title">Create Ride</string>
     <string name="bottom_navigation_item__my_rides__title">My Rides</string>
     <string name="bottom_navigation_item__login__title">Login</string>
+    <string name="image_slider">Image Slider</string>
+    <string name="decorative_icon">Decorative Icon</string>
+    <string name="info_item__create_ride">Create a ride in no time based on where you are going and which animals you would like to carry with you.</string>
+    <string name="info_item__answer_questions">Answer people’s  questions about your ride, match with an animal companion and get paid safely.</string>
+
+
+
 </resources>
