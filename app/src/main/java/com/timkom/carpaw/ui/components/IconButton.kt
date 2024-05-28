@@ -2,19 +2,14 @@ package com.timkom.carpaw.ui.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material3.AlertDialogDefaults.containerColor
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ChipColors
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import com.timkom.carpaw.ui.theme.backgroundDark
 
 
 @Composable

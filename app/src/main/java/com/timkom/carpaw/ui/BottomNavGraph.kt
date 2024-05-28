@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.timkom.carpaw.ui.screens.CreateRideScreen
+//import com.timkom.carpaw.ui.screens.CreateRideScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
@@ -22,7 +22,7 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
             HomeScreen()
         }
         composable(route = BottomNavigationItem.CreateRide.route) {
-            CreateRideScreen()
+            //CreateRideScreen()
         }
         composable(route = BottomNavigationItem.Search.route) {
             SearchScreen()

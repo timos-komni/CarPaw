@@ -27,4 +27,13 @@
     <!--Titles-->
     <string name="create_ride__title">Create a Ride</string>
     <string name="search_ride__title">Search for a Ride</string>
+    <string name="my_rides__title">My Rides</string>
+    <string name="ride_details__title">Ride Details</string>
+    <string name="available_rides__title">Available Rides</string>
+
+    <!--Create/Search Ride Screen-->
+    <string name="leaving_from__title">Leaving from...</string>
+    <string name="travelling_to__title">Travelling to...</string>
+    <string name="companion_animal__title">Companion animal</string>
+    <string name="set_price__title">Set the price</string>
 </resources>

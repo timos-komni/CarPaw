@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
@@ -24,52 +25,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
 @Composable
 fun MyRidesScreen(modifier: Modifier = Modifier){
-    Box(
+    Column(
         modifier = modifier
             .fillMaxSize()
+            .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
     )  {
-        Column(
-            modifier = Modifier
-                .offset(
-                    x = 16.dp,
-                    y = 0.dp
-                )
-                .padding(vertical = 10.dp)
-                .align(Alignment.TopCenter),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-
-        ) {
-            Box(
-                modifier = Modifier
-                    .requiredWidth(width = 328.dp)
-                    .requiredHeight(height = 31.dp)
-            ) {
-                Text(
-                    text = "My Ride",
-                    style = TextStyle(
-                        fontFamily = FontFamily(Font(R.font.outfit_medium)),
-                        fontSize = 20.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        lineHeight = 1.5.em,
-                    ),
-                    modifier = Modifier
-                        .align(alignment = Alignment.Center)
-                        .offset(
-                            x = 0.dp,
-                            y = 2.dp
-                        )
-                        .requiredWidth(width = 328.dp)
-                        .wrapContentHeight(align = Alignment.CenterVertically)
-                )
-            }
-        }
-
+        PageHeading(
+            Modifier,
+            title = R.string.my_rides__title
+        )
     }
 }
 

@@ -27,7 +27,7 @@ fun InfoCard(
     navController: NavController
 ) {
     Card(
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors( MaterialTheme.colorScheme.secondaryContainer),
         modifier = modifier
             .padding(4.dp)
