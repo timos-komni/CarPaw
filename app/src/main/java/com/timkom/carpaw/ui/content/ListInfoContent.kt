@@ -1,13 +1,13 @@
 package com.timkom.carpaw.ui.content
 
 import InfoCard
+import InfoCardSpec
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -28,12 +28,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import com.timkom.carpaw.data.model.InfoItem
 
 @Composable
 fun ListInfoContent(
     modifier: Modifier = Modifier,
-    infos: List<InfoItem>,
+    specs: List<InfoCardSpec>,
     navController: NavController,
     @StringRes title: Int
 ) {
@@ -66,10 +65,11 @@ fun ListInfoContent(
                 end = 8.dp
             )
         ){
-            items(infos) { info->
+            items(specs) { spec ->
                 InfoCard(
-                    infoItem = info,
-                    navController = navController)
+                    spec = spec,
+                    navController = navController
+                )
             }
         }
     }
@@ -83,18 +83,18 @@ fun ListInfoContent(
 fun ListInfoContentPreview() {
     CarPawTheme(dynamicColor = false) {
         ListInfoContent(
-            infos = listOf(
-                InfoItem(
+            specs = listOf(
+                InfoCardSpec(
                     id = 1,
                     info = R.string.info_item__create_ride,
                     icon = R.drawable.route
                 ),
-                InfoItem(
+                InfoCardSpec(
                     id = 2,
                     info = R.string.info_item__answer_questions,
                     icon = R.drawable.add_location
                 ),
-                InfoItem(
+                InfoCardSpec(
                     id = 3,
                     info = R.string.info_item__pickup,
                     icon = R.drawable.add_location

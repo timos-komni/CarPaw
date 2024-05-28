@@ -1,5 +1,4 @@
-package com.timkom.carpaw.ui.card
-
+package com.timkom.carpaw.ui.components.cards
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility

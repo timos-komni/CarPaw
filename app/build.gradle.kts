@@ -75,7 +75,6 @@ dependencies {
     implementation(platform(libs.io.supabase.bom))
     implementation(libs.io.supabase.postgrest.kt)
     implementation(libs.io.ktor.client.android)
-    implementation(libs.support.annotations)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,6 +82,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("androidx.compose.foundation:foundation:1.6.7")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+    implementation("androidx.compose.foundation:foundation:1.6.7") // TODO remove!!!
+    implementation(libs.google.accompanist.pager.indicators)
 }

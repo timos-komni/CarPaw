@@ -1,4 +1,4 @@
-package com.timkom.carpaw.ui.card
+package com.timkom.carpaw.ui.components.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
