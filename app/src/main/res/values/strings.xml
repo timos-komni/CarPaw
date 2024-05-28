@@ -8,10 +8,23 @@
     <string name="bottom_navigation_item__my_rides__title">My Rides</string>
     <string name="bottom_navigation_item__login__title">Login</string>
     <string name="image_slider">Image Slider</string>
+
+    <!--ListInfoContent -->
+    <string name="info_card__title1"> Are you travelling alone and want to share the expenses?</string>
+    <string name="info_card__title2">Or does your companion animal need a ride?</string>
     <string name="decorative_icon">Decorative Icon</string>
     <string name="info_item__create_ride">Create a ride in no time based on where you are going and which animals you would like to carry with you.</string>
+    <string name="info_item__search_ride">Search for a ride depending on where your companion animal is going and find the available options. </string>
     <string name="info_item__answer_questions">Answer people’s  questions about your ride, match with an animal companion and get paid safely.</string>
+    <string name="info_item__ask_questions">    Message the drivers, match the right one and proceed to a secure payment.</string>
+    <string name="info_item__pickup">Pick up the companion animal and start your journey. </string>
+    <string name="info_item__journey">Let the driver pick up your companion animal and keep contact during the journey. </string>
 
 
+    <!--Hero-->
+    <string name="hero_text">Find a low cost ride for your companion animal</string>
 
+    <!--Titles-->
+    <string name="create_ride__title">Create a Ride</string>
+    <string name="search_ride__title">Search for a Ride</string>
 </resources>

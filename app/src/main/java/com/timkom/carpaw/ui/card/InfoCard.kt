@@ -29,40 +29,38 @@ fun InfoCard(
     Card(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors( MaterialTheme.colorScheme.secondaryContainer),
-        //border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.secondaryContainer),
         modifier = modifier
-            .padding(6.dp)
+            .padding(4.dp)
             .width(170.dp)
-            .height(180.dp)
+            .height(160.dp)
 
     ){
         Column(
 
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(16.dp)
         ){
-            Text(
-                text = stringResource(id = infoItem.info),
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                textAlign = TextAlign.Center,
-                lineHeight = 1.33.em,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier
-                    .requiredWidth(width = 140.dp)
-                    .requiredHeight(height = 100.dp)
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
             Image(
                 painter = painterResource(id = infoItem.icon),
                 contentDescription = stringResource(R.string.decorative_icon),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .requiredWidth(width = 32.dp)
+                    .requiredHeight(height = 32.dp)
+            )
+            //Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(id = infoItem.info),
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                textAlign = TextAlign.Center,
+                lineHeight = 1.40.em,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier
                     .fillMaxSize()
+                    .wrapContentHeight(align = Alignment.CenterVertically)
             )
 
-            
         }
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,11 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
 @Composable
-fun HeaderCard(
+fun HeroCard(
     modifier: Modifier = Modifier
 ){
     Card(
@@ -50,7 +50,7 @@ fun HeaderCard(
                     .requiredWidth(width = 266.dp)
                     .requiredHeight(height = 140.dp))
             Text(
-                text = "Find a low cost ride for your companion animal",
+                text = stringResource(id = R.string.hero_text),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
                 lineHeight = 1.4.em,
@@ -69,8 +69,8 @@ fun HeaderCard(
 
 @Preview(showBackground = true)
 @Composable
-fun HeaderCardPreview() {
+fun HeroCardPreview() {
     CarPawTheme(dynamicColor = false) {
-        HeaderCard()
+        HeroCard()
     }
 }

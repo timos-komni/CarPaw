@@ -1,6 +1,5 @@
 package com.timkom.carpaw.ui.components
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
