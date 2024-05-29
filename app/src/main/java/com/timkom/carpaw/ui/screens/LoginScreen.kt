@@ -71,7 +71,7 @@ fun LoginScreenPreview() {
 @Composable
 fun LoginCard(modifier: Modifier = Modifier) {
     // TODO remove [begin]
-    LaunchedEffect(Unit) {
+    /*LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             Log.e("@LoginCard", "begin")
             val supabase = createSupabaseClient(
@@ -87,7 +87,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
             }
             Log.e("@LoginCard", "end")
         }
-    }
+    }*/
     // TODO remove [end]
     var user by rememberSaveable {
         mutableStateOf("")

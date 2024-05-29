@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.cards.HeroCard
-import com.timkom.carpaw.ui.components.ElevatedIconButton
+import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
 import com.timkom.carpaw.ui.content.ListInfoContent
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.Either

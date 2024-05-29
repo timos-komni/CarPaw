@@ -1,4 +1,4 @@
-package com.timkom.carpaw.ui.components
+package com.timkom.carpaw.ui.components.buttons
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable

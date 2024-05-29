@@ -36,12 +36,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.components.SearchLocationBar
+import com.timkom.carpaw.ui.theme.CarPawTheme
 
 data class Content(
     val id: Int,
@@ -49,35 +49,48 @@ data class Content(
     val text: String
 )
 
+/**
+ * TODO (Chloe-IMPORTANT!) Remove `contentList` property from top-level scope. Move it into a [Composable]!
+ *
+ * EXPLANATION: It will probably translate into a static field of the class ExpandableCardKt in Java
+ * thus getting initialized when the class ExpandableCardKt is loaded.
+ */
 val contentList = listOf(
     Content(0,  R.string.leaving_from__title,  "TEST"),
     Content(1,  R.string.travelling_to__title,  "TEST")
 )
 
-
+/**
+ * TODO Consider adding [Modifier] parameter
+ * TODO (Chloe) Consider making the whole view clickable, not just the arrow-button
+ */
 @Composable
 fun ExpandableCard(
     content: Content,
     expanded: Boolean,
-    onClickExpanded:(id:Int) -> Unit
+    /**
+     * TODO maybe remove parameter name (id) from type?!
+     *
+     * _onClickExpanded: (Int) -> Unit_
+     */
+    onClickExpanded: (id: Int) -> Unit
 ) {
     val transition = updateTransition(targetState = expanded, label = "trans")
+    // TODO maybe "inline" the "delegator"?!
     val iconRotationDeg by
-    transition.animateFloat(label = "icon change"){state ->
-        if(state){
-            0f
-        }else{
-            180f
-        }
+    transition.animateFloat(label = "icon change") { state ->
+        if (state) 0f else 180f
     }
+    // TODO maybe "inline" the "delegator"?!
     val color by
-    transition.animateColor(label = "color change") {state->
-        if(state){
+    transition.animateColor(label = "color change") { state ->
+        if (state) {
             MaterialTheme.colorScheme.secondaryContainer
-        }else{
+        } else {
             MaterialTheme.colorScheme.surfaceContainerHighest
         }
     }
+
     Card(
         colors = CardDefaults.cardColors(color),
         shape = RoundedCornerShape(8.dp),
@@ -120,14 +133,39 @@ fun ExpandableCard(
             }
             Spacer(modifier = Modifier.size(16.dp))
             ExpandableContent(isExpanded = expanded, desc = content.text)
+        }
+    }
+}
+
+/**
+ * TODO (Chloe) Don't forget Previews...maybe unnecessary, but quite useful
+ */
+@Preview(showBackground = true)
+@Composable
+fun ExpandableCardPreview() {
+    CarPawTheme {
+        ExpandableCard(
+            content = Content(
+                0,
+                R.string.leaving_from__title,
+                "test"
+            ),
+            expanded = true
+        ) {
 
         }
     }
 }
 
+/**
+ * TODO Consider adding [Modifier] parameter
+ */
 @Composable
 fun ExpandableContent(
     isExpanded: Boolean,
+    /**
+     * TODO (Chloe) if unused, remove it
+     */
     desc: String
 ){
     val enterTransition = remember {
@@ -137,7 +175,6 @@ fun ExpandableContent(
         ) + fadeIn(
             initialAlpha = .3f,
             animationSpec = tween(300),
-
             )
     }
     val exitTransition = remember {
@@ -156,8 +193,14 @@ fun ExpandableContent(
            // SearchLocationBar(placeholder = R.string.search_departure__placeholder) does not working yet see the preview
             Text(text = "test")
         }
-
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun ExpandableContentPreview() {
+    CarPawTheme {
+        ExpandableContent(isExpanded = true, desc = "Test")
+    }
 }
 
