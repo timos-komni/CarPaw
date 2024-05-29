@@ -33,8 +33,8 @@ fun ElevatedIconButton(
         contentPadding = PaddingValues(horizontal =  8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.elevatedButtonColors().copy(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
         modifier = modifier.requiredHeight(32.dp),
         onClick = onClick

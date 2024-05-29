@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
@@ -32,12 +33,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 
 data class Content(
@@ -70,32 +72,36 @@ fun ExpandableCard(
     val color by
     transition.animateColor(label = "color change") {state->
         if(state){
-            Color.Black.copy(.4f)
+            MaterialTheme.colorScheme.secondaryContainer
         }else{
-            MaterialTheme.colorScheme.surface
+            MaterialTheme.colorScheme.surfaceContainerHighest
         }
     }
     Card(
-        colors = CardDefaults.cardColors(color)
+        colors = CardDefaults.cardColors(color),
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        )
     ){
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(6.dp)
         ){
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(2.dp)
             ){
                 Text(
                     text = stringResource(id = content.title),
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                     lineHeight = 1.25.em,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.outfit_bold)),
                     modifier = Modifier
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
@@ -104,13 +110,15 @@ fun ExpandableCard(
                     contentDescription = "Drop-Up Arrow",
                     modifier = Modifier
                         .rotate(iconRotationDeg)
+                        .align(Alignment.CenterVertically)
                         .clickable {
                             onClickExpanded(content.id)
                         }
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-                ExpandableContent(isExpanded = expanded, desc = content.text)
+
             }
+            Spacer(modifier = Modifier.size(16.dp))
+            ExpandableContent(isExpanded = expanded, desc = content.text)
 
         }
     }

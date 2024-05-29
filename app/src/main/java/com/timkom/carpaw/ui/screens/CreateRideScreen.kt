@@ -2,8 +2,11 @@ package com.timkom.carpaw.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.cards.ExpandableCard
 import com.timkom.carpaw.ui.components.cards.contentList
@@ -23,19 +27,28 @@ import com.timkom.carpaw.ui.theme.CarPawTheme
 @Composable
 fun CreateRideScreen(modifier: Modifier = Modifier){
     var expandedItem by remember {
-        mutableStateOf(-1)
+        mutableStateOf(0)
     }
     Column(
         modifier = modifier
             .fillMaxSize()
-            .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
+            //.verticalScroll(rememberScrollState())
     )  {
         PageHeading(
             Modifier,
             title = R.string.create_ride__title
         )
-        LazyColumn {
+        LazyColumn(
+            contentPadding = PaddingValues(
+                top = 16.dp,
+                bottom = 16.dp,
+            ),
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxSize()
+
+        ) {
             items(contentList){ content->
                 ExpandableCard(
                     content = content,
@@ -49,6 +62,7 @@ fun CreateRideScreen(modifier: Modifier = Modifier){
 
 
                     })
+                Spacer(modifier = Modifier.size(10.dp))
 
             }
         }
