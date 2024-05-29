@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.components.SearchLocationBar
 
 data class Content(
     val id: Int,
@@ -151,10 +152,11 @@ fun ExpandableContent(
         enter = enterTransition,
         exit = exitTransition
     ) {
-        Text(
-            text = "test",
-            textAlign = TextAlign.Justify
-        )
+        Column {
+           // SearchLocationBar(placeholder = R.string.search_departure__placeholder) does not working yet see the preview
+            Text(text = "test")
+        }
+
     }
 
 }

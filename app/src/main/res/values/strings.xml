@@ -32,8 +32,14 @@
     <string name="available_rides__title">Available Rides</string>
 
     <!--Create/Search Ride Screen-->
-    <string name="leaving_from__title">Leaving from...</string>
-    <string name="travelling_to__title">Travelling to...</string>
+    <string name="leaving_from__title">Leaving from…</string>
+    <string name="travelling_to__title">Travelling to…</string>
     <string name="companion_animal__title">Companion animal</string>
     <string name="set_price__title">Set the price</string>
+
+    <!-- SearchBar -->
+    <string name="search_departure__placeholder">Search departure city</string>
+    <string name="search_destination__placeholder">Search destination city</string>
+    <string name="pickup_address__placeholder">Pickup Address</string>
+    <string name="drop_off_address__placeholder">Drop off Address</string>
 </resources>
