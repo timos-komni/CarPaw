@@ -214,4 +214,4 @@ fabric.properties
 ### Other
 
 keystore.properties
-server.properties
+secrets.properties

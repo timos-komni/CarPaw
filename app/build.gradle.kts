@@ -1,11 +1,12 @@
-import java.io.FileInputStream
+/*import java.io.FileInputStream
 import java.util.Properties
-import com.android.build.api.variant.BuildConfigField
+import com.android.build.api.variant.BuildConfigField*/
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin(libs.plugins.kotlin.serialization.get().pluginId).version(libs.versions.kotlin)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -24,10 +25,10 @@ android {
             useSupportLibrary = true
         }
 
-        val serverProperties = Properties()
+        /*val serverProperties = Properties()
         serverProperties.load(FileInputStream(rootProject.file("server.properties")))
         buildConfigField("String", "SUPABASE_URL", "\"${serverProperties.getProperty("SUPABASE_URL")}\"")
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${serverProperties.getProperty("SUPABASE_ANON_KEY")}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${serverProperties.getProperty("SUPABASE_ANON_KEY")}\"")*/
     }
 
     buildTypes {
@@ -64,6 +65,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -75,6 +77,9 @@ dependencies {
     implementation(platform(libs.io.supabase.bom))
     implementation(libs.io.supabase.postgrest.kt)
     implementation(libs.io.ktor.client.android)
+    implementation(libs.google.accompanist.pager.indicators)
+    implementation(platform(libs.kotlin.bom))
+    implementation(libs.androidx.compose.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,7 +87,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.google.accompanist.pager.indicators)
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
-    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+
+    defaultPropertiesFileName = "secrets.properties.example"
+
+    ignoreList.add("sdk.*")
 }
