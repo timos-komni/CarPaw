@@ -48,9 +48,10 @@ data class Content(
 
 @Composable
 fun ExpandableCard(
-    content: Content,
+    title: Int,
     expanded: Boolean,
-    onClickExpanded: (id: Int) -> Unit,
+    onClickExpanded: () -> Unit,
+    content: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val transition = updateTransition(targetState = expanded, label = "trans")
@@ -67,9 +68,9 @@ fun ExpandableCard(
 
     Card(
         colors = CardDefaults.cardColors(color),
-        shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = modifier.clickable { onClickExpanded(content.id) }
+        shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        modifier = modifier.clickable { onClickExpanded() }
     ) {
         Column(
             modifier = Modifier
@@ -84,7 +85,7 @@ fun ExpandableCard(
                     .padding(2.dp)
             ) {
                 Text(
-                    text = stringResource(id = content.title),
+                    text = stringResource(id = title),
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     lineHeight = 1.25.em,
                     fontSize = 16.sp,
@@ -101,28 +102,11 @@ fun ExpandableCard(
             }
             ExpandableContent(
                 isExpanded = expanded,
-                placeholder = content.placeholder,
-                label = content.label
+                content = content
             )
         }
     }
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun ExpandableCardPreview() {
-    CarPawTheme {
-        ExpandableCard(
-            content = Content(0,
-                R.string.leaving_from__title,
-                placeholder = R.string.search_departure__placeholder,
-                label = R.string.search_departure__label
-            ),
-            expanded = true,
-            onClickExpanded = {}
-        )
-    }
-}
 
 

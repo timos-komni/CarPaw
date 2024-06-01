@@ -15,9 +15,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarColors
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,57 +38,65 @@ import com.timkom.carpaw.ui.screens.createRide.CreateRideViewModel
 fun SearchLocationBar(
     @StringRes placeholder: Int,
     @StringRes label: Int,
-    modifier: Modifier = Modifier,
-    viewModel: CreateRideViewModel = viewModel()
+    queryText: String,
+    onQueryChange: (String) -> Unit,
+    active: Boolean,
+    onActiveChange: (Boolean) -> Unit,
+    onSearch: (String) -> Unit,
+    items: List<String>,
+    modifier: Modifier = Modifier
 ){
     Text(
         text = stringResource(id = label),
         lineHeight = 1.33.em,
         style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onBackground,
         modifier = modifier
             .requiredWidth(width = 283.dp)
             .wrapContentHeight(align = Alignment.CenterVertically))
     SearchBar(
         modifier = Modifier.fillMaxWidth(),
-        query = viewModel.searchText.value,
-        onQueryChange = {
-            viewModel.onQueryChange(it)
-        }, onSearch = {
-            viewModel.onSearch()
-        }, active = viewModel.searchActive.value,
-        onActiveChange = {
-            viewModel.onActiveChange(it)
-        }, placeholder = {
+        query = queryText,
+        onQueryChange = onQueryChange,
+        onSearch = onSearch,
+        active = active,
+        onActiveChange = onActiveChange,
+        placeholder = {
             Text(text = stringResource(id = placeholder))
-        }, leadingIcon = {
-            if(!viewModel.searchActive.value){
+        },
+        colors = SearchBarDefaults.colors(MaterialTheme.colorScheme.background),
+        tonalElevation = 1.dp,
+        shadowElevation = 1.dp,
+        leadingIcon = {
+            if (!active) {
                 Icon(Icons.Default.Search, contentDescription = "Search Icon")
-            }else{
+            } else {
                 Icon(
                     modifier = Modifier.clickable {
-                        viewModel.onActiveChange(false)
-                        viewModel.onQueryChange("")
+                        onActiveChange(false)
+                        onQueryChange("")
                     },
-                    imageVector =  Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Search Icon")
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Search Icon"
+                )
             }
-
-        }, trailingIcon = {
-            if(viewModel.searchActive.value){
+        },
+        trailingIcon = {
+            if (active) {
                 Icon(
                     modifier = Modifier.clickable {
-                        viewModel.onQueryChange("")
+                        onQueryChange("")
                     },
-                    imageVector =  Icons.Default.Close,
+                    imageVector = Icons.Default.Close,
                     contentDescription = "Close Icon"
                 )
             }
         }
-    ) {
-        viewModel.items.forEach{
+    ){
+        items.forEach{
             Row(
                 modifier = Modifier
-                    .padding(all = 14.dp)
+                    .padding(all = 10.dp)
             ){
                 Icon(
                     modifier = Modifier.padding(end = 10.dp),
@@ -103,7 +115,13 @@ fun SearchLocationBarPreview() {
     CarPawTheme(dynamicColor = false) {
         SearchLocationBar(
             placeholder = R.string.search_departure__placeholder,
-            label = R.string.search_departure__label
+            label = R.string.search_departure__label,
+            queryText = "",
+            onQueryChange = {},
+            active = false,
+            onActiveChange = {},
+            onSearch = {},
+            items = listOf("Athens", "Kavala")
         )
     }
 }

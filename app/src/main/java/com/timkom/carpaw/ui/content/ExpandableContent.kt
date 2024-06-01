@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -26,9 +28,7 @@ import com.timkom.carpaw.ui.theme.CarPawTheme
 @Composable
 fun ExpandableContent(
     isExpanded: Boolean,
-    //desc: String,
-    @StringRes placeholder: Int,
-    @StringRes label: Int,
+    content: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ){
     val enterTransition = remember {
@@ -60,16 +60,8 @@ fun ExpandableContent(
                 .padding(6.dp)
         ) {
 
-            SearchLocationBar(placeholder = placeholder, label = label)
+            content()
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ExpandableContentPreview() {
-    CarPawTheme {
-        ExpandableContent(isExpanded = true, placeholder = R.string.search_departure__placeholder, label = R.string.search_departure__label)
     }
 }
 

@@ -1,6 +1,5 @@
-package com.timkom.carpaw.ui.screens.createRide
+package com.timkom.carpaw.ui.screens.searchRide
 
-import CreateRideScreenContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,15 +17,17 @@ import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.components.cards.ExpandableCard
-import com.timkom.carpaw.ui.content.createContentList
+import com.timkom.carpaw.ui.content.SearchScreenContent
+import com.timkom.carpaw.ui.content.searchContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+
 @Composable
-fun CreateRideScreen(
-    viewModel: CreateRideViewModel = viewModel(),
+fun SearchScreen(
+    viewModel: SearchRideViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
-    val contentList = createContentList()
+    val contentList = searchContentList()
 
     Column(
         modifier = modifier
@@ -35,7 +36,7 @@ fun CreateRideScreen(
     ) {
         PageHeading(
             modifier = Modifier,
-            title = R.string.create_ride__title
+            title = R.string.search_ride__title
         )
         LazyColumn(
             contentPadding = PaddingValues(
@@ -52,11 +53,9 @@ fun CreateRideScreen(
                     expanded = viewModel.expandedItem.value == content.id,
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
-                        CreateRideScreenContent(
-                            location1Placeholder = content.placeholder,
-                            location1Label = content.label,
-                            location2Placeholder = R.string.pickup_address__placeholder,
-                            location2Label = R.string.pickup_address__label
+                        SearchScreenContent(
+                            placeholder = content.placeholder,
+                            label = content.label
                         )
                     }
                 )
@@ -68,8 +67,8 @@ fun CreateRideScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun CreateRideScreenPreview() {
+fun SearchScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        CreateRideScreen()
+        SearchScreen()
     }
 }

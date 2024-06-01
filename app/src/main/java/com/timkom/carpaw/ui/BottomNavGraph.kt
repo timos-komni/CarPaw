@@ -9,7 +9,7 @@ import com.timkom.carpaw.ui.screens.createRide.CreateRideScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
-import com.timkom.carpaw.ui.screens.SearchScreen
+import com.timkom.carpaw.ui.screens.searchRide.SearchScreen
 
 @Composable
 fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {

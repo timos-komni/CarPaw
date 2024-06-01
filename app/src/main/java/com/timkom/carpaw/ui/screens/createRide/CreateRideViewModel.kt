@@ -5,27 +5,42 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 
 class CreateRideViewModel : ViewModel() {
-    val searchText = mutableStateOf("")
-    val searchActive = mutableStateOf(false)
+    val searchLocationText = mutableStateOf("")
+    val searchAddressText = mutableStateOf("")
+    val searchLocationActive = mutableStateOf(false)
+    val searchAddressActive = mutableStateOf(false)
     val items = mutableStateListOf("Athens", "Kavala")
     val expandedItem = mutableStateOf(0)
-    fun onQueryChange(newText: String) {
-        searchText.value = newText
+
+    fun onLocationQueryChange(newText: String) {
+        searchLocationText.value = newText
     }
 
-    fun onSearch() {
-        items.add(searchText.value)
-        searchActive.value = false
-        searchText.value = ""
+    fun onAddressQueryChange(newText: String) {
+        searchAddressText.value = newText
     }
 
-    fun onActiveChange(newActive: Boolean) {
-        searchActive.value = newActive
+    fun onLocationSearch() {
+        items.add(searchLocationText.value)
+        searchLocationActive.value = false
+        searchLocationText.value = ""
+    }
+
+    fun onAddressSearch() {
+        items.add(searchAddressText.value)
+        searchAddressActive.value = false
+        searchAddressText.value = ""
+    }
+
+    fun onLocationActiveChange(newActive: Boolean) {
+        searchLocationActive.value = newActive
+    }
+
+    fun onAddressActiveChange(newActive: Boolean) {
+        searchAddressActive.value = newActive
     }
 
     fun onItemClick(id: Int) {
         expandedItem.value = if (expandedItem.value == id) -1 else id
     }
 }
-
-

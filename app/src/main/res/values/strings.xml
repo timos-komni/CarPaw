@@ -41,6 +41,7 @@
     <string name="search_departure__placeholder">Search departure city</string>
     <string name="search_destination__placeholder">Search destination city</string>
     <string name="pickup_address__placeholder">Pickup Address</string>
+    <string name="pickup_address__label"> What is the exact place where you want to pick up the companion animal?</string>
     <string name="drop_off_address__placeholder">Drop off Address</string>
     <string name="search_departure__label">What city are you leaving from</string>
     <string name="search_destination__label">What city are you traveling to</string>
