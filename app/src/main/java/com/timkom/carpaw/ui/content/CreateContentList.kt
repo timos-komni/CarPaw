@@ -8,7 +8,7 @@ import com.timkom.carpaw.ui.components.cards.Content
 @Composable
 fun createContentList(): List<Content> {
     return listOf(
-        Content(0, R.string.leaving_from__title, R.string.search_departure__placeholder, R.string.search_departure__label),
-        Content(1, R.string.travelling_to__title, R.string.search_destination__placeholder, R.string.search_destination__label)
+        Content(0, R.string.leaving_from__title, R.string.search_departure__placeholder, R.string.search_departure__label, R.string.pickup_address__placeholder,R.string.pickup_address__label),
+        Content(1, R.string.travelling_to__title, R.string.search_destination__placeholder, R.string.search_destination__label, R.string.drop_off_address__placeholder,R.string.drop_off_address__label)
     )
 }

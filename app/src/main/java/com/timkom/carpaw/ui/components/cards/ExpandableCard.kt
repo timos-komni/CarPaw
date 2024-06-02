@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -34,15 +35,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.components.SearchLocationBar
 import com.timkom.carpaw.ui.content.ExpandableContent
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
 data class Content(
     val id: Int,
     @StringRes val title: Int,
-    @StringRes val placeholder: Int,
-    @StringRes val label: Int,
-    //val text: String
+    @StringRes val locationPlaceholder: Int,
+    @StringRes val locationLabel: Int,
+    @StringRes val addressPlaceholder: Int,
+    @StringRes val addressLabel: Int,
+
 )
 
 
@@ -75,7 +79,7 @@ fun ExpandableCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(6.dp)
+                .padding(8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -110,3 +114,39 @@ fun ExpandableCard(
 
 
 
+@Preview(showBackground = true)
+@Composable
+fun ExpandableCardPreview() {
+    CarPawTheme {
+        ExpandableCard(
+            title = R.string.create_ride__title,
+            expanded = true,
+            onClickExpanded = {},
+            content = {
+                Column {
+                    SearchLocationBar(
+                        placeholder = R.string.search_departure__placeholder,
+                        label = R.string.search_departure__label,
+                        queryText = "",
+                        onQueryChange = {},
+                        active = false,
+                        onActiveChange = {},
+                        onSearch = {},
+                        items = listOf("Athens", "Kavala")
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    SearchLocationBar(
+                        placeholder = R.string.pickup_address__placeholder,
+                        label = R.string.pickup_address__label,
+                        queryText = "",
+                        onQueryChange = {},
+                        active = false,
+                        onActiveChange = {},
+                        onSearch = {},
+                        items = listOf("Athens", "Kavala")
+                    )
+                }
+            }
+        )
+    }
+}

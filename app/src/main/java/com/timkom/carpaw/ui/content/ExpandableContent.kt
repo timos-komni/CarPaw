@@ -53,13 +53,11 @@ fun ExpandableContent(
         exit = exitTransition,
         modifier = modifier
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 56.dp, max = 200.dp)
-                .padding(6.dp)
+               // .padding(6.dp)
         ) {
-
             content()
         }
     }

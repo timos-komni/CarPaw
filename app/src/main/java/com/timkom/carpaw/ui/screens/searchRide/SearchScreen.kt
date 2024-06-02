@@ -54,8 +54,8 @@ fun SearchScreen(
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         SearchScreenContent(
-                            placeholder = content.placeholder,
-                            label = content.label
+                            placeholder = content.locationPlaceholder,
+                            label = content.locationLabel
                         )
                     }
                 )

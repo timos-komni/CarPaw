@@ -53,10 +53,10 @@ fun CreateRideScreen(
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         CreateRideScreenContent(
-                            location1Placeholder = content.placeholder,
-                            location1Label = content.label,
-                            location2Placeholder = R.string.pickup_address__placeholder,
-                            location2Label = R.string.pickup_address__label
+                            location1Placeholder = content.locationPlaceholder,
+                            location1Label = content.locationLabel,
+                            location2Placeholder = content.addressPlaceholder,
+                            location2Label = content.addressLabel
                         )
                     }
                 )
