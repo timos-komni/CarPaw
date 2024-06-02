@@ -6,11 +6,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.SearchLocationBar
+import com.timkom.carpaw.ui.content.CreateContentType
+import com.timkom.carpaw.ui.content.SearchContentType
 import com.timkom.carpaw.ui.screens.createRide.CreateRideViewModel
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
 @Composable
 fun CreateRideScreenContent(
+    contentType: CreateContentType,
     location1Placeholder: Int,
     location1Label: Int,
     location2Placeholder: Int,
@@ -21,22 +24,34 @@ fun CreateRideScreenContent(
         SearchLocationBar(
             placeholder = location1Placeholder,
             label = location1Label,
-            queryText = viewModel.searchLocationText.value,
-            onQueryChange = { viewModel.onLocationQueryChange(it) },
-            active = viewModel.searchLocationActive.value,
-            onActiveChange = { viewModel.onLocationActiveChange(it) },
-            onSearch = { viewModel.onLocationSearch() },
+            queryText = when(contentType) {
+                CreateContentType.STARTING_POINT -> viewModel.startData.value.searchLocationText.value
+                CreateContentType.DESTINATION -> viewModel.destinationData.value.searchLocationText.value
+            },
+            onQueryChange = { viewModel.onLocationQueryChange(contentType, it) },
+            active = when(contentType) {
+                CreateContentType.STARTING_POINT -> viewModel.startData.value.isSearchLocationActive.value
+                CreateContentType.DESTINATION -> viewModel.destinationData.value.isSearchLocationActive.value
+            },
+            onActiveChange = { viewModel.onLocationActiveChange(contentType, it) },
+            onSearch = { viewModel.onLocationSearch(contentType) },
             items = viewModel.items
         )
         Spacer(modifier = Modifier.height(16.dp))
         SearchLocationBar(
             placeholder = location2Placeholder,
             label = location2Label,
-            queryText = viewModel.searchAddressText.value,
-            onQueryChange = { viewModel.onAddressQueryChange(it) },
-            active = viewModel.searchAddressActive.value,
-            onActiveChange = { viewModel.onAddressActiveChange(it) },
-            onSearch = { viewModel.onAddressSearch() },
+            queryText = when(contentType) {
+                CreateContentType.STARTING_POINT -> viewModel.startData.value.searchAddressText.value
+                CreateContentType.DESTINATION -> viewModel.destinationData.value.searchAddressText.value
+            },
+            onQueryChange = { viewModel.onAddressQueryChange(contentType, it) },
+            active = when(contentType) {
+                CreateContentType.STARTING_POINT -> viewModel.startData.value.isSearchAddressActive.value
+                CreateContentType.DESTINATION -> viewModel.destinationData.value.isSearchAddressActive.value
+            },
+            onActiveChange = { viewModel.onAddressActiveChange(contentType, it) },
+            onSearch = { viewModel.onAddressSearch(contentType) },
             items = viewModel.items
         )
     }
@@ -47,6 +62,7 @@ fun CreateRideScreenContent(
 fun CreateRideScreenContentPreview() {
     CarPawTheme {
         CreateRideScreenContent(
+            contentType = CreateContentType.STARTING_POINT,
             location1Placeholder = R.string.search_departure__placeholder,
             location1Label = R.string.search_departure__label,
             location2Placeholder = R.string.pickup_address__placeholder,

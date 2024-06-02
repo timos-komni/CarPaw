@@ -6,6 +6,7 @@ import com.timkom.carpaw.ui.screens.searchRide.SearchRideViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun SearchScreenContent(
+    contentType: SearchContentType,
     placeholder: Int,
     label: Int,
     viewModel: SearchRideViewModel = viewModel()
@@ -13,11 +14,17 @@ fun SearchScreenContent(
     SearchLocationBar(
         placeholder = placeholder,
         label = label,
-        queryText = viewModel.searchText.value,
-        onQueryChange = { viewModel.onQueryChange(it) },
-        active = viewModel.searchActive.value,
-        onActiveChange = { viewModel.onActiveChange(it) },
-        onSearch = { viewModel.onSearch() },
+        queryText = when(contentType) {
+            SearchContentType.STARTING_POINT -> viewModel.startSearchText.value
+            SearchContentType.DESTINATION -> viewModel.destinationSearchText.value
+        },
+        onQueryChange = { viewModel.onQueryChange(contentType, it) },
+        active = when(contentType) {
+            SearchContentType.STARTING_POINT -> viewModel.isStartSearchActive.value
+            SearchContentType.DESTINATION -> viewModel.isDestinationActive.value
+        },
+        onActiveChange = { viewModel.onActiveChange(contentType, it) },
+        onSearch = { viewModel.onSearch(contentType) },
         items = viewModel.items
     )
 }

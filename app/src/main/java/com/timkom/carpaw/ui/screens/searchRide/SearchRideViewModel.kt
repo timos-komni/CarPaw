@@ -1,30 +1,49 @@
 package com.timkom.carpaw.ui.screens.searchRide
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import com.timkom.carpaw.ui.content.SearchContentType
 
 class SearchRideViewModel : ViewModel() {
-    val searchText = mutableStateOf("")
-    val searchActive = mutableStateOf(false)
+    val startSearchText = mutableStateOf("")
+    val destinationSearchText = mutableStateOf("")
+    val isStartSearchActive = mutableStateOf(false)
+    val isDestinationActive = mutableStateOf(false)
     val items = mutableStateListOf("Athens", "Kavala")
-    val expandedItem = mutableStateOf(0)
+    val expandedItem = mutableIntStateOf(0)
 
-    fun onQueryChange(newText: String) {
-        searchText.value = newText
+    fun onQueryChange(contentType: SearchContentType, newText: String) {
+        when (contentType) {
+            SearchContentType.STARTING_POINT -> startSearchText.value = newText
+            SearchContentType.DESTINATION -> destinationSearchText.value = newText
+        }
     }
 
-    fun onSearch() {
-        items.add(searchText.value)
-        searchActive.value = false
-        searchText.value = ""
+    fun onSearch(contentType: SearchContentType) {
+        when (contentType) {
+            SearchContentType.STARTING_POINT -> {
+                items.add(startSearchText.value)
+                isStartSearchActive.value = false
+                startSearchText.value = ""
+            }
+            SearchContentType.DESTINATION -> {
+                items.add(destinationSearchText.value)
+                isDestinationActive.value = false
+                destinationSearchText.value = ""
+            }
+        }
     }
 
-    fun onActiveChange(newActive: Boolean) {
-        searchActive.value = newActive
+    fun onActiveChange(contentType: SearchContentType, newActive: Boolean) {
+        when (contentType) {
+            SearchContentType.STARTING_POINT -> isStartSearchActive.value = newActive
+            SearchContentType.DESTINATION -> isDestinationActive.value = newActive
+        }
     }
 
     fun onItemClick(id: Int) {
-        expandedItem.value = if (expandedItem.value == id) -1 else id
+        expandedItem.intValue = if (expandedItem.intValue == id) -1 else id
     }
 }

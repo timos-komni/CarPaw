@@ -39,15 +39,17 @@ import com.timkom.carpaw.ui.components.SearchLocationBar
 import com.timkom.carpaw.ui.content.ExpandableContent
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
-data class Content(
+data class Content<T : Enum<T>>(
     val id: Int,
+    val type: ContentType<T>,
     @StringRes val title: Int,
     @StringRes val locationPlaceholder: Int,
     @StringRes val locationLabel: Int,
     @StringRes val addressPlaceholder: Int,
     @StringRes val addressLabel: Int,
-
-)
+) {
+    interface ContentType<T : Enum<T>>
+}
 
 
 @Composable

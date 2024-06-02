@@ -21,6 +21,8 @@ import com.timkom.carpaw.ui.components.cards.ExpandableCard
 import com.timkom.carpaw.ui.content.createContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.ui.content.CreateContentType
+
 @Composable
 fun CreateRideScreen(
     viewModel: CreateRideViewModel = viewModel(),
@@ -49,10 +51,11 @@ fun CreateRideScreen(
             items(contentList) { content ->
                 ExpandableCard(
                     title = content.title,
-                    expanded = viewModel.expandedItem.value == content.id,
+                    expanded = viewModel.expandedItem.intValue == content.id,
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         CreateRideScreenContent(
+                            content.type as CreateContentType,
                             location1Placeholder = content.locationPlaceholder,
                             location1Label = content.locationLabel,
                             location2Placeholder = content.addressPlaceholder,

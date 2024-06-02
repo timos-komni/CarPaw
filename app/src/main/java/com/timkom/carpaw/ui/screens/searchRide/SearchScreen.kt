@@ -21,6 +21,7 @@ import com.timkom.carpaw.ui.content.SearchScreenContent
 import com.timkom.carpaw.ui.content.searchContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.ui.content.SearchContentType
 
 @Composable
 fun SearchScreen(
@@ -50,10 +51,11 @@ fun SearchScreen(
             items(contentList) { content ->
                 ExpandableCard(
                     title = content.title,
-                    expanded = viewModel.expandedItem.value == content.id,
+                    expanded = viewModel.expandedItem.intValue == content.id,
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         SearchScreenContent(
+                            content.type as SearchContentType,
                             placeholder = content.locationPlaceholder,
                             label = content.locationLabel
                         )
