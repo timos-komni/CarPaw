@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -66,7 +68,7 @@ fun NavigationIcon(iconRes: Int, contentDescription: String, text: String, modif
             text = text,
             color = Color.Black,
             lineHeight = 1.33.em,
-            style = MaterialTheme.typography.bodyMedium,
+            fontFamily = FontFamily(Font(R.font.outfit_semibold)),
             modifier = Modifier.wrapContentHeight(Alignment.CenterVertically)
         )
     }

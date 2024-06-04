@@ -28,9 +28,12 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
@@ -51,7 +54,8 @@ fun SearchLocationBar(
         Text(
             text = stringResource(id = label),
             lineHeight = 1.33.em,
-            style = MaterialTheme.typography.bodySmall,
+            fontSize = 14.sp,
+            fontFamily = FontFamily(Font(R.font.outfit_regular)),
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically)
         )
@@ -66,12 +70,14 @@ fun SearchLocationBar(
             active = active,
             onActiveChange = onActiveChange,
             placeholder = {
-                Text(text = stringResource(id = placeholder))
+                Text(
+                    text = stringResource(id = placeholder),
+                    fontFamily = FontFamily(Font(R.font.outfit_regular)))
             },
             colors = SearchBarDefaults.colors(MaterialTheme.colorScheme.background),
             tonalElevation = 1.dp,
             shadowElevation = 1.dp,
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(14.dp),
             leadingIcon = {
                 if (!active) {
                     Icon(Icons.Default.Search, contentDescription = "Search Icon")
@@ -107,7 +113,7 @@ fun SearchLocationBar(
                         painter = painterResource(R.drawable.history),
                         contentDescription = "History Icon"
                     )
-                    Text(text = it)
+                    Text(text = it, fontFamily = FontFamily(Font(R.font.outfit_regular)))
                 }
             }
         }

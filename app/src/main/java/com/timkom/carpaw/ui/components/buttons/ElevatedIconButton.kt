@@ -15,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -31,7 +33,7 @@ fun ElevatedIconButton(
 ) {
     ElevatedButton(
         contentPadding = PaddingValues(horizontal =  8.dp, vertical = 4.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(100.dp),
         colors = ButtonDefaults.elevatedButtonColors().copy(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -59,7 +61,7 @@ fun ElevatedIconButton(
                 text = stringResource(id = title),
                 textAlign = TextAlign.Center,
                 lineHeight = 1.33.em,
-                style = MaterialTheme.typography.bodyMedium,
+                fontFamily = FontFamily(Font(R.font.outfit_medium)),
                 modifier = modifier.wrapContentHeight(align = Alignment.CenterVertically)
             )
         }

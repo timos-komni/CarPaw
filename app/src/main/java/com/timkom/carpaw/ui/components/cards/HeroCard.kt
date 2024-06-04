@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,7 +58,7 @@ fun HeroCard(
                 lineHeight = 1.4.em,
                 style = TextStyle(
                     fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily(Font(R.font.outfit_semibold)),
                     letterSpacing = 0.15.sp),
                 modifier = Modifier
                     .requiredWidth(width = 322.dp)

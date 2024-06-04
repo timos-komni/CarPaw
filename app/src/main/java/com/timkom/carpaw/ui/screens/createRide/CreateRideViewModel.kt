@@ -20,6 +20,22 @@ class CreateRideViewModel : ViewModel() {
     val items = mutableStateListOf("Athens", "Kavala")
     val expandedItem = mutableIntStateOf(0)
 
+    // Date picker state
+    val selectedDate = mutableStateOf("Select Date")
+    val isDialogOpen = mutableStateOf(false)
+
+    fun setDate(date: String) {
+        selectedDate.value = date
+    }
+
+    fun openDialog() {
+        isDialogOpen.value = true
+    }
+
+    fun closeDialog() {
+        isDialogOpen.value = false
+    }
+
     fun onLocationQueryChange(contentType: CreateContentType, newText: String) {
         when (contentType) {
             CreateContentType.STARTING_POINT -> startData.value.searchLocationText.value = newText

@@ -14,6 +14,21 @@ class SearchRideViewModel : ViewModel() {
     val items = mutableStateListOf("Athens", "Kavala")
     val expandedItem = mutableIntStateOf(0)
 
+    // Date picker state for search ride screen
+    val selectedDate = mutableStateOf("Select Date")
+    val isDialogOpen = mutableStateOf(false)
+
+    fun setDate(date: String) {
+        selectedDate.value = date
+    }
+
+    fun openDialog() {
+        isDialogOpen.value = true
+    }
+
+    fun closeDialog() {
+        isDialogOpen.value = false
+    }
     fun onQueryChange(contentType: SearchContentType, newText: String) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> startSearchText.value = newText

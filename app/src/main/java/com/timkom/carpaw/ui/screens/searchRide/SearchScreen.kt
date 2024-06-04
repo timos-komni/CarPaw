@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,7 +25,10 @@ import com.timkom.carpaw.ui.content.SearchScreenContent
 import com.timkom.carpaw.ui.content.searchContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
+import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.SearchContentType
+import com.timkom.carpaw.util.Either
 
 @Composable
 fun SearchScreen(
@@ -46,7 +53,6 @@ fun SearchScreen(
             ),
             modifier = Modifier
                 .padding(20.dp)
-                .fillMaxSize()
         ) {
             items(contentList) { content ->
                 ExpandableCard(
@@ -63,7 +69,37 @@ fun SearchScreen(
                 )
                 Spacer(modifier = Modifier.size(10.dp))
             }
+            item {
+                ExpandableCard(
+                    title = R.string.date__title,
+                    expanded = viewModel.expandedItem.intValue == -1,
+                    onClickExpanded = { viewModel.onItemClick(-1) },
+                    content = {
+                        DatePickerContent(
+                            selectedDate = viewModel.selectedDate,
+                            label = R.string.select_date_for_animal__label,
+                            isDialogOpen = viewModel.isDialogOpen,
+                            setDate = { date -> viewModel.setDate(date) },
+                            closeDialog = { viewModel.closeDialog() }
+                        )
+                    }
+                )
+            }
+
         }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            ElevatedIconButton(
+                title = R.string.search_ride__title,
+                icon = Either.Left(Icons.Default.Add)
+            ) {
+                // TODO
+            }
+        }
+
     }
 }
 

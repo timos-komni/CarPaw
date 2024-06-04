@@ -34,18 +34,22 @@
     <!--Create/Search Ride Screen-->
     <string name="leaving_from__title">Leaving from…</string>
     <string name="travelling_to__title">Travelling to…</string>
+    <string name="date_time__title">Date and Time</string>
+    <string name="date__title">Date </string>
     <string name="companion_animal__title">Companion animal</string>
     <string name="set_price__title">Set the price</string>
 
     <!-- SearchBar -->
-    <string name="search_departure__placeholder">Search departure city</string>
-    <string name="search_departure__label">What city are you leaving from</string>
-    <string name="search_destination__placeholder">Search destination city</string>
-    <string name="search_destination__label">What city are you traveling to</string>
+    <string name="search_departure__placeholder">Leaving from</string>
+    <string name="search_departure__label">What city are you leaving from?</string>
+    <string name="search_destination__placeholder">Travelling to</string>
+    <string name="search_destination__label">What city are you traveling to?</string>
     <string name="pickup_address__placeholder">Pickup Address</string>
     <string name="pickup_address__label"> What is the exact place where you want to pick up the companion animal?</string>
     <string name="drop_off_address__placeholder">Drop off Address</string>
     <string name="drop_off_address__label">What is the exact place where you want to drop off the companion animal?</string>
+    <string name="select_date__label">What day are you planning to travel?</string>
+    <string name="select_date_for_animal__label">What day is your companion animal travelling?</string>
 
 
 

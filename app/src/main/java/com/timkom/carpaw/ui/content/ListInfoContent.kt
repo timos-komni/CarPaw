@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,14 +50,14 @@ fun ListInfoContent(
             lineHeight = 1.43.em,
             style = TextStyle(
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
+                fontFamily = FontFamily(Font(R.font.outfit_medium)),
                 letterSpacing = 0.25.sp),
             modifier = Modifier
                 .offset(
                     x = 0.5.dp,
                     y = 8.dp
                 )
-                .padding(8.dp)
+                .padding(12.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(align = Alignment.CenterVertically))
         LazyRow(
