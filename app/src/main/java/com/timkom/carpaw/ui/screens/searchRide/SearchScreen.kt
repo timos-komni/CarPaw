@@ -32,8 +32,9 @@ import com.timkom.carpaw.util.Either
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchRideViewModel = viewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SearchRideViewModel = viewModel()
+
 ) {
     val contentList = searchContentList()
 
@@ -72,8 +73,8 @@ fun SearchScreen(
             item {
                 ExpandableCard(
                     title = R.string.date__title,
-                    expanded = viewModel.expandedItem.intValue == -1,
-                    onClickExpanded = { viewModel.onItemClick(-1) },
+                    expanded = viewModel.expandedItem.intValue == 2,
+                    onClickExpanded = { viewModel.onItemClick(2) },
                     content = {
                         DatePickerContent(
                             selectedDate = viewModel.selectedDate,
