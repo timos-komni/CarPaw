@@ -60,6 +60,12 @@ fun SearchScreen(
                 ExpandableCard(
                     title = content.title,
                     expanded = viewModel.expandedItem.intValue == content.id,
+                    //TODO check this
+                    selectedInfo = when(content.id) {
+                        1 -> viewModel. startSearchText.value // Assuming 1 is for departure
+                        2 -> viewModel.destinationSearchText.value // Assuming 2 is for destination
+                        else -> ""
+                    },
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         SearchScreenContent(
@@ -75,6 +81,7 @@ fun SearchScreen(
                 ExpandableCard(
                     title = R.string.date__title,
                     expanded = viewModel.expandedItem.intValue == 2,
+                    selectedInfo = viewModel.selectedDate.value,
                     onClickExpanded = { viewModel.onItemClick(2) },
                     content = {
                         DatePickerContent(
@@ -90,6 +97,7 @@ fun SearchScreen(
                 ExpandableCard(
                     title = R.string.passengers__title,
                     expanded = viewModel.expandedItem.intValue == 3,
+                    selectedInfo = viewModel.selectedAnimalsSummary.value,
                     onClickExpanded = { viewModel.onItemClick(3) },
                     content = {
                         CompanionAnimalList(viewModel = viewModel)

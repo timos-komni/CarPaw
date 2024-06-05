@@ -34,7 +34,7 @@ import com.timkom.carpaw.ui.theme.CarPawTheme
 @Composable
 fun CompanionAnimalList(
     viewModel: SearchRideViewModel = viewModel(),
-    onSelect: () -> Unit = {}
+
 ) {
     Column(
         modifier = Modifier
@@ -42,7 +42,6 @@ fun CompanionAnimalList(
             .padding(10.dp)
             .height(380.dp)
     ) {
-
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {

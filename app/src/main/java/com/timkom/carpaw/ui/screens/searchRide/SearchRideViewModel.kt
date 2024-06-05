@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
 import com.timkom.carpaw.ui.content.getCompanionAnimals
+import java.util.Locale
 
 class SearchRideViewModel : ViewModel() {
     val startSearchText = mutableStateOf("")
@@ -22,6 +23,10 @@ class SearchRideViewModel : ViewModel() {
 
     // Companion animal add state
     val animals = mutableStateListOf(*getCompanionAnimals().toTypedArray())
+    val selectedAnimalsSummary = mutableStateOf("")
+    init {
+        updateSelectedAnimalsSummary()
+    }
 
     fun setDate(date: String) {
         selectedDate.value = date
@@ -72,6 +77,7 @@ class SearchRideViewModel : ViewModel() {
         val index = animals.indexOf(animal)
         if (index != -1) {
             animals[index] = animals[index].copy(count = animals[index].count + 1)
+            updateSelectedAnimalsSummary()
         }
     }
 
@@ -79,6 +85,11 @@ class SearchRideViewModel : ViewModel() {
         val index = animals.indexOf(animal)
         if (index != -1 && animals[index].count > 0) {
             animals[index] = animals[index].copy(count = animals[index].count - 1)
+            updateSelectedAnimalsSummary()
         }
+    }
+    private fun updateSelectedAnimalsSummary() {
+        selectedAnimalsSummary.value = animals.filter { it.count > 0 }
+            .joinToString(separator = ", ") { "${it.count} ${it.name}" }
     }
 }

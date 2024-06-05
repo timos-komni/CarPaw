@@ -58,6 +58,12 @@ fun CreateRideScreen(
                 ExpandableCard(
                     title = content.title,
                     expanded = viewModel.expandedItem.intValue == content.id,
+                    //TODO check this
+                    selectedInfo = when(content.id) {
+                        1 -> viewModel.startData.value.searchLocationText.value  // Assuming 1 is for departure
+                        2 -> viewModel.startData.value.searchLocationText.value // Assuming 2 is for destination
+                        else -> ""
+                    },
                     onClickExpanded = { viewModel.onItemClick(content.id) },
                     content = {
                         CreateRideScreenContent(
@@ -75,6 +81,7 @@ fun CreateRideScreen(
                 ExpandableCard(
                     title = R.string.date_time__title,
                     expanded = viewModel.expandedItem.intValue == 2,
+                    selectedInfo = viewModel.selectedDate.value,
                     onClickExpanded = { viewModel.onItemClick(2) },
                     content = {
                         DatePickerContent(

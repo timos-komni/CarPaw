@@ -56,6 +56,7 @@ data class Content<T : Enum<T>>(
 fun ExpandableCard(
     title: Int,
     expanded: Boolean,
+    selectedInfo: String = "",
     onClickExpanded: () -> Unit,
     content: @Composable () -> Unit,
     modifier: Modifier = Modifier
@@ -98,12 +99,22 @@ fun ExpandableCard(
                     fontFamily = FontFamily(Font(R.font.outfit_bold)),
                     modifier = Modifier.wrapContentHeight(align = Alignment.CenterVertically)
                 )
+
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
                     contentDescription = "Drop-Up Arrow",
                     modifier = Modifier
                         .rotate(iconRotationDeg)
                         .align(Alignment.CenterVertically)
+                )
+            }
+            if (!expanded && selectedInfo.isNotEmpty()) {
+                Text(
+                    text = selectedInfo,
+                    fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.padding(end = 8.dp)
                 )
             }
             ExpandableContent(
