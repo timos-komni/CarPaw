@@ -84,6 +84,7 @@ dependencies {
     implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.3.0")
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.ui.test.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

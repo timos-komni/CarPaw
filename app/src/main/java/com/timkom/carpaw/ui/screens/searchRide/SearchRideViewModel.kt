@@ -4,7 +4,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
+import com.timkom.carpaw.ui.content.getCompanionAnimals
 
 class SearchRideViewModel : ViewModel() {
     val startSearchText = mutableStateOf("")
@@ -17,6 +19,9 @@ class SearchRideViewModel : ViewModel() {
     // Date picker state for search ride screen
     val selectedDate = mutableStateOf("Select Date")
     val isDialogOpen = mutableStateOf(false)
+
+    // Companion animal add state
+    val animals = mutableStateListOf(*getCompanionAnimals().toTypedArray())
 
     fun setDate(date: String) {
         selectedDate.value = date
@@ -60,5 +65,20 @@ class SearchRideViewModel : ViewModel() {
 
     fun onItemClick(id: Int) {
         expandedItem.intValue = if (expandedItem.intValue == id) -1 else id
+    }
+
+    // Companion animal add methods
+    fun addAnimal(animal: CompanionAnimalItem) {
+        val index = animals.indexOf(animal)
+        if (index != -1) {
+            animals[index] = animals[index].copy(count = animals[index].count + 1)
+        }
+    }
+
+    fun removeAnimal(animal: CompanionAnimalItem) {
+        val index = animals.indexOf(animal)
+        if (index != -1 && animals[index].count > 0) {
+            animals[index] = animals[index].copy(count = animals[index].count - 1)
+        }
     }
 }

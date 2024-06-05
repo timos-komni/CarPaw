@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +25,7 @@ import com.timkom.carpaw.ui.content.SearchScreenContent
 import com.timkom.carpaw.ui.content.searchContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.SearchContentType
@@ -85,20 +86,34 @@ fun SearchScreen(
                         )
                     }
                 )
+                Spacer(modifier = Modifier.size(10.dp))
+                ExpandableCard(
+                    title = R.string.passengers__title,
+                    expanded = viewModel.expandedItem.intValue == 3,
+                    onClickExpanded = { viewModel.onItemClick(3) },
+                    content = {
+                        CompanionAnimalList(viewModel = viewModel)
+
+                    }
+                )
+                Spacer(modifier = Modifier.size(30.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .fillMaxWidth()
+                ) {
+                    ElevatedIconButton(
+                        title = R.string.search_ride__title,
+                        icon = Either.Left(Icons.Default.Search)
+                    ) {
+                        // TODO
+                    }
+                }
+
             }
 
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .fillMaxWidth()
-        ) {
-            ElevatedIconButton(
-                title = R.string.search_ride__title,
-                icon = Either.Left(Icons.Default.Add)
-            ) {
-                // TODO
-            }
+
+
         }
 
     }

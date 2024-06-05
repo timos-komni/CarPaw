@@ -86,18 +86,19 @@ fun CreateRideScreen(
                         )
                     }
                 )
-            }
-        }
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
-                .fillMaxWidth()
-        ) {
-            ElevatedIconButton(
-                title = R.string.create_ride__title,
-                icon = Either.Left(Icons.Default.Add)
-            ) {
-                // TODO
+                Spacer(modifier = Modifier.size(30.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = modifier
+                        .fillMaxWidth()
+                ) {
+                    ElevatedIconButton(
+                        title = R.string.create_ride__title,
+                        icon = Either.Left(Icons.Default.Add)
+                    ) {
+                        // TODO
+                    }
+                }
             }
         }
     }
