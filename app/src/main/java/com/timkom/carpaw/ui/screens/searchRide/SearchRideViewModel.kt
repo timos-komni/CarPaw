@@ -24,6 +24,7 @@ class SearchRideViewModel : ViewModel() {
     // Companion animal add state
     val animals = mutableStateListOf(*getCompanionAnimals().toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
+
     init {
         updateSelectedAnimalsSummary()
     }
@@ -39,6 +40,7 @@ class SearchRideViewModel : ViewModel() {
     fun closeDialog() {
         isDialogOpen.value = false
     }
+
     fun onQueryChange(contentType: SearchContentType, newText: String) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> startSearchText.value = newText
@@ -88,6 +90,7 @@ class SearchRideViewModel : ViewModel() {
             updateSelectedAnimalsSummary()
         }
     }
+
     private fun updateSelectedAnimalsSummary() {
         selectedAnimalsSummary.value = animals.filter { it.count > 0 }
             .joinToString(separator = ", ") { "${it.count} ${it.name}" }

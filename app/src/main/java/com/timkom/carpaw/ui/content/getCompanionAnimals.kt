@@ -3,6 +3,23 @@ package com.timkom.carpaw.ui.content
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.CompanionAnimalItem
 
+/**
+ * TODO (Chloe) Don't start filenames with lowercase! Also, don't use one top-level function per file.
+ * Bellow function can be moved onto [CompanionAnimalItem] as a companion object method ->
+ * ```
+ * data class CompanionAnimalItem(/*parameters...*/) {
+ *      companion object {
+ *          fun getCompanionAnimals(): List<CompanionAnimalItem> {
+ *              /*code...*/
+ *          }
+ *      }
+ * }
+ * ```
+ * then call it like ->
+ * ```
+ *      CompanionAnimalItem.getCompanionAnimals()
+ * ```
+ */
 fun getCompanionAnimals(): List<CompanionAnimalItem> {
     return listOf(
         CompanionAnimalItem(R.drawable.cat_icon, "Cat", ""),

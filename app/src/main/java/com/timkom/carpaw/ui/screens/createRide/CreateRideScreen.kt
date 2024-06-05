@@ -61,7 +61,7 @@ fun CreateRideScreen(
                     //TODO check this
                     selectedInfo = when(content.id) {
                         1 -> viewModel.startData.value.searchLocationText.value  // Assuming 1 is for departure
-                        2 -> viewModel.startData.value.searchLocationText.value // Assuming 2 is for destination
+                        2 -> viewModel.destinationData.value.searchLocationText.value // Assuming 2 is for destination
                         else -> ""
                     },
                     onClickExpanded = { viewModel.onItemClick(content.id) },
