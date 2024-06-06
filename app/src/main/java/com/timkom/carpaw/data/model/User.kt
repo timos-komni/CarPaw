@@ -1,5 +1,6 @@
 package com.timkom.carpaw.data.model
 
+import android.media.Image
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,6 +12,7 @@ data class User(
     val uuid: String,
     val username: String,
     val password: String,
+    val userImage: Int,
     @SerialName("first name")
     val firstName: String,
     @SerialName("middle name")
@@ -20,5 +22,6 @@ data class User(
     val birthdate: String?,
     val email: String,
     @SerialName("phone number")
-    val phoneNumber: String?
+    val phoneNumber: String?,
+    val rating: Float
 )

@@ -66,4 +66,8 @@
     <string name="price__label">How much will you price the journey?</string>
     <string name="insert_amount">Insert amount</string>
     <string name="amount">amount</string>
+
+    <!--Buttons-->
+    <string name="view_details__button">View Details</string>
+
 </resources>

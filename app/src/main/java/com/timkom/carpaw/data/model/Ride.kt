@@ -13,10 +13,10 @@ data class Ride(
     val start: String,
     val destination: String,
     val date: String,
-    @SerialName("start time")
-    val startTime: String,
-    @SerialName("end time")
-    val endTime: String,
+   // @SerialName("start time")
+   // val startTime: String,
+ //   @SerialName("end time")
+   // val endTime: String,
     /**
      * TODO Make it an enum
      */
