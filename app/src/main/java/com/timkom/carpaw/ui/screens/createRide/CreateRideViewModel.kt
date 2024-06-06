@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.CreateContentType
 
 class CreateRideViewModel : ViewModel() {
@@ -23,6 +24,10 @@ class CreateRideViewModel : ViewModel() {
     // Date picker state
     val selectedDate = mutableStateOf("Select Date")
     val isDialogOpen = mutableStateOf(false)
+
+    // Companion animal selection state
+    val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+    val selectedAnimalsSummary = mutableStateOf("")
 
     fun setDate(date: String) {
         selectedDate.value = date
@@ -104,5 +109,19 @@ class CreateRideViewModel : ViewModel() {
 
     fun onItemClick(id: Int) {
         expandedItem.intValue = if (expandedItem.intValue == id) -1 else id
+    }
+
+    // Companion animal selection methods
+    fun toggleAnimalSelected(animal: CompanionAnimalItem, isSelected: Boolean) {
+        val index = animals.indexOf(animal)
+        if (index != -1) {
+            animals[index] = animals[index].copy(isSelected = isSelected)
+            updateSelectedAnimalsSummary()
+        }
+    }
+
+    private fun updateSelectedAnimalsSummary() {
+        selectedAnimalsSummary.value = animals.filter { it.isSelected }
+            .joinToString(separator = ", ") { it.name }
     }
 }

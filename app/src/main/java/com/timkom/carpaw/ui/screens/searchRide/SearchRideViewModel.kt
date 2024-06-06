@@ -6,8 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
-import com.timkom.carpaw.ui.content.getCompanionAnimals
-import java.util.Locale
 
 class SearchRideViewModel : ViewModel() {
     val startSearchText = mutableStateOf("")
@@ -22,7 +20,7 @@ class SearchRideViewModel : ViewModel() {
     val isDialogOpen = mutableStateOf(false)
 
     // Companion animal add state
-    val animals = mutableStateListOf(*getCompanionAnimals().toTypedArray())
+    val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
 
     init {

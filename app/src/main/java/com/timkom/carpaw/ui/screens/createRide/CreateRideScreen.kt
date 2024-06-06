@@ -26,6 +26,8 @@ import com.timkom.carpaw.ui.content.createContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
+import com.timkom.carpaw.ui.content.AnimalListMode
+import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.content.CreateContentType
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.util.Either
@@ -60,8 +62,8 @@ fun CreateRideScreen(
                     expanded = viewModel.expandedItem.intValue == content.id,
                     //TODO check this
                     selectedInfo = when(content.id) {
-                        1 -> viewModel.startData.value.searchLocationText.value  // Assuming 1 is for departure
-                        2 -> viewModel.destinationData.value.searchLocationText.value // Assuming 2 is for destination
+                        0 -> viewModel.startData.value.searchLocationText.value
+                        1 -> viewModel.destinationData.value.searchLocationText.value
                         else -> ""
                     },
                     onClickExpanded = { viewModel.onItemClick(content.id) },
@@ -90,6 +92,22 @@ fun CreateRideScreen(
                             isDialogOpen = viewModel.isDialogOpen,
                             setDate = { date -> viewModel.setDate(date) },
                             closeDialog = { viewModel.closeDialog() }
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                ExpandableCard(
+                    title = R.string.preferred_passengers__title,
+                    expanded = viewModel.expandedItem.intValue == 3,
+                    selectedInfo = viewModel.selectedAnimalsSummary.value,
+                    onClickExpanded = { viewModel.onItemClick(3) },
+                    content = {
+                        CompanionAnimalList(
+                            animals = viewModel.animals,
+                            mode = AnimalListMode.SELECTION,
+                            onAnimalSelect = { animal, isSelected ->
+                                viewModel.toggleAnimalSelected(animal, isSelected)
+                            }
                         )
                     }
                 )

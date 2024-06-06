@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
-import com.timkom.carpaw.util.TimeTools
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import com.timkom.carpaw.util.convertMillisecondsToDate
 
 
 @SuppressLint("UnrememberedMutableState")
@@ -108,7 +108,7 @@ fun DatePickerContent(
                         closeDialog()
                         var date = "Select Date"
                         if(datePickerState.selectedDateMillis != null){
-                            date = TimeTools.convertLongToTime(datePickerState.selectedDateMillis!!)
+                            date = convertMillisecondsToDate(datePickerState.selectedDateMillis!!)
                         }
                         setDate(date)
                     },

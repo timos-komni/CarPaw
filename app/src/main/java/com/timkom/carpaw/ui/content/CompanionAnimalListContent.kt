@@ -1,5 +1,6 @@
 package com.timkom.carpaw.ui.content
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,32 +15,49 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.CompanionAnimalItem
-import com.timkom.carpaw.ui.screens.searchRide.SearchRideViewModel
+import androidx.compose.ui.tooling.preview.Preview
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
+enum class AnimalListMode {
+    SELECTION, ADD_REMOVE
+}
 
+
+/**
+ * A composable function that displays a list of companion animals.
+ *
+ * @param animals The list of animals to display.
+ * @param mode The mode of the list, either selection or add/remove.
+ * @param onAddClick The action to perform when the add button is clicked.
+ * @param onRemoveClick The action to perform when the remove button is clicked.
+ * @param onAnimalSelect The action to perform when an animal is selected or deselected.
+ */
 @Composable
 fun CompanionAnimalList(
-    viewModel: SearchRideViewModel = viewModel(),
-
+    animals: List<CompanionAnimalItem>,
+    mode: AnimalListMode,
+    onAddClick: (CompanionAnimalItem) -> Unit = {},
+    onRemoveClick: (CompanionAnimalItem) -> Unit = {},
+    onAnimalSelect: (CompanionAnimalItem, Boolean) -> Unit = { _, _ -> }
 ) {
     Column(
         modifier = Modifier
@@ -50,56 +68,45 @@ fun CompanionAnimalList(
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(viewModel.animals) { animal ->
-                CompanionAnimalListContentAddRemove(
-                    animal = animal,
-                    onAddClick = { viewModel.addAnimal(animal) },
-                    onRemoveClick = { viewModel.removeAnimal(animal) }
-                )
+            items(animals) { animal ->
+                when (mode) {
+                    AnimalListMode.ADD_REMOVE -> {
+                        CompanionAnimalListContentAddRemove(
+                            animal = animal,
+                            onAddClick = { onAddClick(animal) },
+                            onRemoveClick = { onRemoveClick(animal) }
+                        )
+                    }
+                    AnimalListMode.SELECTION -> {
+                        CompanionAnimalSelectionContent(
+                            animal = animal,
+                            onAnimalSelect = { isSelected ->
+                                onAnimalSelect(animal, isSelected)
+                            }
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 
-
+/**
+ * A composable function that displays a companion animal with add and remove buttons.
+ *  Implemented on the "Create Ride" screen
+ *
+ * @param animal The animal to display.
+ * @param onAddClick The action to perform when the add button is clicked.
+ * @param onRemoveClick The action to perform when the remove button is clicked.
+ */
 @Composable
 fun CompanionAnimalListContentAddRemove(
     animal: CompanionAnimalItem,
     onAddClick: () -> Unit,
     onRemoveClick: () -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-    ) {
-        Image(
-            painter = painterResource(id = animal.icon),
-            contentDescription = animal.name,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
-            modifier = Modifier.size(30.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = animal.name,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                fontFamily = FontFamily(Font(R.font.outfit_medium)),
-                fontSize = 14.sp
-            )
-            if (animal.description.isNotEmpty()) {
-                Text(
-                    text = animal.description,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    fontFamily = FontFamily(Font(R.font.outfit_regular)),
-                    fontSize = 12.sp
-                )
-            }
-        }
+    CompanionAnimalListItem(animal) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -141,10 +148,115 @@ fun CompanionAnimalListContentAddRemove(
     }
 }
 
+
+/**
+ * A composable function that displays a companion animal with a selection checkbox.
+ * Implemented on the "Create Ride" screen
+ *
+ * @param animal The animal to display.
+ * @param onAnimalSelect The action to perform when the selection state changes.
+ */
+@Composable
+fun CompanionAnimalSelectionContent(
+    animal: CompanionAnimalItem,
+    onAnimalSelect: (Boolean) -> Unit
+) {
+    CompanionAnimalListItem(animal) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = animal.isSelected,
+                onCheckedChange = onAnimalSelect,
+                colors = CheckboxDefaults.colors(
+                    checkedColor = MaterialTheme.colorScheme.secondary,
+                    uncheckedColor = MaterialTheme.colorScheme.secondary
+                )
+            )
+        }
+    }
+}
+
+
+/**
+ * A composable function that displays the common UI elements of a companion animal list item.
+ * Implemented both in "Create" and "Search" screens but with different actions.
+ *
+ * @param animal The animal to display.
+ * @param actions The composable actions to include in the list item.
+ */
+@Composable
+fun CompanionAnimalListItem(
+    animal: CompanionAnimalItem,
+    actions: @Composable () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Image(
+            painter = painterResource(id = animal.icon),
+            contentDescription = animal.name,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
+            modifier = Modifier.size(30.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
+            Text(
+                text = animal.name,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                fontSize = 14.sp
+            )
+            if (animal.description.isNotEmpty()) {
+                Text(
+                    text = animal.description,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    fontFamily = FontFamily(Font(R.font.outfit_regular)),
+                    fontSize = 12.sp
+                )
+            }
+        }
+        actions()
+    }
+}
+
+
+/**
+ * Preview for CompanionAnimalList in SELECTION mode.
+ */
+@SuppressLint("UnrememberedMutableState")
 @Preview(showBackground = true)
 @Composable
-fun CompanionAnimalListPreview() {
-    CarPawTheme(dynamicColor = false){
-        CompanionAnimalList()
+fun CompanionAnimalListSelectionPreview() {
+    CarPawTheme {
+        val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+        CompanionAnimalList(
+            animals = animals,
+            mode = AnimalListMode.SELECTION,
+            onAnimalSelect = { _, _ -> }
+        )
+    }
+}
+
+/**
+ * Preview for CompanionAnimalList in ADD_REMOVE mode.
+ */
+@SuppressLint("UnrememberedMutableState")
+@Preview(showBackground = true)
+@Composable
+fun CompanionAnimalListAddRemovePreview() {
+    CarPawTheme {
+        val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+        CompanionAnimalList(
+            animals = animals,
+            mode = AnimalListMode.ADD_REMOVE,
+            onAddClick = {},
+            onRemoveClick = {}
+        )
     }
 }

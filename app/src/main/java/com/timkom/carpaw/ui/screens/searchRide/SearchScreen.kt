@@ -27,6 +27,7 @@ import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
+import com.timkom.carpaw.ui.content.AnimalListMode
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.SearchContentType
 import com.timkom.carpaw.util.Either
@@ -62,8 +63,8 @@ fun SearchScreen(
                     expanded = viewModel.expandedItem.intValue == content.id,
                     //TODO check this
                     selectedInfo = when(content.id) {
-                        1 -> viewModel. startSearchText.value // Assuming 1 is for departure
-                        2 -> viewModel.destinationSearchText.value // Assuming 2 is for destination
+                        0 -> viewModel. startSearchText.value
+                        1 -> viewModel.destinationSearchText.value
                         else -> ""
                     },
                     onClickExpanded = { viewModel.onItemClick(content.id) },
@@ -100,7 +101,12 @@ fun SearchScreen(
                     selectedInfo = viewModel.selectedAnimalsSummary.value,
                     onClickExpanded = { viewModel.onItemClick(3) },
                     content = {
-                        CompanionAnimalList(viewModel = viewModel)
+                        CompanionAnimalList(
+                            animals = viewModel.animals,
+                            mode = AnimalListMode.ADD_REMOVE,
+                            onAddClick = { animal -> viewModel.addAnimal(animal) },
+                            onRemoveClick = { animal -> viewModel.removeAnimal(animal) }
+                        )
 
                     }
                 )
