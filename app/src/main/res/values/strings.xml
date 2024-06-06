@@ -57,9 +57,13 @@
     <!-- Date Picker -->
     <string name="select_date__label">What day are you planning to travel?</string>
     <string name="select_date_for_animal__label">What day is your companion animal travelling?</string>
+    <string name="select_date">Select Date</string>
 
     <!-- Add Companion Animal -->
     <string name="add_companion_animal__label">Who are travelling?</string>
 
-
+    <!-- Insert Price -->
+    <string name="price__label">How much will you price the journey?</string>
+    <string name="insert_amount">Insert amount</string>
+    <string name="amount">amount</string>
 </resources>

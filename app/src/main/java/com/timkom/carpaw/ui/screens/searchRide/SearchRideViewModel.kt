@@ -16,7 +16,7 @@ class SearchRideViewModel : ViewModel() {
     val expandedItem = mutableIntStateOf(0)
 
     // Date picker state for search ride screen
-    val selectedDate = mutableStateOf("Select Date")
+    val selectedDate = mutableStateOf("")
     val isDialogOpen = mutableStateOf(false)
 
     // Companion animal add state

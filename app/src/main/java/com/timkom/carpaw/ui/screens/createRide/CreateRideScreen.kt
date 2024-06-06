@@ -30,6 +30,7 @@ import com.timkom.carpaw.ui.content.AnimalListMode
 import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.content.CreateContentType
 import com.timkom.carpaw.ui.content.DatePickerContent
+import com.timkom.carpaw.ui.content.PriceInputContent
 import com.timkom.carpaw.util.Either
 
 @Composable
@@ -108,6 +109,22 @@ fun CreateRideScreen(
                             onAnimalSelect = { animal, isSelected ->
                                 viewModel.toggleAnimalSelected(animal, isSelected)
                             }
+                        )
+                    }
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                ExpandableCard(
+                    title = R.string.set_price__title,
+                    expanded = viewModel.expandedItem.intValue == 4,
+                    selectedInfo = viewModel.price.value,
+                    onClickExpanded = { viewModel.onItemClick(4) },
+                    content = {
+                        PriceInputContent(
+                            price = viewModel.price,
+                            label = R.string.price__label,
+                            isDialogOpen = viewModel.isPriceDialogOpen,
+                            setPrice = { newPrice -> viewModel.setPrice(newPrice) },
+                            closeDialog = { viewModel.closePriceDialog() }
                         )
                     }
                 )

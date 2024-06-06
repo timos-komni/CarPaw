@@ -22,13 +22,16 @@ class CreateRideViewModel : ViewModel() {
     val expandedItem = mutableIntStateOf(0)
 
     // Date picker state
-    val selectedDate = mutableStateOf("Select Date")
+    val selectedDate = mutableStateOf("")
     val isDialogOpen = mutableStateOf(false)
 
     // Companion animal selection state
     val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
 
+    // Price input state
+    val price = mutableStateOf("")
+    val isPriceDialogOpen = mutableStateOf(false)
     fun setDate(date: String) {
         selectedDate.value = date
     }
@@ -124,4 +127,18 @@ class CreateRideViewModel : ViewModel() {
         selectedAnimalsSummary.value = animals.filter { it.isSelected }
             .joinToString(separator = ", ") { it.name }
     }
+
+    //Set price methods
+    fun setPrice(newPrice: String) {
+        price.value = newPrice
+    }
+
+    fun openPriceDialog() {
+        isPriceDialogOpen.value = true
+    }
+
+    fun closePriceDialog() {
+        isPriceDialogOpen.value = false
+    }
 }
+
