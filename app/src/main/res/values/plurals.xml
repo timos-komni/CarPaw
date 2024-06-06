@@ -1,0 +1,26 @@
+<resources>
+    <plurals name="cat">
+        <item quantity="one">Cat</item>
+        <item quantity="other">Cats</item>
+    </plurals>
+    <plurals name="small_dog">
+        <item quantity="one">Small Dog</item>
+        <item quantity="other">Small Dogs</item>
+    </plurals>
+    <plurals name="medium_dog">
+        <item quantity="one">Medium Dog</item>
+        <item quantity="other">Medium Dogs</item>
+    </plurals>
+    <plurals name="big_dog">
+        <item quantity="one">Big Dog</item>
+        <item quantity="other">Big Dogs</item>
+    </plurals>
+    <plurals name="small_mammal">
+        <item quantity="one">Small Mammal</item>
+        <item quantity="other">Small Mammals</item>
+    </plurals>
+    <plurals name="bird">
+        <item quantity="one">Bird</item>
+        <item quantity="other">Birds</item>
+    </plurals>
+</resources>

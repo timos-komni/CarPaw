@@ -1,5 +1,6 @@
-package com.timkom.carpaw.ui.screens.createRide
+package com.timkom.carpaw.ui.viewmodels
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.CreateContentType
+import java.lang.ref.WeakReference
 
 class CreateRideViewModel : ViewModel() {
     data class Data(
@@ -26,7 +28,7 @@ class CreateRideViewModel : ViewModel() {
     val isDialogOpen = mutableStateOf(false)
 
     // Companion animal selection state
-    val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+    val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
 
     // Price input state
@@ -115,17 +117,18 @@ class CreateRideViewModel : ViewModel() {
     }
 
     // Companion animal selection methods
-    fun toggleAnimalSelected(animal: CompanionAnimalItem, isSelected: Boolean) {
+    fun toggleAnimalSelected(context: WeakReference<Context>, animal: CompanionAnimalItem, isSelected: Boolean) {
         val index = animals.indexOf(animal)
         if (index != -1) {
-            animals[index] = animals[index].copy(isSelected = isSelected)
-            updateSelectedAnimalsSummary()
+            animals[index].isSelected = isSelected
+            //animals[index] = animals[index].copy(isSelected = isSelected)
+            updateSelectedAnimalsSummary(context)
         }
     }
 
-    private fun updateSelectedAnimalsSummary() {
+    private fun updateSelectedAnimalsSummary(context: WeakReference<Context>) {
         selectedAnimalsSummary.value = animals.filter { it.isSelected }
-            .joinToString(separator = ", ") { it.name }
+            .joinToString(separator = ", ") { context.get()?.resources?.getQuantityText(it.animalName, 1)!! }
     }
 
     //Set price methods

@@ -1,25 +1,20 @@
 package com.timkom.carpaw.data.model
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.PluralsRes
 import com.timkom.carpaw.R
 
-
-data class CompanionAnimalItem(
-    val icon: Int,
-    val name: String,
-    val description: String,
+enum class CompanionAnimalItem (
+    @DrawableRes val icon: Int,
+    @PluralsRes val animalName: Int, // 'name' cannot be used :(
+    val description: String = "",
     var count: Int = 0, // Track the count of each animal kind
-    val isSelected: Boolean = false
-){
-    companion object{
-        fun getCompanionAnimals(): List<CompanionAnimalItem> {
-            return listOf(
-                CompanionAnimalItem(R.drawable.cat_icon, "Cat", ""),
-                CompanionAnimalItem(R.drawable.dog_icon, "Small dog", "(up to 10 kg)"),
-                CompanionAnimalItem(R.drawable.dog_icon, "Medium dog", "(10 – 26 kg)"),
-                CompanionAnimalItem(R.drawable.dog_icon, "Big dog", "(27 – 45 kg)"),
-                CompanionAnimalItem(R.drawable.small_mammal_icon, "Small mammal", ""),
-                CompanionAnimalItem(R.drawable.bird_icon, "Bird", "")
-            )
-        }
-    }
+    var isSelected: Boolean = false
+) {
+    CAT(R.drawable.cat_icon, R.plurals.cat),
+    SMALL_DOG(R.drawable.dog_icon, R.plurals.small_dog, "(up to 10 kg)"),
+    MEDIUM_DOG(R.drawable.dog_icon, R.plurals.medium_dog, "(10 – 26 kg)"),
+    BIG_DOG(R.drawable.dog_icon, R.plurals.big_dog, "(27 – 45 kg)"),
+    SMALL_MAMMAL(R.drawable.dog_icon, R.plurals.small_mammal),
+    BIRD(R.drawable.dog_icon, R.plurals.bird);
 }

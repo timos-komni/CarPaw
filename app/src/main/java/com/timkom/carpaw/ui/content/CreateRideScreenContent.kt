@@ -7,8 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.SearchLocationBar
 import com.timkom.carpaw.ui.content.CreateContentType
-import com.timkom.carpaw.ui.content.SearchContentType
-import com.timkom.carpaw.ui.screens.createRide.CreateRideViewModel
+import com.timkom.carpaw.ui.viewmodels.CreateRideViewModel
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
 @Composable

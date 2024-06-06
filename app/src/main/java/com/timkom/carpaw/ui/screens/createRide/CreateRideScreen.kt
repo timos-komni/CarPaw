@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
@@ -31,7 +32,9 @@ import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.content.CreateContentType
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.PriceInputContent
+import com.timkom.carpaw.ui.viewmodels.CreateRideViewModel
 import com.timkom.carpaw.util.Either
+import java.lang.ref.WeakReference
 
 @Composable
 fun CreateRideScreen(
@@ -103,11 +106,12 @@ fun CreateRideScreen(
                     selectedInfo = viewModel.selectedAnimalsSummary.value,
                     onClickExpanded = { viewModel.onItemClick(3) },
                     content = {
+                        val context = LocalContext.current
                         CompanionAnimalList(
                             animals = viewModel.animals,
                             mode = AnimalListMode.SELECTION,
                             onAnimalSelect = { animal, isSelected ->
-                                viewModel.toggleAnimalSelected(animal, isSelected)
+                                viewModel.toggleAnimalSelected(WeakReference(context), animal, isSelected)
                             }
                         )
                     }

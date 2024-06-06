@@ -1,11 +1,13 @@
-package com.timkom.carpaw.ui.screens.searchRide
+package com.timkom.carpaw.ui.viewmodels
 
+import android.content.Context
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.timkom.carpaw.data.model.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
+import java.lang.ref.WeakReference
 
 class SearchRideViewModel : ViewModel() {
     val startSearchText = mutableStateOf("")
@@ -20,12 +22,12 @@ class SearchRideViewModel : ViewModel() {
     val isDialogOpen = mutableStateOf(false)
 
     // Companion animal add state
-    val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+    val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
 
-    init {
+    /*init {
         updateSelectedAnimalsSummary()
-    }
+    }*/
 
     fun setDate(date: String) {
         selectedDate.value = date
@@ -73,24 +75,24 @@ class SearchRideViewModel : ViewModel() {
     }
 
     // Companion animal add methods
-    fun addAnimal(animal: CompanionAnimalItem) {
+    fun addAnimal(context: WeakReference<Context>, animal: CompanionAnimalItem) {
         val index = animals.indexOf(animal)
         if (index != -1) {
-            animals[index] = animals[index].copy(count = animals[index].count + 1)
-            updateSelectedAnimalsSummary()
+            animals[index].count += 1
+            updateSelectedAnimalsSummary(context)
         }
     }
 
-    fun removeAnimal(animal: CompanionAnimalItem) {
+    fun removeAnimal(context: WeakReference<Context>, animal: CompanionAnimalItem) {
         val index = animals.indexOf(animal)
         if (index != -1 && animals[index].count > 0) {
-            animals[index] = animals[index].copy(count = animals[index].count - 1)
-            updateSelectedAnimalsSummary()
+            animals[index].count -= 1
+            updateSelectedAnimalsSummary(context)
         }
     }
 
-    private fun updateSelectedAnimalsSummary() {
+    private fun updateSelectedAnimalsSummary(context: WeakReference<Context>) {
         selectedAnimalsSummary.value = animals.filter { it.count > 0 }
-            .joinToString(separator = ", ") { "${it.count} ${it.name}" }
+            .joinToString(separator = ", ") { "${it.count} ${context.get()?.resources?.getQuantityString(it.animalName, it.count)}" }
     }
 }

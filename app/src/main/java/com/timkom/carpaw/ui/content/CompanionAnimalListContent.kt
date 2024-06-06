@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -190,6 +191,7 @@ fun CompanionAnimalListItem(
     animal: CompanionAnimalItem,
     actions: @Composable () -> Unit
 ) {
+    val context = LocalContext.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -198,7 +200,7 @@ fun CompanionAnimalListItem(
     ) {
         Image(
             painter = painterResource(id = animal.icon),
-            contentDescription = animal.name,
+            contentDescription = context.resources.getQuantityString(animal.animalName, 1),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
             modifier = Modifier.size(30.dp)
         )
@@ -207,7 +209,7 @@ fun CompanionAnimalListItem(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = animal.name,
+                text = context.resources.getQuantityString(animal.animalName, 1),
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 fontFamily = FontFamily(Font(R.font.outfit_medium)),
                 fontSize = 14.sp
@@ -234,7 +236,7 @@ fun CompanionAnimalListItem(
 @Composable
 fun CompanionAnimalListSelectionPreview() {
     CarPawTheme {
-        val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+        val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
         CompanionAnimalList(
             animals = animals,
             mode = AnimalListMode.SELECTION,
@@ -251,7 +253,7 @@ fun CompanionAnimalListSelectionPreview() {
 @Composable
 fun CompanionAnimalListAddRemovePreview() {
     CarPawTheme {
-        val animals = mutableStateListOf(*CompanionAnimalItem.getCompanionAnimals().toTypedArray())
+        val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
         CompanionAnimalList(
             animals = animals,
             mode = AnimalListMode.ADD_REMOVE,

@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
@@ -30,7 +31,9 @@ import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
 import com.timkom.carpaw.ui.content.AnimalListMode
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.SearchContentType
+import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 import com.timkom.carpaw.util.Either
+import java.lang.ref.WeakReference
 
 @Composable
 fun SearchScreen(
@@ -101,11 +104,12 @@ fun SearchScreen(
                     selectedInfo = viewModel.selectedAnimalsSummary.value,
                     onClickExpanded = { viewModel.onItemClick(3) },
                     content = {
+                        val context = LocalContext.current
                         CompanionAnimalList(
                             animals = viewModel.animals,
                             mode = AnimalListMode.ADD_REMOVE,
-                            onAddClick = { animal -> viewModel.addAnimal(animal) },
-                            onRemoveClick = { animal -> viewModel.removeAnimal(animal) }
+                            onAddClick = { animal -> viewModel.addAnimal(WeakReference(context), animal) },
+                            onRemoveClick = { animal -> viewModel.removeAnimal(WeakReference(context), animal) }
                         )
 
                     }
