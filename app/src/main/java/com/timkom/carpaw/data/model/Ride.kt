@@ -1,7 +1,9 @@
 package com.timkom.carpaw.data.model
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Ride(
     val id: Long,
     @SerialName("created_at")
@@ -13,13 +15,17 @@ data class Ride(
     val start: String,
     val destination: String,
     val date: String,
-   // @SerialName("start time")
-   // val startTime: String,
- //   @SerialName("end time")
-   // val endTime: String,
+    @SerialName("start_time")
+    val startTime: String,
+    @SerialName("end_time")
+    val endTime: String,
     /**
      * TODO Make it an enum
      */
     val status: String,
     val price: Float
-)
+) {
+    companion object {
+        const val TABLE_NAME = "Ride"
+    }
+}

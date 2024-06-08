@@ -23,6 +23,7 @@ import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import kotlinx.datetime.Clock
 
 data class SearchResultCardData(
     val ride: Ride,
@@ -60,7 +61,7 @@ fun SearchResultCard(data: SearchResultCardData) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter = painterResource(id = data.user.userImage),
+                        painter = painterResource(id = /*data.user.userImage*/ R.drawable.account_circle),
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -148,6 +149,8 @@ fun SearchResultCardPreview() {
         destination = "Ioannina",
         date = "2024-06-10",
         status = "Scheduled",
+        startTime = Clock.System.now().toString(),
+        endTime = Clock.System.now().toString(),
         price = 20.0f
     )
 
@@ -157,14 +160,14 @@ fun SearchResultCardPreview() {
         uuid = "123-456-789",
         username = "olga",
         password = "password",
-        userImage = R.drawable.ic_hero_background,
         firstName = "Olga",
         middleName = null,
         lastName = "S.",
         birthdate = "1990-01-01",
         email = "olga@example.com",
         phoneNumber = "1234567890",
-        rating = 4.5f
+        rating = 4.5f,
+        imageUrl = null
     )
 
     val sampleData = SearchResultCardData(

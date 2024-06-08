@@ -21,4 +21,8 @@ data class Pet(
         SMALL_MAMMAL,
         BIRD
     }
+
+    companion object {
+        const val TABLE_NAME = "Pet"
+    }
 }

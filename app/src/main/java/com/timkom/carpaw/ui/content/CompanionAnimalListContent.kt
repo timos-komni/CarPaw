@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
-import com.timkom.carpaw.data.model.CompanionAnimalItem
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import androidx.compose.ui.tooling.preview.Preview
 import com.timkom.carpaw.ui.theme.CarPawTheme
 

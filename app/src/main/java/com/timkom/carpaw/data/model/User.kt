@@ -12,16 +12,21 @@ data class User(
     val uuid: String,
     val username: String,
     val password: String,
-    val userImage: Int,
-    @SerialName("first name")
+    @SerialName("first_name")
     val firstName: String,
-    @SerialName("middle name")
+    @SerialName("middle_name")
     val middleName: String?,
-    @SerialName("last name")
+    @SerialName("last_name")
     val lastName: String,
     val birthdate: String?,
     val email: String,
-    @SerialName("phone number")
+    @SerialName("phone_number")
     val phoneNumber: String?,
-    val rating: Float
-)
+    val rating: Float,
+    @SerialName("image_url")
+    val imageUrl: String?
+) {
+    companion object {
+        const val TABLE_NAME = "User"
+    }
+}

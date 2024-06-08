@@ -1,6 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,15 +19,16 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -37,18 +38,16 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.timkom.carpaw.BuildConfig
 import com.timkom.carpaw.R
-import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.postgrest.from
+import io.ktor.util.InternalAPI
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun  LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier) {
     LoginCard(modifier)
 }
 
@@ -68,6 +67,7 @@ fun LoginScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalStdlibApi::class, InternalAPI::class)
 @Composable
 fun LoginCard(modifier: Modifier = Modifier) {
     // TODO remove [begin]
@@ -95,6 +95,8 @@ fun LoginCard(modifier: Modifier = Modifier) {
     var password by rememberSaveable {
         mutableStateOf("")
     }
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Card(
         Modifier
@@ -182,7 +184,36 @@ fun LoginCard(modifier: Modifier = Modifier) {
                 )
             }
             Button(
-                onClick = {  },
+                onClick = {
+                    if (user.isNotBlank() and password.isNotBlank()) {
+                        coroutineScope.launch {
+                            val users = SupabaseManager.getUsersByEmail(user, password, false)
+                            if (users.isNotEmpty() && users.size == 1) {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(
+                                        context,
+                                        "Welcome ${users[0].firstName} ${users[0].lastName}",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            } else {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(
+                                        context,
+                                        "User not found",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                      }
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Please, fill the email and password fields",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                },
                 colors = ButtonDefaults.buttonColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),

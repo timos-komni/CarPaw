@@ -2,6 +2,7 @@ package com.timkom.carpaw
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
+import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.BottomNavGraph
 import com.timkom.carpaw.ui.BottomNavigationItem
 import com.timkom.carpaw.ui.components.BottomNavigationBar
@@ -42,6 +44,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         enableEdgeToEdge()
+        Log.e("TAG", User.toString())
         setContent {
             CarPawTheme(dynamicColor = false) {
                 Surface(

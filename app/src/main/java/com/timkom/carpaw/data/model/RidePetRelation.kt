@@ -10,4 +10,8 @@ data class RidePetRelation(
     val rideId: Long,
     @SerialName("pet_id")
     val petId: Long
-)
+) {
+    companion object {
+        const val TABLE_NAME = "RidePetRelation"
+    }
+}

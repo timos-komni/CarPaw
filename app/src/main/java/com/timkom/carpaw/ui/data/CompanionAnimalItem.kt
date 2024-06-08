@@ -1,4 +1,4 @@
-package com.timkom.carpaw.data.model
+package com.timkom.carpaw.ui.data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.PluralsRes

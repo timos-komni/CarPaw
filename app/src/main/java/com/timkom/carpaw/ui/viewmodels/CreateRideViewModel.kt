@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import com.timkom.carpaw.data.model.CompanionAnimalItem
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.CreateContentType
 import java.lang.ref.WeakReference
 
