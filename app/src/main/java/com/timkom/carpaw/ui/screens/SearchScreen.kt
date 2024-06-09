@@ -1,4 +1,4 @@
-package com.timkom.carpaw.ui.screens.searchRide
+package com.timkom.carpaw.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

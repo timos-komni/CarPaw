@@ -2,6 +2,7 @@ package com.timkom.carpaw.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +11,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -29,10 +36,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.supabase.SupabaseManager
+import com.timkom.carpaw.ui.components.EmailTextField
+import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import io.ktor.util.InternalAPI
 import kotlinx.coroutines.Dispatchers
@@ -125,7 +138,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Welcome to your CarPaw account",
+                    text = stringResource(R.string.login_card__title__text),
                     style = TextStyle(
                         fontSize = 20.sp,
                         fontFamily = FontFamily(Font(R.font.outfit)),
@@ -149,26 +162,22 @@ fun LoginCard(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                OutlinedTextField(
+                EmailTextField(
                     value = user,
                     onValueChange = { user = it },
-                    placeholder = {
-                        Text(text = "Email or phone number")
-                    },
+                    placeholder = stringResource(R.string.login_card__email_field__placeholder),
                     modifier = modifier
                         .padding(bottom = 8.dp)
                 )
-                OutlinedTextField(
+                PasswordTextField(
                     value = password,
                     onValueChange = { password = it },
-                    placeholder = {
-                        Text(text = "Password")
-                    },
+                    placeholder = stringResource(R.string.login_card__password_field__placeholder),
                     modifier = modifier
                         .padding(vertical = 8.dp)
                 )
                 Text(
-                    text = "Forgot Password?",
+                    text = stringResource(R.string.login_card__forgot_password_ling__text),
                     style = TextStyle(
                         fontSize = 16.sp,
                         lineHeight = 22.sp,
@@ -181,6 +190,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     modifier = modifier
                         .padding(top = 8.dp)
                         .align(Alignment.End)
+                        .clickable { }
                 )
             }
             Button(
@@ -225,11 +235,12 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login_card__login_button__text),
                     modifier = modifier
                         .padding(horizontal = 20.dp)
                 )
             }
+            // TODO (Chloe & Me) We should probably remove the Cancel button..it doesn't make sense
             OutlinedButton(
                 onClick = {  },
                 colors = ButtonDefaults.outlinedButtonColors().copy(
@@ -243,13 +254,13 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = "Cancel",
+                    text = stringResource(R.string.login_card__cancel_button__text),
                     modifier = modifier
                         .padding(horizontal = 20.dp)
                 )
             }
             Text(
-                text = "Does not have an account yet?",
+                text = stringResource(R.string.login_card__no_account_prompt__text),
                 style = TextStyle(
                     fontSize = 16.sp,
                     lineHeight = 22.sp,
@@ -269,7 +280,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     .align(Alignment.CenterHorizontally)
             )
             Text(
-                text = "Create Account",
+                text = stringResource(R.string.login_card__create_account__text),
                 style = TextStyle(
                     fontSize = 16.sp,
                     lineHeight = 22.sp,
@@ -287,6 +298,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                         bottom = 8.dp
                     )
                     .align(Alignment.CenterHorizontally)
+                    .clickable { }
             )
         }
     }

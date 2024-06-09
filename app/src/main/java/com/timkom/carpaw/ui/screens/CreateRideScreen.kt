@@ -1,4 +1,4 @@
-package com.timkom.carpaw.ui.screens.createRide
+package com.timkom.carpaw.ui.screens
 
 import CreateRideScreenContent
 import androidx.compose.foundation.background

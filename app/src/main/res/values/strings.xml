@@ -70,4 +70,14 @@
     <!--Buttons-->
     <string name="view_details__button">View Details</string>
 
+    <!--LoginScreen-->
+    <string name="login_card__title__text">Welcome to your CarPaw account</string>
+    <string name="login_card__email_field__placeholder">Email or phone number</string>
+    <string name="login_card__password_field__placeholder">Password</string>
+    <string name="login_card__forgot_password_ling__text">Forgot Password?</string>
+    <string name="login_card__login_button__text">Login</string>
+    <string name="login_card__cancel_button__text">Cancel</string>
+    <string name="login_card__no_account_prompt__text">Don\'t have an account yet?</string>
+    <string name="login_card__create_account__text">Create Account</string>
+
 </resources>
