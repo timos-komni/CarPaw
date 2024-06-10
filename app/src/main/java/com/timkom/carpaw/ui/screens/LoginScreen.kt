@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -27,6 +29,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -51,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.supabase.SupabaseManager
+import com.timkom.carpaw.ui.FullScreenDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.theme.CarPawTheme
@@ -83,30 +87,17 @@ fun LoginScreenPreview() {
 @OptIn(ExperimentalStdlibApi::class, InternalAPI::class)
 @Composable
 fun LoginCard(modifier: Modifier = Modifier) {
-    // TODO remove [begin]
-    /*LaunchedEffect(Unit) {
-        withContext(Dispatchers.IO) {
-            Log.e("@LoginCard", "begin")
-            val supabase = createSupabaseClient(
-                BuildConfig.SUPABASE_URL,
-                BuildConfig.SUPABASE_ANON_KEY
-            ) {
-                install(Postgrest)
-            }
-            val users: List<User> = supabase.from("User")
-                .select().decodeList<User>()
-            for (user in users) {
-                Log.e("@LoginCard", user.toString())
-            }
-            Log.e("@LoginCard", "end")
-        }
-    }*/
-    // TODO remove [end]
     var user by rememberSaveable {
         mutableStateOf("")
     }
     var password by rememberSaveable {
         mutableStateOf("")
+    }
+    var showForgotPwDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var showCreateAccDialog by rememberSaveable {
+        mutableStateOf(false)
     }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -298,8 +289,34 @@ fun LoginCard(modifier: Modifier = Modifier) {
                         bottom = 8.dp
                     )
                     .align(Alignment.CenterHorizontally)
-                    .clickable { }
+                    .clickable { showCreateAccDialog = true }
             )
+        }
+    }
+    
+    if (showCreateAccDialog) {
+        FullScreenDialog(
+            onDismissRequest = { showCreateAccDialog = false },
+            title = "Create Account",
+            actions = {
+                IconButton(onClick = { /*TODO Check the fields and create account*/ }) {
+                    androidx.compose.material.Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = null
+                    )
+                }
+            }
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                EmailTextField(value = "", onValueChange = {}, label = "Email")
+                Spacer(modifier = Modifier.height(20.dp))
+                PasswordTextField(value = "", onValueChange = {}, label = "Password")
+                Spacer(modifier = Modifier.height(20.dp))
+                // TODO ...
+            }
         }
     }
 }

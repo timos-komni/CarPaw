@@ -24,6 +24,7 @@ import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import kotlinx.datetime.Clock
+import java.util.UUID
 
 data class SearchResultCardData(
     val ride: Ride,
@@ -155,11 +156,11 @@ fun SearchResultCardPreview() {
     )
 
     val sampleUser = User(
-        id = 1,
+        id = UUID.randomUUID().toString(),
         createdAt = "2024-01-01T10:00:00Z",
         uuid = "123-456-789",
         username = "olga",
-        password = "password",
+        //password = "password",
         firstName = "Olga",
         middleName = null,
         lastName = "S.",

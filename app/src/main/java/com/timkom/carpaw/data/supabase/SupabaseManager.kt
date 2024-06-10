@@ -51,9 +51,9 @@ object SupabaseManager {
             .select {
                 filter {
                     User::email eq email
-                    and {
+                    /*and {
                         User::password eq pw
-                    }
+                    }*/
                 }
             }.decodeList()
     }
@@ -70,9 +70,9 @@ object SupabaseManager {
             .select {
                 filter {
                     User::phoneNumber eq phone
-                    and {
+                    /*and {
                         User::password eq pw
-                    }
+                    }*/
                 }
             }.decodeList()
     }
@@ -91,9 +91,9 @@ object SupabaseManager {
             .select {
                 filter {
                     User::username eq username
-                    and {
+                    /*and {
                         User::password eq pw
-                    }
+                    }*/
                 }
                 limit(1)
             }.decodeSingle()

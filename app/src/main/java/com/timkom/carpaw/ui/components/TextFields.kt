@@ -30,7 +30,8 @@ fun EmailTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String,
+    label: String? = null,
+    placeholder: String? = null,
     isError: Boolean = false,
     errorText: String = ""
 ) {
@@ -38,9 +39,8 @@ fun EmailTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        placeholder = {
-            Text(text = placeholder)
-        },
+        label = if (label != null) { { Text(text = label) } } else null,
+        placeholder = if (placeholder != null) { { Text(text = placeholder) } } else null,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email
@@ -59,7 +59,8 @@ fun PasswordTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String,
+    label: String? = null,
+    placeholder: String? = null,
     isError: Boolean = false,
     errorText: String = ""
 ) {
@@ -71,9 +72,8 @@ fun PasswordTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        placeholder = {
-            Text(text = placeholder)
-        },
+        label = if (label != null) { { Text(text = label) } } else null,
+        placeholder = if (placeholder != null) { { Text(text = placeholder) } } else null,
         singleLine = true,
         visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {
@@ -99,7 +99,8 @@ fun PhoneTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String,
+    label: String? = null,
+    placeholder: String? = null,
     isError: Boolean = false,
     errorText: String = ""
 ) {
@@ -107,9 +108,8 @@ fun PhoneTextField(
         modifier = modifier,
         value = value,
         onValueChange = onValueChange,
-        placeholder = {
-            Text(text = placeholder)
-        },
+        label = if (label != null) { { Text(text = label) } } else null,
+        placeholder = if (placeholder != null) { { Text(text = placeholder) } } else null,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Phone

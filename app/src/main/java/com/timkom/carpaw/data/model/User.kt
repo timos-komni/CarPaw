@@ -6,12 +6,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class User(
-    val id: Long,
+    val id: String, // reference to the internal auth.users table
     @SerialName("created_at")
     val createdAt: String,
     val uuid: String,
-    val username: String,
-    val password: String,
     @SerialName("first_name")
     val firstName: String,
     @SerialName("middle_name")
@@ -22,9 +20,10 @@ data class User(
     val email: String,
     @SerialName("phone_number")
     val phoneNumber: String?,
-    val rating: Float,
     @SerialName("image_url")
-    val imageUrl: String?
+    val imageUrl: String?,
+    val rating: Float,
+    val username: String
 ) {
     companion object {
         const val TABLE_NAME = "User"
