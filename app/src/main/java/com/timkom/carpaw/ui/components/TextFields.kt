@@ -120,6 +120,32 @@ fun PhoneTextField(
 }
 
 @Composable
+fun GenericTextField(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String? = null,
+    placeholder: String? = null,
+    isError: Boolean = false,
+    errorText: String = ""
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        label = if (label != null) { { Text(text = label) } } else null,
+        placeholder = if (placeholder != null) { { Text(text = placeholder) } } else null,
+        singleLine = true,
+        isError = isError,
+        supportingText = if (isError) {
+            { ErrorTextField(text = errorText) }
+        } else {
+            null
+        }
+    )
+}
+
+@Composable
 fun ErrorTextField(
     modifier: Modifier = Modifier,
     text: String

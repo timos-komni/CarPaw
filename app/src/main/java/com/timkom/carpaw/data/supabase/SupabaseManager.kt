@@ -5,14 +5,21 @@ import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.RidePetRelation
 import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.util.checkIfAnyBlank
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.storage.Storage
 import io.ktor.util.Digest
 import io.ktor.util.InternalAPI
 import io.ktor.util.build
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 object SupabaseManager {
 
@@ -22,6 +29,7 @@ object SupabaseManager {
     ) {
         install(Postgrest)
         install(Storage)
+        install(Auth)
     }
 
     @OptIn(InternalAPI::class, ExperimentalStdlibApi::class)
@@ -97,6 +105,30 @@ object SupabaseManager {
                 }
                 limit(1)
             }.decodeSingle()
+    }
+
+    suspend fun createUser(
+        email: String,
+        password: String,
+        firstName: String,
+        middleName: String? = null,
+        lastName: String,
+        birthdate: String? = null
+    ): Pair<Boolean, UserInfo?> {
+        if (checkIfAnyBlank(email, password, firstName, lastName)) {
+            return Pair(false, null)
+        }
+        val user = client.auth.signUpWith(Email) {
+            this.email = email
+            this.password = password
+            this.data = buildJsonObject {
+                put("first_name", firstName)
+                middleName?.let { put("middle_name", it) }
+                put("last_name", lastName)
+                birthdate?.let { put("birthdate", it) }
+            }
+        }
+        return Pair(true, user)
     }
 
 }

@@ -5,9 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Debug
 import android.util.Log
-import androidx.annotation.PluralsRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import com.timkom.carpaw.BuildConfig
 import java.util.Arrays
 import kotlin.reflect.KClass
