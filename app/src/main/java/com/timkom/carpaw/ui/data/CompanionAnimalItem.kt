@@ -12,18 +12,18 @@ enum class CompanionAnimalItem (
     val description: String = "",
     var count: Int = 0, // Track the count of each animal kind
     var isSelected: Boolean = false,
-    val size: AnimalSize = AnimalSize.MEDIUM
+    val iconSize: Dp = IconSize.MEDIUM.dp
 ) {
     CAT(R.drawable.cat_icon, R.plurals.cat),
-    SMALL_DOG(R.drawable.dog_icon, R.plurals.small_dog, "(up to 10 kg)", size = AnimalSize.SMALL),
-    MEDIUM_DOG(R.drawable.dog_icon, R.plurals.medium_dog, "(10 – 26 kg)", size = AnimalSize.MEDIUM),
-    BIG_DOG(R.drawable.dog_icon, R.plurals.big_dog, "(27 – 45 kg)", size = AnimalSize.LARGE),
+    SMALL_DOG(R.drawable.dog_icon, R.plurals.small_dog, "(up to 10 kg)", iconSize = IconSize.SMALL.dp),
+    MEDIUM_DOG(R.drawable.dog_icon, R.plurals.medium_dog, "(10 – 26 kg)", iconSize = IconSize.MEDIUM.dp),
+    BIG_DOG(R.drawable.dog_icon, R.plurals.big_dog, "(27 – 45 kg)", iconSize = IconSize.LARGE.dp),
     SMALL_MAMMAL(R.drawable.small_mammal_icon, R.plurals.small_mammal),
     BIRD(R.drawable.bird_icon, R.plurals.bird);
-}
 
-enum class AnimalSize(val iconSize: Dp) {
-    SMALL(24.dp),
-    MEDIUM(30.dp),
-    LARGE(36.dp)
+    object IconSize {
+        const val SMALL = 24
+        const val MEDIUM = 30
+        const val LARGE = 36
+    }
 }

@@ -55,9 +55,3 @@ fun triggerRebirth(activity: Activity) {
         e.printStackTrace()
     }
 }
-
-@Composable
-fun getPluralString(@PluralsRes id: Int, quantity: Int): String {
-    val context = LocalContext.current
-    return context.resources.getQuantityString(id, quantity, quantity)
-}

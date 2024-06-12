@@ -1,13 +1,26 @@
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,9 +32,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
@@ -29,7 +42,6 @@ import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import kotlinx.datetime.Clock
 import java.util.UUID
-import com.timkom.carpaw.util.getPluralString
 
 data class SearchResultCardData(
     val ride: Ride,
@@ -40,7 +52,8 @@ data class SearchResultCardData(
 @SuppressLint("ResourceType")
 @Composable
 fun SearchResultCard(data: SearchResultCardData) {
-    val sortedAnimals = CompanionAnimalItem.values().sortedByDescending { data.selectedAnimals.contains(it) }
+    val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { data.selectedAnimals.contains(it) }
+    val context = LocalContext.current
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -121,8 +134,8 @@ fun SearchResultCard(data: SearchResultCardData) {
                         sortedAnimals.forEach { animal ->
                             Image(
                                 painter = painterResource(id = animal.icon),
-                                contentDescription = getPluralString(animal.animalName, 1),
-                                modifier = Modifier.size(animal.size.iconSize),
+                                contentDescription = context.resources.getQuantityString(animal.animalName, 1),
+                                modifier = Modifier.size(animal.iconSize),
                                 colorFilter = ColorFilter.tint(
                                     if (data.selectedAnimals.contains(animal)) {
                                         MaterialTheme.colorScheme.onSecondaryContainer
