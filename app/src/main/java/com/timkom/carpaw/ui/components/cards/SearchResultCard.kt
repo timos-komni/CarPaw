@@ -1,3 +1,5 @@
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -22,50 +25,80 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import kotlinx.datetime.Clock
 import java.util.UUID
+import com.timkom.carpaw.util.getPluralString
 
 data class SearchResultCardData(
     val ride: Ride,
     val user: User,
-    val selectedAnimals: List<Int>
+    val selectedAnimals: List<CompanionAnimalItem>
 )
+
+@SuppressLint("ResourceType")
 @Composable
 fun SearchResultCard(data: SearchResultCardData) {
+    val sortedAnimals = CompanionAnimalItem.values().sortedByDescending { data.selectedAnimals.contains(it) }
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
+                .background(MaterialTheme.colorScheme.secondaryContainer),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "${data.ride.start} to ${data.ride.destination}",
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.outfit_semibold)),
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    text = "${data.ride.start} to ${data.ride.destination}",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.outfit_semibold)),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+                Column(){
+                    Row(){
+                        Icon(
+                            painter = painterResource(id = R.drawable.euro_symbol),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = "${data.ride.price} ",
+                            fontFamily = FontFamily(Font(R.font.outfit_regular)),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                    }
+
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = /*data.user.userImage*/ R.drawable.account_circle),
+                        painter = painterResource(id = R.drawable.account_circle),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(48.dp)
                             .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
@@ -74,38 +107,29 @@ fun SearchResultCard(data: SearchResultCardData) {
                         text = "${data.user.firstName} ${data.user.lastName}",
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.outfit_medium)),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
                 Column(
-                    horizontalAlignment = Alignment.Start
-                ){
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ){
-                        Icon(
-                            painter = painterResource(id = R.drawable.euro_symbol),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "${data.ride.price} ",
-                            fontFamily = FontFamily(Font(R.font.outfit_regular)),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-
-                    }
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically
-                    ){
-                        data.selectedAnimals.forEach { animalRes ->
+                    ) {
+                        sortedAnimals.forEach { animal ->
                             Image(
-                                painter = painterResource(id = animalRes),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                                painter = painterResource(id = animal.icon),
+                                contentDescription = getPluralString(animal.animalName, 1),
+                                modifier = Modifier.size(animal.size.iconSize),
+                                colorFilter = ColorFilter.tint(
+                                    if (data.selectedAnimals.contains(animal)) {
+                                        MaterialTheme.colorScheme.onSecondaryContainer
+                                    } else {
+                                        MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.4f)
+                                    }
+                                )
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                         }
@@ -118,11 +142,10 @@ fun SearchResultCard(data: SearchResultCardData) {
                             Icon(
                                 imageVector = Icons.Default.Star,
                                 contentDescription = null,
-                                tint = if (index < data.user.rating.toInt()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground
+                                tint = if (index < data.user.rating.toInt()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondaryContainer
                             )
                         }
                     }
-
                 }
             }
 
@@ -130,6 +153,10 @@ fun SearchResultCard(data: SearchResultCardData) {
             Button(
                 onClick = { /* TODO: Handle view details action */ },
                 shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.elevatedButtonColors().copy(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(id = R.string.view_details__button))
@@ -171,13 +198,20 @@ fun SearchResultCardPreview() {
         imageUrl = null
     )
 
+    val sampleAnimals = listOf(
+        CompanionAnimalItem.SMALL_DOG,
+        CompanionAnimalItem.CAT,
+        CompanionAnimalItem.BIRD
+    )
+
     val sampleData = SearchResultCardData(
         ride = sampleRide,
         user = sampleUser,
-        selectedAnimals = listOf(R.drawable.cat_icon, R.drawable.dog_icon)
+        selectedAnimals = sampleAnimals
     )
 
     CarPawTheme(dynamicColor = false) {
         SearchResultCard(data = sampleData)
     }
 }
+

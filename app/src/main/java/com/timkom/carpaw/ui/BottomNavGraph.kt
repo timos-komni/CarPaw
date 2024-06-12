@@ -5,7 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.CreateRideScreen
+import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
@@ -31,7 +33,20 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
             MyRidesScreen()
         }
         composable(route = BottomNavigationItem.Profile.route) {
-            LoginScreen()
+            LoginScreen(onCreateAccountClick = {
+                navController.navigate("create_account")
+            }, onForgotPasswordClick = {
+                navController.navigate("forgot_password")
+            })
         }
+        composable(route = "create_account") {
+            CreateAccountScreen(onBackClick = { navController.popBackStack() })
+        }
+        composable(route = "forgot_password") {
+            ForgotPasswordScreen(onBackClick = {
+                navController.popBackStack()
+            })
+        }
+
     }
 }

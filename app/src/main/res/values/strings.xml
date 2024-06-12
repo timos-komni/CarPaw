@@ -30,6 +30,8 @@
     <string name="my_rides__title">My Rides</string>
     <string name="ride_details__title">Ride Details</string>
     <string name="available_rides__title">Available Rides</string>
+    <string name="create_account__title">Create Account</string>
+    <string name="forgot_password__title">Forgot Password</string>
 
     <!--Create/Search Ride Screen-->
     <string name="leaving_from__title">Leaving from…</string>

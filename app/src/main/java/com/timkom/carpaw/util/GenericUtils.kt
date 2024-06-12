@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Debug
 import android.util.Log
+import androidx.annotation.PluralsRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import com.timkom.carpaw.BuildConfig
 import java.util.Arrays
 import kotlin.reflect.KClass
@@ -51,4 +54,10 @@ fun triggerRebirth(activity: Activity) {
         Log.e("GenericUtils", "App could not be restarted!")
         e.printStackTrace()
     }
+}
+
+@Composable
+fun getPluralString(@PluralsRes id: Int, quantity: Int): String {
+    val context = LocalContext.current
+    return context.resources.getQuantityString(id, quantity, quantity)
 }
