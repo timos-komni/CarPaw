@@ -23,6 +23,6 @@ data class Pet(
     }
 
     companion object {
-        const val TABLE_NAME = "Pet"
+        const val TABLE_NAME = "pets"
     }
 }

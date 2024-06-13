@@ -22,10 +22,9 @@ data class User(
     val phoneNumber: String?,
     @SerialName("image_url")
     val imageUrl: String?,
-    val rating: Float,
-    val username: String
+    val rating: Float
 ) {
     companion object {
-        const val TABLE_NAME = "User"
+        const val TABLE_NAME = "users"
     }
 }

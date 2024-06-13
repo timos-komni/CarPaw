@@ -1,27 +1,40 @@
 package com.timkom.carpaw.data.supabase
 
+import android.util.Log
 import com.timkom.carpaw.BuildConfig
 import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.RidePetRelation
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.util.checkIfAnyBlank
+import com.timkom.carpaw.util.createTAGForKClass
+import com.timkom.carpaw.util.multiCatch
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.exceptions.BadRequestRestException
+import io.github.jan.supabase.exceptions.HttpRequestException
+import io.github.jan.supabase.exceptions.RestException
+import io.github.jan.supabase.exceptions.UnknownRestException
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.gotrue.providers.builtin.IDToken
 import io.github.jan.supabase.gotrue.user.UserInfo
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.result.PostgrestResult
 import io.github.jan.supabase.storage.Storage
+import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.util.Digest
 import io.ktor.util.InternalAPI
 import io.ktor.util.build
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import kotlin.jvm.Throws
 
 object SupabaseManager {
+
+    private val TAG = createTAGForKClass(SupabaseManager::class)
 
     val client: SupabaseClient = createSupabaseClient(
         supabaseUrl = BuildConfig.SUPABASE_URL,
@@ -98,7 +111,7 @@ object SupabaseManager {
         return client.from(User.TABLE_NAME)
             .select {
                 filter {
-                    User::username eq username
+                    //User::username eq username
                     /*and {
                         User::password eq pw
                     }*/
@@ -107,28 +120,89 @@ object SupabaseManager {
             }.decodeSingle()
     }
 
+    // TODO remove unnecessary fields (middleName, birthdate)
     suspend fun createUser(
         email: String,
         password: String,
         firstName: String,
-        middleName: String? = null,
+        //middleName: String? = null,
         lastName: String,
-        birthdate: String? = null
+        //birthdate: String? = null
     ): Pair<Boolean, UserInfo?> {
         if (checkIfAnyBlank(email, password, firstName, lastName)) {
             return Pair(false, null)
         }
-        val user = client.auth.signUpWith(Email) {
-            this.email = email
-            this.password = password
-            this.data = buildJsonObject {
-                put("first_name", firstName)
-                middleName?.let { put("middle_name", it) }
-                put("last_name", lastName)
-                birthdate?.let { put("birthdate", it) }
+
+        val user = suspend {
+            client.auth.signUpWith(Email) {
+                this.email = email
+                this.password = password
+                this.data = buildJsonObject {
+                    put("first_name", firstName)
+                    //middleName?.let { put("middle_name", it) }
+                    put("last_name", lastName)
+                    //birthdate?.let { put("birthdate", it) }
+                }
+            }
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during sign-up phase: ${it.message}")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+
+        return Pair(true, user)
+    }
+
+    suspend fun loginUser(
+        email: String,
+        password: String
+    ): UserInfo? {
+        val user = suspend {
+            client.auth.signInWith(Email) {
+                this.email = email
+                this.password = password
+            }
+            client.auth.currentUserOrNull()
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during sign-in phase for user with email ${email}: ${it.message}")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+        return user
+    }
+
+    suspend fun fetchUser(id: String): User? {
+        val result = runCatching {
+            client.from(User.TABLE_NAME).select {
+                filter {
+                    User::id eq id
+                }
             }
         }
-        return Pair(true, user)
+
+        return if (result.isSuccess) {
+            result.getOrNull()?.decodeAs()
+        } else {
+            result.exceptionOrNull()?.let {
+                Log.e(TAG, "Could not retrieve user for ID $id: ${it.message}")
+                it.printStackTrace()
+            }
+            null
+        }
     }
 
 }

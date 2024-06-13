@@ -26,6 +26,6 @@ data class Ride(
     val price: Float
 ) {
     companion object {
-        const val TABLE_NAME = "Ride"
+        const val TABLE_NAME = "rides"
     }
 }

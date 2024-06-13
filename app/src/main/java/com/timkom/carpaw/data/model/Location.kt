@@ -14,6 +14,6 @@ data class Location(
     // ...
 ) {
     companion object {
-        const val TABLE_NAME = "Pet"
+        const val TABLE_NAME = "locations"
     }
 }

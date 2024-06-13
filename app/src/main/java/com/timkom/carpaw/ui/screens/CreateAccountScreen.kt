@@ -1,5 +1,7 @@
 package com.timkom.carpaw.ui.screens
 
+import android.app.AlertDialog
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +26,7 @@ import com.timkom.carpaw.ui.components.GenericTextField
 import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import com.timkom.carpaw.util.checkIfAnyBlank
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -44,8 +47,12 @@ fun CreateAccountScreen(
     var lastName by rememberSaveable {
         mutableStateOf("")
     }
+    var passwordError by rememberSaveable {
+        mutableStateOf(false)
+    }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    val passwordCheck = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}\$".toRegex()
 
     Column(
         modifier = Modifier
@@ -76,34 +83,55 @@ fun CreateAccountScreen(
         ) {
             EmailTextField(value = email, onValueChange = { email = it }, label = "Email")
             Spacer(modifier = Modifier.height(20.dp))
-            PasswordTextField(value = password, onValueChange = { password = it }, label = "Password")
+            PasswordTextField(
+                value = password,
+                onValueChange = {
+                    password = it
+                    passwordError = !passwordCheck.matches(it) && it.isNotEmpty()
+                },
+                label = "Password",
+                isError = passwordError,
+                errorText = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and be at least 8 characters long"
+            )
             Spacer(modifier = Modifier.height(20.dp))
             GenericTextField(value = firstName, onValueChange = { firstName = it }, label = "First Name")
             Spacer(modifier = Modifier.height(20.dp))
             GenericTextField(value = lastName, onValueChange = { lastName = it }, label = "Last Name")
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {
-                coroutineScope.launch {
-                    val result = SupabaseManager.createUser(
-                        email = email,
-                        password = password,
-                        firstName = firstName,
-                        lastName = lastName,
-                    )
-                    if (result.first) {
-                        // TODO
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                context,
-                                "User created",
-                                Toast.LENGTH_LONG
-                            ).show()
+            Button(
+                onClick = {
+                    coroutineScope.launch {
+                        val result = SupabaseManager.createUser(
+                            email = email,
+                            password = password,
+                            firstName = firstName,
+                            lastName = lastName
+                        )
+                        if (result.first) {
+                            withContext(Dispatchers.Main) {
+                                AlertDialog.Builder(context)
+                                    .setCancelable(false)
+                                    .setMessage("Account created successfully!\nPlease confirm your account")
+                                    .setNeutralButton("OK") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .create().show()
+                                // TODO remove
+                                Toast.makeText(
+                                    context,
+                                    "Account created successfully!!!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                // TODO redirect back
+                            }
+                            Log.e("@CreateAccount", result.second.toString())
+                        } else {
+                            Log.e("@CreateAccount", result.second.toString())
                         }
-                    } else {
-                        // TODO mark required fields that are empty as error?!
                     }
-                }
-            }) {
+                },
+                enabled = !checkIfAnyBlank(email, password, firstName, lastName) && !passwordError
+            ) {
                 Text("Create Account")
             }
         }

@@ -106,12 +106,12 @@ fun LoginScreen(
                 Button(
                     onClick = {
                         if (username.isNotBlank() && password.isNotBlank()) {
+                            viewModel.login()
                             coroutineScope.launch {
-                                viewModel.login()
                                 withContext(Dispatchers.Main) {
                                     Toast.makeText(
                                         context,
-                                        loginStatus,
+                                        if (loginStatus) "Login successful" else "Login failed",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }

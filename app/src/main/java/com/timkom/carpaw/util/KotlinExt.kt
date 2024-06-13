@@ -10,7 +10,22 @@ inline fun <R> (() -> R).multiCatch(onCatch: (Throwable) -> R, vararg exceptions
     }
 }
 
+suspend inline fun <R> (suspend () -> R).multiCatch(onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
+    return try {
+        this()
+    } catch (e: Throwable) {
+        if (e::class in exceptions) onCatch(e) else throw e
+    }
+}
+
 inline fun <R> tryMultiCatch(noinline runThis: () -> R, onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
+    return runThis.multiCatch(
+        onCatch,
+        *exceptions
+    )
+}
+
+suspend inline fun <R> tryMultiCatch(noinline runThis: suspend () -> R, onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
     return runThis.multiCatch(
         onCatch,
         *exceptions

@@ -12,6 +12,6 @@ data class RidePetRelation(
     val petId: Long
 ) {
     companion object {
-        const val TABLE_NAME = "RidePetRelation"
+        const val TABLE_NAME = "ride_pet_relations"
     }
 }

@@ -199,7 +199,7 @@ fun SearchResultCardPreview() {
         id = UUID.randomUUID().toString(),
         createdAt = "2024-01-01T10:00:00Z",
         uuid = "123-456-789",
-        username = "olga",
+        //username = "olga",
         //password = "password",
         firstName = "Olga",
         middleName = null,

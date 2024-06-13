@@ -1,14 +1,20 @@
 package com.timkom.carpaw.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.data.supabase.SupabaseManager
+import com.timkom.carpaw.util.checkIfAnyBlank
+import com.timkom.carpaw.util.checkIfAnyEmpty
+import com.timkom.carpaw.util.createTAGForKClass
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     val username = mutableStateOf("")
     val password = mutableStateOf("")
-    val loginStatus = mutableStateOf("")
+    val loginStatus = mutableStateOf(false)
 
     fun onUsernameChange(newUsername: String) {
         username.value = newUsername
@@ -20,11 +26,17 @@ class LoginViewModel : ViewModel() {
 
     fun login() {
         viewModelScope.launch {
-            if (username.value == "test" && password.value == "password") {
-                loginStatus.value = "Login successful"
-            } else {
-                loginStatus.value = "Login failed"
+            Log.e("@${createTAGForKClass(LoginViewModel::class)}", "in-scope")
+            if (!checkIfAnyBlank(username.value, password.value)) {
+                Log.e("@${createTAGForKClass(LoginViewModel::class)}", "in-if")
+                val userInfo = SupabaseManager.loginUser(username.value, password.value)
+                loginStatus.value = userInfo != null
+                userInfo?.let {
+                    val actualUser = SupabaseManager.fetchUser(it.id)
+                    Log.d("@${createTAGForKClass(LoginViewModel::class)}", actualUser.toString())
+                }
             }
+            Log.e("@${createTAGForKClass(LoginViewModel::class)}", "out-scope")
         }
     }
 }
