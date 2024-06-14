@@ -1,5 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -38,10 +39,12 @@ import java.lang.ref.WeakReference
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchRideViewModel = viewModel()
+    viewModel: SearchRideViewModel = viewModel(),
+    onSearchClick: () -> Unit
 
 ) {
     val contentList = searchContentList()
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -104,7 +107,6 @@ fun SearchScreen(
                     selectedInfo = viewModel.selectedAnimalsSummary.value,
                     onClickExpanded = { viewModel.onItemClick(3) },
                     content = {
-                        val context = LocalContext.current
                         CompanionAnimalList(
                             animals = viewModel.animals,
                             mode = AnimalListMode.ADD_REMOVE,
@@ -124,8 +126,13 @@ fun SearchScreen(
                         title = R.string.search_ride__title,
                         icon = Either.Left(Icons.Default.Search)
                     ) {
-                        // TODO
+                        if(viewModel.isFormValid()){
+                            onSearchClick()
+                        }else{
+                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                        }
                     }
+
                 }
 
             }
@@ -141,6 +148,6 @@ fun SearchScreen(
 @Composable
 fun SearchScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        SearchScreen()
+        SearchScreen(onSearchClick ={})
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.timkom.carpaw.ui.screens.AvailableRidesScreen
 import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.CreateRideScreen
 import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
@@ -27,7 +28,12 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
             CreateRideScreen()
         }
         composable(route = BottomNavigationItem.Search.route) {
-            SearchScreen()
+            SearchScreen(onSearchClick = {
+                navController.navigate("available_rides")
+            })
+        }
+        composable(route = "available_rides") {
+           AvailableRidesScreen(onBackClick = { navController.popBackStack() })
         }
         composable(route = BottomNavigationItem.MyRides.route) {
             MyRidesScreen()

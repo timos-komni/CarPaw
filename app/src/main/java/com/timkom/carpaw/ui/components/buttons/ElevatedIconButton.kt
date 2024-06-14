@@ -29,7 +29,7 @@ fun ElevatedIconButton(
     @StringRes title: Int,
     icon: Either<ImageVector, Int>,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: ()-> Unit
 ) {
     ElevatedButton(
         contentPadding = PaddingValues(horizontal =  8.dp, vertical = 4.dp),

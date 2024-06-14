@@ -95,4 +95,12 @@ class SearchRideViewModel : ViewModel() {
         selectedAnimalsSummary.value = animals.filter { it.count > 0 }
             .joinToString(separator = ", ") { "${it.count} ${context.get()?.resources?.getQuantityString(it.animalName, it.count)}" }
     }
+
+    //Checks for empty inputs
+    fun isFormValid(): Boolean {
+        return startSearchText.value.isNotBlank() &&
+                destinationSearchText.value.isNotBlank() &&
+                selectedDate.value.isNotBlank() &&
+                selectedAnimalsSummary.value.isNotBlank()
+    }
 }
