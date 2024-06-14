@@ -205,8 +205,8 @@ fun SearchResultCardPreview() {
         middleName = null,
         lastName = "S.",
         birthdate = "1990-01-01",
-        email = "olga@example.com",
-        phoneNumber = "1234567890",
+        /*email = "olga@example.com",
+        phoneNumber = "1234567890",*/
         rating = 4.5f,
         imageUrl = null
     )

@@ -71,7 +71,7 @@ object SupabaseManager {
         return client.from(User.TABLE_NAME)
             .select {
                 filter {
-                    User::email eq email
+                    //User::email eq email
                     /*and {
                         User::password eq pw
                     }*/
@@ -90,7 +90,7 @@ object SupabaseManager {
         return client.from(User.TABLE_NAME)
             .select {
                 filter {
-                    User::phoneNumber eq phone
+                    //User::phoneNumber eq phone
                     /*and {
                         User::password eq pw
                     }*/
@@ -191,11 +191,12 @@ object SupabaseManager {
                 filter {
                     User::id eq id
                 }
+                limit(1)
             }
         }
 
         return if (result.isSuccess) {
-            result.getOrNull()?.decodeAs()
+            result.getOrNull()?.decodeSingle()
         } else {
             result.exceptionOrNull()?.let {
                 Log.e(TAG, "Could not retrieve user for ID $id: ${it.message}")

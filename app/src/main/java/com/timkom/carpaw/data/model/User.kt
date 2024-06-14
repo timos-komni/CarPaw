@@ -17,9 +17,9 @@ data class User(
     @SerialName("last_name")
     val lastName: String,
     val birthdate: String?,
-    val email: String,
+    /*val email: String,
     @SerialName("phone_number")
-    val phoneNumber: String?,
+    val phoneNumber: String?,*/
     @SerialName("image_url")
     val imageUrl: String?,
     val rating: Float

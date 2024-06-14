@@ -26,9 +26,7 @@ class LoginViewModel : ViewModel() {
 
     fun login() {
         viewModelScope.launch {
-            Log.e("@${createTAGForKClass(LoginViewModel::class)}", "in-scope")
             if (!checkIfAnyBlank(username.value, password.value)) {
-                Log.e("@${createTAGForKClass(LoginViewModel::class)}", "in-if")
                 val userInfo = SupabaseManager.loginUser(username.value, password.value)
                 loginStatus.value = userInfo != null
                 userInfo?.let {
@@ -36,7 +34,6 @@ class LoginViewModel : ViewModel() {
                     Log.d("@${createTAGForKClass(LoginViewModel::class)}", actualUser.toString())
                 }
             }
-            Log.e("@${createTAGForKClass(LoginViewModel::class)}", "out-scope")
         }
     }
 }
