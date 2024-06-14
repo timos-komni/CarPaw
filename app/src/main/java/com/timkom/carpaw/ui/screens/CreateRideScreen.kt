@@ -48,10 +48,11 @@ fun CreateRideScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        PageHeading(
+        // TODO remove
+        /*PageHeading(
             modifier = Modifier,
             title = R.string.create_ride__title
-        )
+        )*/
         LazyColumn(
             contentPadding = PaddingValues(
                 top = 16.dp,

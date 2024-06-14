@@ -20,10 +20,11 @@ fun MyRidesScreen(modifier: Modifier = Modifier){
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
     )  {
-        PageHeading(
+        // TODO remove
+        /*PageHeading(
             Modifier,
             title = R.string.my_rides__title
-        )
+        )*/
     }
 }
 

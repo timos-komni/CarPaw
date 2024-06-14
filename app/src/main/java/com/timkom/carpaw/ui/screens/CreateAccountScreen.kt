@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun CreateAccountScreen(
+    // TODO remove parameter
     onBackClick: () -> Unit = {}
 ) {
     var email by rememberSaveable {
@@ -59,7 +60,8 @@ fun CreateAccountScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Row(modifier = Modifier){
+        // TODO remove
+        /*Row(modifier = Modifier){
             IconButton(onClick = onBackClick) {
                 Icon(
                     Icons.AutoMirrored.Default.ArrowBack,
@@ -72,7 +74,7 @@ fun CreateAccountScreen(
                 Modifier,
                 title = R.string.create_account__title
             )
-        }
+        }*/
 
         Column(
             modifier = Modifier

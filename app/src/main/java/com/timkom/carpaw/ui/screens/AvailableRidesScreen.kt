@@ -23,13 +23,14 @@ fun AvailableRidesScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Row(modifier = Modifier){
+        // TODO remove
+        /*Row(modifier = Modifier){
             ArrowBackButton(onBackClick = onBackClick)
             PageHeading(
                 Modifier,
                 title = R.string.available_rides__title
             )
-        }
+        }*/
 
         Column(
             modifier = Modifier
@@ -38,7 +39,8 @@ fun AvailableRidesScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-             }
+
+        }
     }
 }
 

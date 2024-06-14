@@ -1,10 +1,14 @@
 package com.timkom.carpaw.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.screens.AvailableRidesScreen
 import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.CreateRideScreen
@@ -13,32 +17,43 @@ import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
+import com.timkom.carpaw.ui.viewmodels.MainViewModel
 
 @Composable
-fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel = viewModel()
+) {
     NavHost(
         navController = navController,
         startDestination = BottomNavigationItem.Home.route,
         modifier = modifier
     ) {
         composable(route = BottomNavigationItem.Home.route) {
+            mainViewModel.setAll(stringResource(R.string.app_name))
             HomeScreen()
         }
         composable(route = BottomNavigationItem.CreateRide.route) {
+            mainViewModel.setAll(stringResource(R.string.create_ride__title))
             CreateRideScreen()
         }
         composable(route = BottomNavigationItem.Search.route) {
+            mainViewModel.setAll(stringResource(R.string.search_ride__title))
             SearchScreen(onSearchClick = {
                 navController.navigate("available_rides")
             })
         }
         composable(route = "available_rides") {
-           AvailableRidesScreen(onBackClick = { navController.popBackStack() })
+            mainViewModel.setAll(stringResource(R.string.available_rides__title))
+            AvailableRidesScreen(onBackClick = { navController.popBackStack() })
         }
         composable(route = BottomNavigationItem.MyRides.route) {
+            mainViewModel.setAll(stringResource(R.string.my_rides__title))
             MyRidesScreen()
         }
         composable(route = BottomNavigationItem.Profile.route) {
+            mainViewModel.setAll("Login")
             LoginScreen(onCreateAccountClick = {
                 navController.navigate("create_account")
             }, onForgotPasswordClick = {
@@ -46,12 +61,18 @@ fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifi
             })
         }
         composable(route = "create_account") {
-            CreateAccountScreen(onBackClick = { navController.popBackStack() })
+            mainViewModel.setAll(stringResource(R.string.create_account__title)) {
+                navController.popBackStack()
+            }
+            CreateAccountScreen(/*TODO remove*//*onBackClick = { navController.popBackStack() }*/)
         }
         composable(route = "forgot_password") {
-            ForgotPasswordScreen(onBackClick = {
+            mainViewModel.setAll(stringResource(R.string.forgot_password__title)) {
                 navController.popBackStack()
-            })
+            }
+            ForgotPasswordScreen(/*TODO remove*//*onBackClick = {
+                navController.popBackStack()
+            }*/)
         }
 
     }

@@ -41,7 +41,6 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchRideViewModel = viewModel(),
     onSearchClick: () -> Unit
-
 ) {
     val contentList = searchContentList()
     val context = LocalContext.current
@@ -51,10 +50,11 @@ fun SearchScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        PageHeading(
+        // TODO remove
+        /*PageHeading(
             modifier = Modifier,
             title = R.string.search_ride__title
-        )
+        )*/
         LazyColumn(
             contentPadding = PaddingValues(
                 top = 16.dp,
@@ -69,7 +69,7 @@ fun SearchScreen(
                     expanded = viewModel.expandedItem.intValue == content.id,
                     //TODO check this
                     selectedInfo = when(content.id) {
-                        0 -> viewModel. startSearchText.value
+                        0 -> viewModel.startSearchText.value
                         1 -> viewModel.destinationSearchText.value
                         else -> ""
                     },
@@ -126,9 +126,9 @@ fun SearchScreen(
                         title = R.string.search_ride__title,
                         icon = Either.Left(Icons.Default.Search)
                     ) {
-                        if(viewModel.isFormValid()){
+                        if (viewModel.isFormValid()) {
                             onSearchClick()
-                        }else{
+                        } else {
                             Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
                         }
                     }

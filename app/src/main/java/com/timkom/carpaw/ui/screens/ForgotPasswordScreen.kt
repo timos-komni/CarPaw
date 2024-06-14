@@ -17,6 +17,7 @@ import com.timkom.carpaw.ui.theme.CarPawTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordScreen(
+    // TODO remove parameter
     onBackClick: () -> Unit = {}
 ) {
     Column(
@@ -24,7 +25,8 @@ fun ForgotPasswordScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Row(modifier = Modifier){
+        // TODO remove
+        /*Row(modifier = Modifier){
             IconButton(onClick = onBackClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_back),
@@ -37,7 +39,7 @@ fun ForgotPasswordScreen(
                 Modifier,
                 title = R.string.forgot_password__title
             )
-        }
+        }*/
 
         Column(
             modifier = Modifier
