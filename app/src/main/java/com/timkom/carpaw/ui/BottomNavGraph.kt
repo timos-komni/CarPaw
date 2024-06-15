@@ -37,27 +37,7 @@ fun BottomNavGraph(
     ) {
         composable(route = BottomNavigationItem.Home.route) {
             mainViewModel.setAll(
-                screenTitle = stringResource(R.string.app_name),
-                actions = {
-                    if (!mainViewModel.userIsConnected.value) {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "Login",
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                    } else {
-                        // TODO customize it -> user is connected
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(
-                                imageVector = Icons.Default.AccountCircle,
-                                contentDescription = "Profile",
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                    }
-                }
+                screenTitle = stringResource(R.string.app_name)
             )
             HomeScreen()
         }
@@ -72,9 +52,10 @@ fun BottomNavGraph(
             })
         }
         composable(route = "available_rides") {
-            mainViewModel.setAll(stringResource(R.string.available_rides__title)) {
-                navController.popBackStack()
-            }
+            mainViewModel.setAll(
+                screenTitle = stringResource(R.string.available_rides__title),
+                onBackButton = { navController.popBackStack() }
+            )
             AvailableRidesScreen(/*onBackClick = { navController.popBackStack() }*/)
         }
         composable(route = BottomNavigationItem.MyRides.route) {
