@@ -12,14 +12,9 @@ data class User(
     val uuid: String,
     @SerialName("first_name")
     val firstName: String,
-    @SerialName("middle_name")
-    val middleName: String?,
     @SerialName("last_name")
     val lastName: String,
     val birthdate: String?,
-    /*val email: String,
-    @SerialName("phone_number")
-    val phoneNumber: String?,*/
     @SerialName("image_url")
     val imageUrl: String?,
     val rating: Float

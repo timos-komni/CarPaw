@@ -45,8 +45,10 @@ fun BottomNavGraph(
             })
         }
         composable(route = "available_rides") {
-            mainViewModel.setAll(stringResource(R.string.available_rides__title))
-            AvailableRidesScreen(onBackClick = { navController.popBackStack() })
+            mainViewModel.setAll(stringResource(R.string.available_rides__title)) {
+                navController.popBackStack()
+            }
+            AvailableRidesScreen(/*onBackClick = { navController.popBackStack() }*/)
         }
         composable(route = BottomNavigationItem.MyRides.route) {
             mainViewModel.setAll(stringResource(R.string.my_rides__title))

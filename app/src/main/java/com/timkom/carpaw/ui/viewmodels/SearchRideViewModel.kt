@@ -53,11 +53,13 @@ class SearchRideViewModel : ViewModel() {
             SearchContentType.STARTING_POINT -> {
                 items.add(startSearchText.value)
                 isStartSearchActive.value = false
+                // TODO (Chloe)
                 startSearchText.value = ""
             }
             SearchContentType.DESTINATION -> {
                 items.add(destinationSearchText.value)
                 isDestinationActive.value = false
+                // TODO (Chloe)
                 destinationSearchText.value = ""
             }
         }
