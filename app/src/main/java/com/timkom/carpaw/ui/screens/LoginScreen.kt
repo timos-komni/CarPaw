@@ -56,7 +56,7 @@ fun LoginScreen(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+       ) {
             Image(
                 painter = painterResource(id = R.drawable.logo), // Replace with your image
                 contentDescription = null,
@@ -172,7 +172,7 @@ fun LoginScreen(
                         .clickable { onCreateAccountClick() }
                 )
             }
-        }
+       }
     }
 }
 

@@ -1,6 +1,5 @@
 package com.timkom.carpaw.data.model
 
-import android.media.Image
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -1,4 +1,4 @@
-package com.timkom.carpaw.ui
+package com.timkom.carpaw.ui.data
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons

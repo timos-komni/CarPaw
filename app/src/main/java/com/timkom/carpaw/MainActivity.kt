@@ -2,33 +2,30 @@ package com.timkom.carpaw
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,15 +34,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
-import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.BottomNavGraph
-import com.timkom.carpaw.ui.BottomNavigationItem
-import com.timkom.carpaw.ui.components.BottomNavigationBar
+import com.timkom.carpaw.ui.FullScreenDialog
+import com.timkom.carpaw.ui.LoginNavGraph
+import com.timkom.carpaw.ui.SimpleFullScreenDialog
+import com.timkom.carpaw.ui.components.buttons.ArrowBackButton
+import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 import com.timkom.carpaw.util.Either
@@ -60,13 +60,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             CarPawTheme(dynamicColor = false) {
                 val mainViewModel: MainViewModel = viewModel()
-                // TODO remove
-                /*Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    BottomNavigationBar()
-                }*/
                 var navigationSelectedItem by rememberSaveable {
                     mutableIntStateOf(0)
                 }
@@ -75,6 +68,12 @@ class MainActivity : ComponentActivity() {
                 val onBackButton: (() -> Unit)? by mainViewModel.onBackButton
                 val actions: (@Composable () -> Unit)? by mainViewModel.actions
                 val shouldHaveProfileAction: Boolean by mainViewModel.shouldHaveProfileAction
+                var showLoginDialog by rememberSaveable {
+                    mutableStateOf(false)
+                }
+                var showProfileDialog by rememberSaveable {
+                    mutableStateOf(false)
+                }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -82,7 +81,9 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(
                                     text = screenTitle,
-                                    fontFamily = FontFamily(Font(R.font.outfit_medium))
+                                    fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             },
                             colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -91,14 +92,7 @@ class MainActivity : ComponentActivity() {
                             ),
                             navigationIcon = {
                                 onBackButton?.let {
-                                    IconButton(onClick = it) {
-                                        Icon(
-                                            Icons.AutoMirrored.Default.ArrowBack,
-                                            contentDescription = "Back",
-                                            tint = MaterialTheme.colorScheme.primary,
-                                            modifier = Modifier.size(32.dp)
-                                        )
-                                    }
+                                    ArrowBackButton(onClick = it)
                                 }
                             },
                             actions = {
@@ -106,7 +100,12 @@ class MainActivity : ComponentActivity() {
                                 // Should be the last action
                                 if (shouldHaveProfileAction) {
                                     if (!mainViewModel.userIsConnected.value) {
-                                        IconButton(onClick = { /*TODO*/ }) {
+                                        IconButton(
+                                            onClick = { showLoginDialog = true },
+                                            colors = IconButtonDefaults.iconButtonColors().copy(
+                                                contentColor = MaterialTheme.colorScheme.primary
+                                            )
+                                        ) {
                                             Icon(
                                                 imageVector = Icons.Default.AccountCircle,
                                                 contentDescription = "Login",
@@ -115,7 +114,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     } else {
                                         // TODO customize it -> user is connected
-                                        IconButton(onClick = { /*TODO*/ }) {
+                                        IconButton(onClick = { showProfileDialog = true }) {
                                             Icon(
                                                 imageVector = Icons.Default.AccountCircle,
                                                 contentDescription = "Profile",
@@ -133,7 +132,7 @@ class MainActivity : ComponentActivity() {
                             BottomNavigationItem.Search,
                             BottomNavigationItem.CreateRide,
                             BottomNavigationItem.MyRides,
-                            BottomNavigationItem.Profile,
+                            //BottomNavigationItem.Profile,
                         )
                         NavigationBar {
                             navItems.forEachIndexed { index, bottomNavigationItem ->
@@ -180,6 +179,19 @@ class MainActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center
                     ) {
                         BottomNavGraph(navController = navController)
+                    }
+                }
+
+                if (showLoginDialog) {
+                    FullScreenDialog(onDismissRequest = { showLoginDialog = false }) {
+                        val loginNavController = rememberNavController()
+                        LoginNavGraph(navController = loginNavController)
+                    }
+                }
+                
+                if (showProfileDialog) {
+                    SimpleFullScreenDialog(onDismissRequest = { showProfileDialog = false }) {
+                        
                     }
                 }
             }

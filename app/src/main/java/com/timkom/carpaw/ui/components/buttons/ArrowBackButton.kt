@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ArrowBackButton(onBackClick: () -> Unit, modifier: Modifier = Modifier) {
-    IconButton(onClick = onBackClick, modifier = modifier) {
+fun ArrowBackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    IconButton(onClick = onClick, modifier = modifier) {
         Icon(
             Icons.AutoMirrored.Default.ArrowBack,
             contentDescription = "Back",

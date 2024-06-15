@@ -19,7 +19,12 @@ class MainViewModel: ViewModel() {
      * no back-button is shown.
      * @param shouldHaveProfileAction If `true` the profile (or login) action is added
      */
-    fun setAll(screenTitle: String = "", actions: (@Composable () -> Unit)? = null, onBackButton: (() -> Unit)? = null, shouldHaveProfileAction: Boolean = true) {
+    fun setAll(
+        screenTitle: String = "",
+        actions: (@Composable () -> Unit)? = null,
+        onBackButton: (() -> Unit)? = null,
+        shouldHaveProfileAction: Boolean = true
+    ) {
         this.screenTitle.value = screenTitle
         this.actions.value = actions
         this.onBackButton.value = onBackButton
