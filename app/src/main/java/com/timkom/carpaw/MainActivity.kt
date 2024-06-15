@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val screenTitle: String by mainViewModel.screenTitle
                 val onBackButton: (() -> Unit)? by mainViewModel.onBackButton
+                val actions: (@Composable () -> Unit)? by mainViewModel.actions
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
@@ -95,7 +97,8 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
-                            }
+                            },
+                            actions = { actions?.invoke() }
                         )
                     },
                     bottomBar = {

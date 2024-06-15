@@ -1,9 +1,14 @@
 package com.timkom.carpaw.ui
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -31,7 +36,29 @@ fun BottomNavGraph(
         modifier = modifier
     ) {
         composable(route = BottomNavigationItem.Home.route) {
-            mainViewModel.setAll(stringResource(R.string.app_name))
+            mainViewModel.setAll(
+                screenTitle = stringResource(R.string.app_name),
+                actions = {
+                    if (!mainViewModel.userIsConnected.value) {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Login",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    } else {
+                        // TODO customize it -> user is connected
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = "Profile",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
+                }
+            )
             HomeScreen()
         }
         composable(route = BottomNavigationItem.CreateRide.route) {
@@ -63,15 +90,17 @@ fun BottomNavGraph(
             })
         }
         composable(route = "create_account") {
-            mainViewModel.setAll(stringResource(R.string.create_account__title)) {
-                navController.popBackStack()
-            }
+            mainViewModel.setAll(
+                screenTitle = stringResource(R.string.create_account__title),
+                onBackButton = { navController.popBackStack() }
+            )
             CreateAccountScreen(/*TODO remove*//*onBackClick = { navController.popBackStack() }*/)
         }
         composable(route = "forgot_password") {
-            mainViewModel.setAll(stringResource(R.string.forgot_password__title)) {
-                navController.popBackStack()
-            }
+            mainViewModel.setAll(
+                screenTitle = stringResource(R.string.forgot_password__title),
+                onBackButton = { navController.popBackStack() }
+            )
             ForgotPasswordScreen(/*TODO remove*//*onBackClick = {
                 navController.popBackStack()
             }*/)

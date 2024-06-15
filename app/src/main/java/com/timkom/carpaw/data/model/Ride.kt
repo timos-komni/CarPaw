@@ -22,9 +22,16 @@ data class Ride(
     /**
      * TODO Make it an enum
      */
-    val status: String,
+    val status: Status,
     val price: Float
 ) {
+
+    enum class Status {
+        Scheduled,
+        Ongoing,
+        Completed
+    }
+
     companion object {
         const val TABLE_NAME = "rides"
     }

@@ -189,7 +189,7 @@ fun SearchResultCardPreview() {
         start = "Thessaloniki",
         destination = "Ioannina",
         date = "2024-06-10",
-        status = "Scheduled",
+        status = Ride.Status.Scheduled,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
         price = 20.0f
@@ -202,7 +202,7 @@ fun SearchResultCardPreview() {
         //username = "olga",
         //password = "password",
         firstName = "Olga",
-        middleName = null,
+        //middleName = null,
         lastName = "S.",
         birthdate = "1990-01-01",
         /*email = "olga@example.com",
