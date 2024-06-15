@@ -1,6 +1,5 @@
-/*import java.io.FileInputStream
+import java.io.FileInputStream
 import java.util.Properties
-import com.android.build.api.variant.BuildConfigField*/
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,8 +8,36 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+
+val keystoreProperties = Properties()
+
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 android {
     namespace = "com.timkom.carpaw"
+
+    signingConfigs {
+        /*create("debug") {
+            keyAlias = keystoreProperties["debugKeyAlias"].toString()
+            keyPassword = keystoreProperties["debugKeyPassword"].toString()
+            storeFile = file(keystoreProperties["debugKeyPassword"].toString())
+            storePassword = keystoreProperties["debugStorePassword"].toString()
+        }*/
+        create("debug2") {
+            keyAlias = keystoreProperties["debugKeyAlias"].toString()
+            keyPassword = keystoreProperties["debugKeyPassword"].toString()
+            storeFile = file(keystoreProperties["debugKeyPassword"].toString())
+            storePassword = keystoreProperties["debugStorePassword"].toString()
+        }
+        create("release") {
+            keyAlias = keystoreProperties["releaseKeyAlias"].toString()
+            keyPassword = keystoreProperties["releaseKeyPassword"].toString()
+            storeFile = file(keystoreProperties["releaseKeyPassword"].toString())
+            storePassword = keystoreProperties["releaseStorePassword"].toString()
+        }
+    }
+
     compileSdk = 34
 
     defaultConfig {
@@ -24,11 +51,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        /*val serverProperties = Properties()
-        serverProperties.load(FileInputStream(rootProject.file("server.properties")))
-        buildConfigField("String", "SUPABASE_URL", "\"${serverProperties.getProperty("SUPABASE_URL")}\"")
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${serverProperties.getProperty("SUPABASE_ANON_KEY")}\"")*/
     }
 
     buildTypes {
@@ -39,6 +61,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs["release"]
+        }
+        debug {
+            signingConfig = signingConfigs["debug2"]
         }
     }
     compileOptions {
