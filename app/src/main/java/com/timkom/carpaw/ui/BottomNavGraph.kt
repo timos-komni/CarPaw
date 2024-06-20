@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,7 +36,30 @@ fun BottomNavGraph(
             mainViewModel.setAll(
                 screenTitle = stringResource(R.string.app_name)
             )
-            HomeScreen()
+            HomeScreen(
+                onCreateARideClick = {
+                    navController.navigate(BottomNavigationItem.CreateRide.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    // TODO Κακή λύση, αλλά δεν μπόρεσα να σκεφτώ κάτι άλλο
+                    mainViewModel.navigationSelectedItem.intValue = 2
+                },
+                onSearchForARideClick = {
+                    navController.navigate(BottomNavigationItem.CreateRide.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    // TODO Κακή λύση, αλλά δεν μπόρεσα να σκεφτώ κάτι άλλο
+                    mainViewModel.navigationSelectedItem.intValue = 3
+                }
+            )
         }
         composable(route = BottomNavigationItem.CreateRide.route) {
             mainViewModel.setAll(stringResource(R.string.create_ride__title))

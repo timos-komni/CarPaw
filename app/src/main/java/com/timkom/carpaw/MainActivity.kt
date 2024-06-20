@@ -63,9 +63,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CarPawTheme(dynamicColor = false) {
                 val mainViewModel: MainViewModel = viewModel()
-                var navigationSelectedItem by rememberSaveable {
-                    mutableIntStateOf(0)
-                }
+                var navigationSelectedItem by mainViewModel.navigationSelectedItem
                 val navController = rememberNavController()
                 val screenTitle: String by mainViewModel.screenTitle
                 val onBackButton: (() -> Unit)? by mainViewModel.onBackButton

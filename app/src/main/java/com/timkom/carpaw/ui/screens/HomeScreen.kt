@@ -16,16 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.cards.HeroCard
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
 import com.timkom.carpaw.ui.content.ListInfoContent
+import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.Either
 
 @Composable
 fun HomeScreen(
+    onCreateARideClick: () -> Unit,
+    onSearchForARideClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -64,10 +68,9 @@ fun HomeScreen(
         ) {
             ElevatedIconButton(
                 title = R.string.create_ride__title,
-                icon = Either.Left(Icons.Default.Add)
-            ) {
-                // TODO
-            }
+                icon = Either.Left(Icons.Default.Add),
+                onClick = onCreateARideClick
+            )
         }
         ListInfoContent(
             specs = listOf(
@@ -98,10 +101,9 @@ fun HomeScreen(
         ){
             ElevatedIconButton(
                 title = R.string.search_ride__title,
-                icon = Either.Right(R.drawable.search)
-            ) {
-                // TODO
-            }
+                icon = Either.Right(R.drawable.search),
+                onClick = onSearchForARideClick
+            )
         }
 
     }
@@ -113,6 +115,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        HomeScreen()
+        HomeScreen({}, {})
     }
 }

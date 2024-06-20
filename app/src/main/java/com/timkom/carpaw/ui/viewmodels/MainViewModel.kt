@@ -1,6 +1,7 @@
 package com.timkom.carpaw.ui.viewmodels
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
@@ -11,6 +12,7 @@ class MainViewModel: ViewModel() {
     var shouldHaveProfileAction = mutableStateOf(true)
     var userIsConnected = mutableStateOf(false)
     var showLoginDialog = mutableStateOf(false)
+    var navigationSelectedItem = mutableIntStateOf(0)
 
     /**
      * Sets all (actually most) the [MainViewModel] properties to the supplied values (or their defaults).
