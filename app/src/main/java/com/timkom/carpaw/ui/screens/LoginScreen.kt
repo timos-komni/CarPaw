@@ -48,7 +48,8 @@ import kotlinx.coroutines.withContext
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(),
     onCreateAccountClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit
+    onForgotPasswordClick: () -> Unit,
+    onUserLogin: () -> Unit
 ) {
     val username by viewModel.username
     val password by viewModel.password
@@ -125,14 +126,18 @@ fun LoginScreen(
                         title = R.string.login_card__login_button__text,
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
-                                viewModel.login()
                                 coroutineScope.launch {
+                                    val loginJob = viewModel.login()
+                                    loginJob.join() // wait for the login coroutine
                                     withContext(Dispatchers.Main) {
                                         Toast.makeText(
                                             context,
                                             if (loginStatus) "Login successful" else "Login failed",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        if (loginStatus) {
+                                            onUserLogin.invoke()
+                                        }
                                     }
                                 }
                             } else {
@@ -193,6 +198,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        LoginScreen(onCreateAccountClick = {}, onForgotPasswordClick = {})
+        LoginScreen(onCreateAccountClick = {}, onForgotPasswordClick = {}, onUserLogin = {})
     }
 }

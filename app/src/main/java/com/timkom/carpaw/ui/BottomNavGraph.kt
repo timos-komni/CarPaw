@@ -14,7 +14,6 @@ import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.CreateRideScreen
 import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
-import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
 import com.timkom.carpaw.ui.screens.PreLoginCreateRideScreen
 import com.timkom.carpaw.ui.screens.PreLoginMyRidesScreen
@@ -67,14 +66,14 @@ fun BottomNavGraph(
                 PreLoginMyRidesScreen(mainViewModel = mainViewModel)
             }
         }
-        composable(route = BottomNavigationItem.Profile.route) {
+        /*composable(route = BottomNavigationItem.Profile.route) {
             mainViewModel.setAll("Login")
             LoginScreen(onCreateAccountClick = {
                 navController.navigate("create_account")
             }, onForgotPasswordClick = {
                 navController.navigate("forgot_password")
             })
-        }
+        }*/
         composable(route = "create_account") {
             mainViewModel.setAll(
                 screenTitle = stringResource(R.string.create_account__title),

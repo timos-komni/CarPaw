@@ -4,11 +4,10 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.util.checkIfAnyBlank
-import com.timkom.carpaw.util.checkIfAnyEmpty
 import com.timkom.carpaw.util.createTAGForKClass
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -24,8 +23,8 @@ class LoginViewModel : ViewModel() {
         password.value = newPassword
     }
 
-    fun login() {
-        viewModelScope.launch {
+    suspend fun login(): Job {
+        return viewModelScope.launch {
             if (!checkIfAnyBlank(username.value, password.value)) {
                 val userInfo = SupabaseManager.loginUser(username.value, password.value)
                 loginStatus.value = userInfo != null

@@ -12,12 +12,14 @@ import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.viewmodels.FullScreenDialogViewModel
+import com.timkom.carpaw.ui.viewmodels.MainViewModel
 
 @Composable
 fun LoginNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    dialogViewModel: FullScreenDialogViewModel = viewModel()
+    dialogViewModel: FullScreenDialogViewModel = viewModel(),
+    mainViewModel: MainViewModel = viewModel()
 ) {
     NavHost(
         navController = navController,
@@ -30,6 +32,9 @@ fun LoginNavGraph(
                 navController.navigate("create_account")
             }, onForgotPasswordClick = {
                 navController.navigate("forgot_password")
+            }, onUserLogin = {
+                dialogViewModel.shouldDismiss.value = true
+                mainViewModel.userIsConnected.value = true
             })
         }
         composable(route = "create_account") {

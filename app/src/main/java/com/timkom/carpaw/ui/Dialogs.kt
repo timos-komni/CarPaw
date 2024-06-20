@@ -160,5 +160,8 @@ fun FullScreenDialog(
                 content.invoke()
             }
         }
+        if (dialogViewModel.shouldDismiss.value) {
+            onDismissRequest.invoke()
+        }
     }
 }

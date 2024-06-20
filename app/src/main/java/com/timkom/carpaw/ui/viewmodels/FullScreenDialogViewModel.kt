@@ -8,6 +8,7 @@ class FullScreenDialogViewModel: ViewModel() {
     var title = mutableStateOf("")
     var onBackButton = mutableStateOf<(() -> Unit)?>(null)
     var actions = mutableStateOf<(@Composable () -> Unit)?>(null)
+    var shouldDismiss = mutableStateOf(false)
 
     /**
      * Sets all the [FullScreenDialogViewModel] properties to the supplied values (or their defaults).
