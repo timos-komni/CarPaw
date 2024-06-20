@@ -69,6 +69,7 @@ class MainActivity : ComponentActivity() {
                 val onBackButton: (() -> Unit)? by mainViewModel.onBackButton
                 val actions: (@Composable () -> Unit)? by mainViewModel.actions
                 val shouldHaveProfileAction: Boolean by mainViewModel.shouldHaveProfileAction
+                var userIsConnected: Boolean by mainViewModel.userIsConnected
                 var showLoginDialog : Boolean by mainViewModel.showLoginDialog
                 var showProfileDialog by rememberSaveable {
                     mutableStateOf(false)
@@ -77,6 +78,12 @@ class MainActivity : ComponentActivity() {
                 //detect the current orientation
                 val configuration = LocalConfiguration.current
                 val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+
+                // if MainViewModel says that the user is not connected
+                // check if the actual user instance is null
+                if (!userIsConnected) {
+                    userIsConnected = GlobalData.user != null
+                }
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -105,7 +112,7 @@ class MainActivity : ComponentActivity() {
                                     actions?.invoke()
                                     // Should be the last action
                                     if (shouldHaveProfileAction) {
-                                        if (!mainViewModel.userIsConnected.value) {
+                                        if (!userIsConnected) {
                                             IconButton(
                                                 onClick = { showLoginDialog = true },
                                                 colors = IconButtonDefaults.iconButtonColors().copy(

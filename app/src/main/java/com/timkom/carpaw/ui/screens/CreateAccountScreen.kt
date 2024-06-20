@@ -37,8 +37,7 @@ import kotlinx.coroutines.withContext
 @SuppressLint("SuspiciousIndentation")
 @Composable
 fun CreateAccountScreen(
-    // TODO remove parameter
-    onBackClick: () -> Unit = {}
+    onAccountCreation: () -> Unit = {}
 ) {
     var email by rememberSaveable {
         mutableStateOf("")
@@ -101,21 +100,23 @@ fun CreateAccountScreen(
                                     .setCancelable(false)
                                     .setMessage("Account created successfully!\nPlease confirm your account")
                                     .setNeutralButton("OK") { dialog, _ ->
+                                        onAccountCreation.invoke()
                                         dialog.dismiss()
                                     }
                                     .create().show()
-                                // TODO remove
-                                Toast.makeText(
-                                    context,
-                                    "Account created successfully!!!",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                // TODO redirect back
                             }
-                            Log.e("@CreateAccount", result.second.toString())
                         } else {
-                            Log.e("@CreateAccount", result.second.toString())
+                            withContext(Dispatchers.Main) {
+                                AlertDialog.Builder(context)
+                                    .setCancelable(false)
+                                    .setMessage("Account could not be created!!")
+                                    .setNeutralButton("OK") { dialog, _ ->
+                                        dialog.dismiss()
+                                    }
+                                    .create().show()
+                            }
                         }
+                        Log.d("@CreateAccount", result.second.toString())
                     }
                 },
                 enabled = !checkIfAnyBlank(email, password, firstName, lastName) && !passwordError
@@ -130,7 +131,7 @@ fun CreateAccountScreen(
 @Composable
 fun CreateAccountScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        CreateAccountScreen(onBackClick = {})
+        CreateAccountScreen()
     }
 }
 

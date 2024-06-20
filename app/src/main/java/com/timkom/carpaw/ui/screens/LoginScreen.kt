@@ -1,5 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
+import android.app.AlertDialog
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
@@ -127,16 +129,25 @@ fun LoginScreen(
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
                                 coroutineScope.launch {
-                                    val loginJob = viewModel.login()
-                                    loginJob.join() // wait for the login coroutine
+                                    val user = viewModel.login().await() // wait for the login coroutine
+                                    val userIsConfirmed = user != null && loginStatus
+                                    GlobalData.user = if (userIsConfirmed) user else null
                                     withContext(Dispatchers.Main) {
                                         Toast.makeText(
                                             context,
-                                            if (loginStatus) "Login successful" else "Login failed",
+                                            if (userIsConfirmed) "Login successful" else "Login failed",
                                             Toast.LENGTH_SHORT
                                         ).show()
-                                        if (loginStatus) {
+                                        if (userIsConfirmed) {
                                             onUserLogin.invoke()
+                                        } else {
+                                            AlertDialog.Builder(context)
+                                                .setCancelable(false)
+                                                .setMessage("Confirm your account before login!")
+                                                .setNeutralButton("OK") { dialog, _ ->
+                                                    dialog.dismiss()
+                                                }
+                                                .create().show()
                                         }
                                     }
                                 }

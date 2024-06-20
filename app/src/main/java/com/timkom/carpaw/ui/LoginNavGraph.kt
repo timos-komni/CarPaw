@@ -42,7 +42,9 @@ fun LoginNavGraph(
                 title = stringResource(R.string.create_account__title),
                 onBackButton = { navController.popBackStack() }
             )
-            CreateAccountScreen()
+            CreateAccountScreen {
+                navController.popBackStack()
+            }
         }
         composable(route = "forgot_password") {
             dialogViewModel.setAll(
