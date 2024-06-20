@@ -68,9 +68,7 @@ class MainActivity : ComponentActivity() {
                 val onBackButton: (() -> Unit)? by mainViewModel.onBackButton
                 val actions: (@Composable () -> Unit)? by mainViewModel.actions
                 val shouldHaveProfileAction: Boolean by mainViewModel.shouldHaveProfileAction
-                var showLoginDialog by rememberSaveable {
-                    mutableStateOf(false)
-                }
+                var showLoginDialog : Boolean by mainViewModel.showLoginDialog
                 var showProfileDialog by rememberSaveable {
                     mutableStateOf(false)
                 }

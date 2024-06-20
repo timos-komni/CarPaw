@@ -61,10 +61,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs["release"]
+            //signingConfig = signingConfigs["release"]
         }
         debug {
-            signingConfig = signingConfigs["debug2"]
+           // signingConfig = signingConfigs["debug2"]
         }
     }
     compileOptions {

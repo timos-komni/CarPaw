@@ -29,6 +29,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
+import com.timkom.carpaw.ui.components.ThemedImage
+import com.timkom.carpaw.ui.components.buttons.ColoredButton
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.LoginViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,17 +59,14 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
        ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo), // Replace with your image
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-            )
+           ThemedImage(
+               lightImage = painterResource(id = R.drawable.city_driver_decor_foreground),
+               darkImage = painterResource(id = R.drawable.city_driver_dark_decor_foreground),
+               modifier = Modifier.size(300.dp)
+           )
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                   // .weight(1f)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -103,7 +102,8 @@ fun LoginScreen(
                         .clickable {onForgotPasswordClick()}
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(
+                ColoredButton(
+                    title = R.string.login_card__login_button__text,
                     onClick = {
                         if (username.isNotBlank() && password.isNotBlank()) {
                             viewModel.login()
@@ -124,13 +124,7 @@ fun LoginScreen(
                             ).show()
                         }
                     },
-                    colors = ButtonDefaults.buttonColors().copy(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = stringResource(R.string.login_card__login_button__text))
-                }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(R.string.login_card__no_account_prompt__text),
@@ -160,7 +154,7 @@ fun LoginScreen(
                         fontWeight = FontWeight(400),
                         color = MaterialTheme.colorScheme.primary,
                         letterSpacing = 0.25.sp,
-                        textDecoration = TextDecoration.Underline,
+                        //textDecoration = TextDecoration.Underline,
                     ),
                     modifier = Modifier
                         .padding(

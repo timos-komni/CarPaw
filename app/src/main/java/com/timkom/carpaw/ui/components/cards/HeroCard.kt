@@ -57,7 +57,7 @@ fun HeroCard(
                 textAlign = TextAlign.Center,
                 lineHeight = 1.4.em,
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = 22.sp,
                     fontFamily = FontFamily(Font(R.font.outfit_semibold)),
                     letterSpacing = 0.15.sp),
                 modifier = Modifier

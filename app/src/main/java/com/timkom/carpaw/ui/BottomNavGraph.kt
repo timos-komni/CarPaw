@@ -16,6 +16,7 @@ import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
 import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
+import com.timkom.carpaw.ui.screens.PreLoginMyRidesScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 
@@ -39,6 +40,7 @@ fun BottomNavGraph(
         composable(route = BottomNavigationItem.CreateRide.route) {
             mainViewModel.setAll(stringResource(R.string.create_ride__title))
             CreateRideScreen()
+            //PreLoginCreateRideScreen(navController = navController)
         }
         composable(route = BottomNavigationItem.Search.route) {
             mainViewModel.setAll(stringResource(R.string.search_ride__title))
@@ -55,7 +57,11 @@ fun BottomNavGraph(
         }
         composable(route = BottomNavigationItem.MyRides.route) {
             mainViewModel.setAll(stringResource(R.string.my_rides__title))
-            MyRidesScreen()
+            if (mainViewModel.userIsConnected.value) {
+                MyRidesScreen()
+            } else {
+                PreLoginMyRidesScreen(mainViewModel = mainViewModel)
+            }
         }
         composable(route = BottomNavigationItem.Profile.route) {
             mainViewModel.setAll("Login")

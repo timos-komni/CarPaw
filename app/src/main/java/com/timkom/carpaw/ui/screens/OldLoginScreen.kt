@@ -270,7 +270,7 @@ fun LoginCard(modifier: Modifier = Modifier) {
                     fontWeight = FontWeight(400),
                     color = MaterialTheme.colorScheme.primary,
                     letterSpacing = 0.25.sp,
-                    textDecoration = TextDecoration.Underline,
+                    //extDecoration = TextDecoration.Underline,
                 ),
                 modifier = modifier
                     .padding(

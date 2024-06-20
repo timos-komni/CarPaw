@@ -32,6 +32,8 @@
     <string name="available_rides__title">Available Rides</string>
     <string name="create_account__title">Create Account</string>
     <string name="forgot_password__title">Forgot Password</string>
+    <string name="pre_login_create_ride__title">Create a Ride</string>
+    <string name="pre_login_my_rides__title">My Rides</string>
 
     <!--Create/Search Ride Screen-->
     <string name="leaving_from__title">Leaving from…</string>
@@ -71,6 +73,7 @@
 
     <!--Buttons-->
     <string name="view_details__button">View Details</string>
+    <string name="login__button">Login</string>
 
     <!--LoginScreen-->
     <string name="login_card__title__text">Welcome to your CarPaw account</string>
@@ -82,4 +85,7 @@
     <string name="login_card__no_account_prompt__text">Don\'t have an account yet?</string>
     <string name="login_card__create_account__text">Create Account</string>
 
+    <!--Pre Login MyRideScreen-->
+    <string name="login__my_rides_text">Log in to your account</string>
+    <string name="my_rides_descr__text">Log in to see all your rides and manage them.</string>
 </resources>

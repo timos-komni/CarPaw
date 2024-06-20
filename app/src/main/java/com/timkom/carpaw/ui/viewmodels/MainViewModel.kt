@@ -10,6 +10,7 @@ class MainViewModel: ViewModel() {
     var actions = mutableStateOf<(@Composable () -> Unit)?>(null)
     var shouldHaveProfileAction = mutableStateOf(true)
     var userIsConnected = mutableStateOf(false)
+    var showLoginDialog = mutableStateOf(false)
 
     /**
      * Sets all (actually most) the [MainViewModel] properties to the supplied values (or their defaults).
@@ -29,5 +30,9 @@ class MainViewModel: ViewModel() {
         this.actions.value = actions
         this.onBackButton.value = onBackButton
         this.shouldHaveProfileAction.value = shouldHaveProfileAction
+    }
+
+    fun toggleLoginDialog(show: Boolean){
+        showLoginDialog.value = show
     }
 }
