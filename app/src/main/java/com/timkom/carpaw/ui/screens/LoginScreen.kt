@@ -1,14 +1,20 @@
 package com.timkom.carpaw.ui.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,7 +37,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
-import com.timkom.carpaw.ui.components.ThemedImage
 import com.timkom.carpaw.ui.components.buttons.ColoredButton
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.LoginViewModel
@@ -56,14 +61,22 @@ fun LoginScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        // TODO (Chloe) Γιατί LazyColumn και όχι Column?!
         LazyColumn(
             modifier = Modifier.padding(3.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                ThemedImage(
+                /*ThemedImage(
                     lightImage = painterResource(id = R.drawable.city_driver_decor_foreground),
-                    darkImage = painterResource(id = R.drawable.city_driver_dark_decor_foreground),
+                    darkImage = painterResource(id = R.drawable.city_driver_decor_foreground),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1.5f)
+                )*/
+                Image(
+                    painter = painterResource(R.drawable.city_driver_decor_foreground),
+                    contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1.5f)

@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 
+// TODO remove
 @Composable
 fun ThemedImage(
     modifier: Modifier = Modifier,

@@ -213,6 +213,7 @@ fabric.properties
 
 ### Other
 
-keystore.properties
+#keystore.properties
+!keystore.properties
 secrets.properties
 !/.keys/sign-key.jks

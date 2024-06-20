@@ -27,13 +27,13 @@ android {
         create("debug2") {
             keyAlias = keystoreProperties["debugKeyAlias"].toString()
             keyPassword = keystoreProperties["debugKeyPassword"].toString()
-            storeFile = file(keystoreProperties["debugKeyPassword"].toString())
+            storeFile = file(keystoreProperties["debugStoreFile"].toString())
             storePassword = keystoreProperties["debugStorePassword"].toString()
         }
         create("release") {
             keyAlias = keystoreProperties["releaseKeyAlias"].toString()
             keyPassword = keystoreProperties["releaseKeyPassword"].toString()
-            storeFile = file(keystoreProperties["releaseKeyPassword"].toString())
+            storeFile = file(keystoreProperties["releaseStoreFile"].toString())
             storePassword = keystoreProperties["releaseStorePassword"].toString()
         }
     }
@@ -61,10 +61,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            //signingConfig = signingConfigs["release"]
+            signingConfig = signingConfigs["release"]
         }
         debug {
-           // signingConfig = signingConfigs["debug2"]
+            signingConfig = signingConfigs["debug2"]
         }
     }
     compileOptions {

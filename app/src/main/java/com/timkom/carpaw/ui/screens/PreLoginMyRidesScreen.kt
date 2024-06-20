@@ -1,7 +1,12 @@
 package com.timkom.carpaw.ui.screens
 
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -21,9 +26,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.components.ThemedImage
 import com.timkom.carpaw.ui.components.buttons.ColoredButton
-import androidx.navigation.NavController
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 
@@ -39,9 +42,14 @@ fun PreLoginMyRidesScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        ThemedImage(
+        /*ThemedImage(
             lightImage = painterResource(id = R.drawable.person_dog_phone_decor_foreground),
-            darkImage = painterResource(id = R.drawable.person_dog_phone_dark_decor_foreground),
+            darkImage = painterResource(id = R.drawable.person_dog_phone_decor_foreground),
+            modifier = Modifier.size(200.dp)
+        )*/
+        Image(
+            painter = painterResource(id = R.drawable.person_dog_phone_decor_foreground),
+            contentDescription = null,
             modifier = Modifier.size(200.dp)
         )
         Text(

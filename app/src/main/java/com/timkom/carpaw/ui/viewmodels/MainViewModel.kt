@@ -32,6 +32,7 @@ class MainViewModel: ViewModel() {
         this.shouldHaveProfileAction.value = shouldHaveProfileAction
     }
 
+    // TODO (Chloe) Δεν έχω καταλάβει τι κάνει
     fun toggleLoginDialog(show: Boolean){
         showLoginDialog.value = show
     }
