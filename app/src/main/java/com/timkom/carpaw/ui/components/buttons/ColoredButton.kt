@@ -11,17 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
 fun ColoredButton(
     @StringRes title: Int,
     onClick: () -> Unit
 ) {
+    //detect the current orientation
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
     Button(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+        modifier = if (isPortrait) {
+            Modifier.fillMaxWidth()
+        } else {
+            Modifier.width(300.dp)
+        },
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,

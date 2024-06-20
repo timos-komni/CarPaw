@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -31,6 +32,9 @@ fun ElevatedIconButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+
     ElevatedButton(
         contentPadding = PaddingValues(horizontal =  8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(10.dp),
@@ -38,9 +42,11 @@ fun ElevatedIconButton(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 32.dp),
+        modifier = if (isPortrait) {
+            Modifier.fillMaxWidth().padding(horizontal = 32.dp)
+        } else {
+            Modifier.width(400.dp).padding(horizontal = 32.dp)
+        },
         onClick = onClick
     ) {
         Row(

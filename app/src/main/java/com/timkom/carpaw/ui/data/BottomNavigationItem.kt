@@ -45,16 +45,5 @@ sealed class BottomNavigationItem(
         icon = Either.Left(Icons.Default.AccountCircle)
     )
 
-    data object PreLoginMyRides : BottomNavigationItem(
-        route = "preLoginMyRides",
-        title = R.string.pre_login_my_rides__title,
-        icon = Either.Right(R.drawable.folder_data)
-    )
-
-    data object PreLoginCreateRide  : BottomNavigationItem(
-        route = "preLoginCreateRide",
-        title = R.string.pre_login_create_ride__title,
-        icon = Either.Right(R.drawable.add_location)
-    )
 
 }

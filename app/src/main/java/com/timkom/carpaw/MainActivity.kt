@@ -30,6 +30,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -72,58 +73,66 @@ class MainActivity : ComponentActivity() {
                 var showProfileDialog by rememberSaveable {
                     mutableStateOf(false)
                 }
+
+                //detect the current orientation
+                val configuration = LocalConfiguration.current
+                val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
-                        CenterAlignedTopAppBar(
-                            title = {
-                                Text(
-                                    text = screenTitle,
-                                    fontFamily = FontFamily(Font(R.font.outfit_medium)),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            },
-                            colors = TopAppBarDefaults.topAppBarColors().copy(
-                                containerColor = MaterialTheme.colorScheme.background,
-                                titleContentColor = MaterialTheme.colorScheme.primary
-                            ),
-                            navigationIcon = {
-                                onBackButton?.let {
-                                    ArrowBackButton(onClick = it)
-                                }
-                            },
-                            actions = {
-                                actions?.invoke()
-                                // Should be the last action
-                                if (shouldHaveProfileAction) {
-                                    if (!mainViewModel.userIsConnected.value) {
-                                        IconButton(
-                                            onClick = { showLoginDialog = true },
-                                            colors = IconButtonDefaults.iconButtonColors().copy(
-                                                contentColor = MaterialTheme.colorScheme.primary
-                                            )
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.AccountCircle,
-                                                contentDescription = "Login",
-                                                modifier = Modifier.size(32.dp)
-                                            )
-                                        }
-                                    } else {
-                                        // TODO customize it -> user is connected
-                                        IconButton(onClick = { showProfileDialog = true }) {
-                                            Icon(
-                                                imageVector = Icons.Default.AccountCircle,
-                                                contentDescription = "Profile",
-                                                modifier = Modifier.size(32.dp)
-                                            )
+                        //if (isPortrait){
+                            CenterAlignedTopAppBar(
+                                title = {
+                                    Text(
+                                        text = screenTitle,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                },
+                                colors = TopAppBarDefaults.topAppBarColors().copy(
+                                    containerColor = MaterialTheme.colorScheme.background,
+                                    titleContentColor = MaterialTheme.colorScheme.primary
+                                ),
+                                navigationIcon = {
+                                    onBackButton?.let {
+                                        ArrowBackButton(onClick = it)
+                                    }
+                                },
+                                actions = {
+                                    actions?.invoke()
+                                    // Should be the last action
+                                    if (shouldHaveProfileAction) {
+                                        if (!mainViewModel.userIsConnected.value) {
+                                            IconButton(
+                                                onClick = { showLoginDialog = true },
+                                                colors = IconButtonDefaults.iconButtonColors().copy(
+                                                    contentColor = MaterialTheme.colorScheme.primary
+                                                )
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Default.AccountCircle,
+                                                    contentDescription = "Login",
+                                                    modifier = Modifier.size(32.dp)
+                                                )
+                                            }
+                                        } else {
+                                            // TODO customize it -> user is connected
+                                            IconButton(onClick = { showProfileDialog = true }) {
+                                                Icon(
+                                                    imageVector = Icons.Default.AccountCircle,
+                                                    contentDescription = "Profile",
+                                                    modifier = Modifier.size(32.dp)
+                                                )
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        )
-                    },
+                            )
+                        },
+                    //},
                     bottomBar = {
                         val navItems = listOf(
                             BottomNavigationItem.Home,

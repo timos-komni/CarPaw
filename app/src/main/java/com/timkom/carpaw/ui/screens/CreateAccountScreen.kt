@@ -1,10 +1,13 @@
 package com.timkom.carpaw.ui.screens
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -31,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CreateAccountScreen(
     // TODO remove parameter
@@ -55,31 +59,13 @@ fun CreateAccountScreen(
     val context = LocalContext.current
     val passwordCheck = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}\$".toRegex()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        // TODO remove
-        /*Row(modifier = Modifier){
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-            PageHeading(
-                Modifier,
-                title = R.string.create_account__title
-            )
-        }*/
 
         Column(
             modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -138,7 +124,7 @@ fun CreateAccountScreen(
             }
         }
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
