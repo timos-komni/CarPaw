@@ -146,7 +146,6 @@ class MainActivity : ComponentActivity() {
                             BottomNavigationItem.Search,
                             BottomNavigationItem.CreateRide,
                             BottomNavigationItem.MyRides,
-                            //BottomNavigationItem.Profile,
                         )
                         NavigationBar {
                             navItems.forEachIndexed { index, bottomNavigationItem ->

@@ -14,10 +14,15 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
-fun ColoredButton(
+fun CustomButton(
     @StringRes title: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean
 ) {
+    val colors = ButtonDefaults.buttonColors(
+        containerColor = if (enabled) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLowest,
+        contentColor = if (enabled) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+    )
     //detect the current orientation
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -29,10 +34,8 @@ fun ColoredButton(
             Modifier.width(300.dp)
         },
         shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+        colors = colors,
+        enabled = enabled
     ) {
         Text(text = stringResource(id = title))
     }

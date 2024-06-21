@@ -35,6 +35,10 @@ class MainViewModel: ViewModel() {
     }
 
     // TODO (Chloe) Δεν έχω καταλάβει τι κάνει
+    /**
+     * Toggles the visibility of the login dialog.
+     * @param show A boolean value indicating whether the login dialog should be shown.
+     */
     fun toggleLoginDialog(show: Boolean){
         showLoginDialog.value = show
     }

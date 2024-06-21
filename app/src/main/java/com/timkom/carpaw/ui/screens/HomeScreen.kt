@@ -66,11 +66,11 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            ElevatedIconButton(
+           /* ElevatedIconButton(
                 title = R.string.create_ride__title,
                 icon = Either.Left(Icons.Default.Add),
                 onClick = onCreateARideClick
-            )
+            ) */
         }
         ListInfoContent(
             specs = listOf(
@@ -99,11 +99,11 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         ){
-            ElevatedIconButton(
+           /* ElevatedIconButton(
                 title = R.string.search_ride__title,
                 icon = Either.Right(R.drawable.search),
                 onClick = onSearchForARideClick
-            )
+            )*/
         }
 
     }

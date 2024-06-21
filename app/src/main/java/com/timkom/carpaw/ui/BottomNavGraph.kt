@@ -90,29 +90,19 @@ fun BottomNavGraph(
                 PreLoginMyRidesScreen(mainViewModel = mainViewModel)
             }
         }
-        /*composable(route = BottomNavigationItem.Profile.route) {
-            mainViewModel.setAll("Login")
-            LoginScreen(onCreateAccountClick = {
-                navController.navigate("create_account")
-            }, onForgotPasswordClick = {
-                navController.navigate("forgot_password")
-            })
-        }*/
         composable(route = "create_account") {
             mainViewModel.setAll(
                 screenTitle = stringResource(R.string.create_account__title),
                 onBackButton = { navController.popBackStack() }
             )
-            CreateAccountScreen(/*TODO remove*//*onBackClick = { navController.popBackStack() }*/)
+            CreateAccountScreen()
         }
         composable(route = "forgot_password") {
             mainViewModel.setAll(
                 screenTitle = stringResource(R.string.forgot_password__title),
                 onBackButton = { navController.popBackStack() }
             )
-            ForgotPasswordScreen(/*TODO remove*//*onBackClick = {
-                navController.popBackStack()
-            }*/)
+            ForgotPasswordScreen()
         }
 
     }

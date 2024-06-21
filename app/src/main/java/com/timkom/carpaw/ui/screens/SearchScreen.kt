@@ -50,11 +50,6 @@ fun SearchScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // TODO remove
-        /*PageHeading(
-            modifier = Modifier,
-            title = R.string.search_ride__title
-        )*/
         LazyColumn(
             contentPadding = PaddingValues(
                 top = 16.dp,
@@ -67,7 +62,6 @@ fun SearchScreen(
                 ExpandableCard(
                     title = content.title,
                     expanded = viewModel.expandedItem.intValue == content.id,
-                    //TODO check this
                     selectedInfo = when(content.id) {
                         0 -> viewModel.startSearchText.value
                         1 -> viewModel.destinationSearchText.value

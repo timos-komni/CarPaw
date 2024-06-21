@@ -28,6 +28,7 @@ import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.GenericTextField
 import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.components.PasswordTextField
+import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.checkIfAnyBlank
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +64,7 @@ fun CreateAccountScreen(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(40.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -85,7 +86,8 @@ fun CreateAccountScreen(
             Spacer(modifier = Modifier.height(20.dp))
             GenericTextField(value = lastName, onValueChange = { lastName = it }, label = "Last Name")
             Spacer(modifier = Modifier.height(20.dp))
-            Button(
+            CustomButton(
+                title = R.string.create_account__button,
                 onClick = {
                     coroutineScope.launch {
                         val result = SupabaseManager.createUser(
@@ -98,7 +100,7 @@ fun CreateAccountScreen(
                             withContext(Dispatchers.Main) {
                                 AlertDialog.Builder(context)
                                     .setCancelable(false)
-                                    .setMessage("Account created successfully!\nPlease confirm your account")
+                                    .setMessage("Your account has been created successfully! Please check your email to confirm your account.")
                                     .setNeutralButton("OK") { dialog, _ ->
                                         onAccountCreation.invoke()
                                         dialog.dismiss()
@@ -109,7 +111,7 @@ fun CreateAccountScreen(
                             withContext(Dispatchers.Main) {
                                 AlertDialog.Builder(context)
                                     .setCancelable(false)
-                                    .setMessage("Account could not be created!!")
+                                    .setMessage("Account could not be created.")
                                     .setNeutralButton("OK") { dialog, _ ->
                                         dialog.dismiss()
                                     }
@@ -120,9 +122,7 @@ fun CreateAccountScreen(
                     }
                 },
                 enabled = !checkIfAnyBlank(email, password, firstName, lastName) && !passwordError
-            ) {
-                Text("Create Account")
-            }
+            )
         }
     }
 

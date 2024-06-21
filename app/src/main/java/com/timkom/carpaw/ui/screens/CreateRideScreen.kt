@@ -62,7 +62,6 @@ fun CreateRideScreen(
                 ExpandableCard(
                     title = content.title,
                     expanded = viewModel.expandedItem.intValue == content.id,
-                    //TODO check this
                     selectedInfo = when(content.id) {
                         0 -> viewModel.startData.value.searchLocationText.value
                         1 -> viewModel.destinationData.value.searchLocationText.value

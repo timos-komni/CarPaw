@@ -18,7 +18,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,12 +41,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.CustomAlertDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
-import com.timkom.carpaw.ui.components.buttons.ColoredButton
+import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.LoginViewModel
+import com.timkom.carpaw.util.checkIfAnyBlank
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -59,6 +66,9 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    var dialogMessage by rememberSaveable { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,13 +80,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                /*ThemedImage(
-                    lightImage = painterResource(id = R.drawable.city_driver_decor_foreground),
-                    darkImage = painterResource(id = R.drawable.city_driver_decor_foreground),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1.5f)
-                )*/
                 Image(
                     painter = painterResource(R.drawable.city_driver_decor_foreground),
                     contentDescription = null,
@@ -124,41 +127,37 @@ fun LoginScreen(
                             .clickable { onForgotPasswordClick() }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    ColoredButton(
+                    CustomButton(
                         title = R.string.login_card__login_button__text,
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
-                                coroutineScope.launch {
-                                    val user = viewModel.login().await() // wait for the login coroutine
-                                    val userIsConfirmed = user != null && loginStatus
-                                    GlobalData.user = if (userIsConfirmed) user else null
-                                    withContext(Dispatchers.Main) {
-                                        Toast.makeText(
-                                            context,
-                                            if (userIsConfirmed) "Login successful" else "Login failed",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        if (userIsConfirmed) {
-                                            onUserLogin.invoke()
-                                        } else {
-                                            AlertDialog.Builder(context)
-                                                .setCancelable(false)
-                                                .setMessage("Confirm your account before login!")
-                                                .setNeutralButton("OK") { dialog, _ ->
-                                                    dialog.dismiss()
-                                                }
-                                                .create().show()
-                                        }
+                            coroutineScope.launch {
+                                val user = viewModel.login().await() // wait for the login coroutine
+                                val userIsConfirmed = user != null && loginStatus
+                                GlobalData.user = if (userIsConfirmed) user else null
+                                withContext(Dispatchers.Main) {
+                                    if (userIsConfirmed){
+                                        onUserLogin.invoke()
+                                        dialogMessage = "Welcome back, $username!"
+                                    } else if (user != null){
+                                        dialogMessage = "Please check your email to confirm your account before login!"
+                                    } else {
+                                        dialogMessage = "Login failed. Please check your username and password."
                                     }
+                                    showDialog = true
                                 }
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "Please, fill the email and password fields",
-                                    Toast.LENGTH_SHORT
-                                ).show()
                             }
+                        } /*else {
+                            AlertDialog.Builder(context)
+                                .setCancelable(false)
+                                .setMessage("Please, fill the email and password fields")
+                                .setNeutralButton("OK") { dialog, _ ->
+                                    dialog.dismiss()
+                                }
+                                .create().show()
+                        }*/
                         },
+                        enabled = username.isNotBlank() && password.isNotBlank()
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
@@ -203,6 +202,16 @@ fun LoginScreen(
             }
         }
     }
+    if (showDialog) {
+        CustomAlertDialog(
+            message = dialogMessage,
+            onDismissRequest = { showDialog = false },
+            onConfirm = {
+                showDialog = false
+            }
+        )
+    }
+
 }
 
 @Preview(showBackground = true)

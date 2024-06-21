@@ -28,21 +28,6 @@ fun ForgotPasswordScreen(
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
     ) {
-        // TODO remove
-        /*Row(modifier = Modifier){
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-            PageHeading(
-                Modifier,
-                title = R.string.forgot_password__title
-            )
-        }*/
 
         Column(
             modifier = Modifier

@@ -74,6 +74,7 @@
     <!--Buttons-->
     <string name="view_details__button">View Details</string>
     <string name="login__button">Login</string>
+    <string name="create_account__button">Create Account</string>
 
     <!--LoginScreen-->
     <string name="login_card__title__text">Welcome to your CarPaw account</string>
