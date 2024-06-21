@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,9 +39,6 @@ import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.convertMillisecondsToDate
-import kotlinx.datetime.Clock
-import kotlinx.datetime.*
-import java.time.ZoneId
 
 
 @SuppressLint("UnrememberedMutableState")

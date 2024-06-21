@@ -1,6 +1,7 @@
 package com.timkom.carpaw.ui.screens
 
 import android.app.AlertDialog
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
+import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.CustomAlertDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
@@ -131,31 +133,36 @@ fun LoginScreen(
                         title = R.string.login_card__login_button__text,
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
-                            coroutineScope.launch {
-                                val user = viewModel.login().await() // wait for the login coroutine
-                                val userIsConfirmed = user != null && loginStatus
-                                GlobalData.user = if (userIsConfirmed) user else null
-                                withContext(Dispatchers.Main) {
-                                    if (userIsConfirmed){
-                                        onUserLogin.invoke()
-                                        dialogMessage = "Welcome back, $username!"
-                                    } else if (user != null){
-                                        dialogMessage = "Please check your email to confirm your account before login!"
-                                    } else {
-                                        dialogMessage = "Login failed. Please check your username and password."
+                                coroutineScope.launch {
+                                    val user = viewModel.login().await() // wait for the login coroutine
+                                    val userIsConfirmed = user != null && loginStatus
+                                    val token = if (userIsConfirmed) SupabaseManager.getRefreshToken() else null
+                                    GlobalData.user = if (userIsConfirmed) user else null
+                                    withContext(Dispatchers.Main) {
+                                        token?.let {
+                                            context.getSharedPreferences(
+                                                context.getString(R.string.preferences_file),
+                                                Context.MODE_PRIVATE
+                                            ).edit()
+                                                .putString(
+                                                    context.getString(R.string.supabase_refresh_token_pref_key),
+                                                    token
+                                                )
+                                                .apply()
+                                        }
+                                        dialogMessage = if (userIsConfirmed) {
+                                            onUserLogin.invoke()
+                                            // TODO (Chloe) Δεν θα δουλέψει σε αυτήν την περίπτωση, από την άποψη ότι θα έχει κλείσει ήδη το παράθυρο
+                                            "Welcome back, ${user!!.firstName} ${user.lastName}!"
+                                        } else if (user != null) {
+                                            "Please check your email to confirm your account before login!"
+                                        } else {
+                                            "Login failed. Please check your username and password."
+                                        }
+                                        showDialog = true
                                     }
-                                    showDialog = true
                                 }
                             }
-                        } /*else {
-                            AlertDialog.Builder(context)
-                                .setCancelable(false)
-                                .setMessage("Please, fill the email and password fields")
-                                .setNeutralButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .create().show()
-                        }*/
                         },
                         enabled = username.isNotBlank() && password.isNotBlank()
                     )

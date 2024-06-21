@@ -1,16 +1,17 @@
 package com.timkom.carpaw
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -26,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,9 +40,13 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
+import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.BottomNavGraph
 import com.timkom.carpaw.ui.FullScreenDialog
 import com.timkom.carpaw.ui.LoginNavGraph
@@ -52,6 +56,8 @@ import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 import com.timkom.carpaw.util.Either
+import com.timkom.carpaw.util.createTAGForKClass
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -60,6 +66,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         enableEdgeToEdge()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                if (GlobalData.user == null) {
+                    val prefs = getSharedPreferences(
+                        getString(R.string.preferences_file),
+                        Context.MODE_PRIVATE
+                    )
+                    val refreshTokenPrefKey = getString(R.string.supabase_refresh_token_pref_key)
+                    val refreshToken = prefs.getString(refreshTokenPrefKey, "")!!
+                    val viewModel: MainViewModel by viewModels()
+                    val userInfo = SupabaseManager.getCurrentUser(refreshToken)
+                    prefs.edit()
+                        .putString(refreshTokenPrefKey, userInfo.second)
+                        .apply()
+                    userInfo.first?.let {
+                        viewModel.userIsConnected.value = true
+                        val user = SupabaseManager.fetchUser(it.id)
+                        user?.let { u ->
+                            GlobalData.user = u
+                        }
+                    }
+                }
+                Log.d(createTAGForKClass(MainActivity::class), GlobalData.user.toString())
+            }
+        }
         setContent {
             CarPawTheme(dynamicColor = false) {
                 val mainViewModel: MainViewModel = viewModel()

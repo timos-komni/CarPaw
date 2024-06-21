@@ -94,4 +94,8 @@
     <string name="login__create_ride_text">Log in to your account</string>
     <string name="create_ride_descr__text">Log in to create a ride and travel with the matching companion animal.</string>
 
+    <!--preferences-->
+    <string name="preferences_file" translatable="false">carpaw_shared_preferences</string>
+    <string name="supabase_refresh_token_pref_key" translatable="false">SUPABASE_REFRESH_TOKEN</string>
+
 </resources>

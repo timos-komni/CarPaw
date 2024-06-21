@@ -7,4 +7,5 @@ object GlobalData {
      * The [User] of the app (if connected).
      */
     var user: User? = null
+    var refreshToken: String? = null
 }

@@ -20,7 +20,7 @@ fun isDebug(checkForDebugger: Boolean = false): Boolean {
 
 fun <T> createTAGForClass(clazz: Class<T>): String {
     val className = clazz.simpleName.toCharArray()
-    return "@${Arrays.copyOfRange(className, 0, className.size.coerceAtMost(22))}"
+    return "@${String(Arrays.copyOfRange(className, 0, className.size.coerceAtMost(22)))}"
 }
 
 fun <T: Any> createTAGForKClass(clazz: KClass<T>) = createTAGForClass(clazz.java)

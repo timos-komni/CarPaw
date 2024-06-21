@@ -20,6 +20,7 @@ import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.providers.builtin.IDToken
 import io.github.jan.supabase.gotrue.user.UserInfo
+import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.result.PostgrestResult
@@ -175,6 +176,44 @@ object SupabaseManager {
                 Log.e(TAG, "Exception thrown during sign-in phase for user with email ${email}: ${it.message}")
                 it.printStackTrace()
                 null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+        return user
+    }
+
+    suspend fun getRefreshToken(): String? {
+        val token = suspend {
+            val session = client.auth.currentSessionOrNull()
+            session?.refreshToken
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during session retrieval phase")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+        return token
+    }
+
+    suspend fun getCurrentUser(refreshToken: String): Pair<UserInfo?, String> {
+        val user = suspend {
+            val userSession = client.auth.refreshSession(refreshToken)
+            Pair(userSession.user, userSession.refreshToken)
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during session retrieval phase")
+                it.printStackTrace()
+                Pair(null, refreshToken)
             },
             RestException::class,
             HttpRequestTimeoutException::class,
