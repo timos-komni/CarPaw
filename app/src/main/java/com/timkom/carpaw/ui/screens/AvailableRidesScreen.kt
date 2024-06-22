@@ -18,11 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 
 @Composable
 fun AvailableRidesScreen(
     viewModel: SearchRideViewModel = viewModel(),
+    onViewRideDetailsClick: (Ride) -> Unit
 
 ) {
     val availableRides = viewModel.getAvailableRides()
@@ -42,7 +44,10 @@ fun AvailableRidesScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(availableRides) { data ->
-                SearchResultCard(data = data)
+                SearchResultCard(
+                    data = data,
+                    onClick = { onViewRideDetailsClick(data.ride)}
+                )
             }
         }
     }
@@ -91,7 +96,7 @@ fun SearchTitle(startLocation: String, destination: String, date: String) {
 @Composable
 fun AvailableRidesScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        AvailableRidesScreen()
+        AvailableRidesScreen(onViewRideDetailsClick = {})
     }
 }
 

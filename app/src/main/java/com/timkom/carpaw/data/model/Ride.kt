@@ -23,7 +23,9 @@ data class Ride(
      * TODO Make it an enum
      */
     val status: Status,
-    val price: Float
+    val price: Float,
+    val startAddress: String, // TODO TIMOS : Add this field
+    val endAddress: String, // TODO TIMOS : Add this field
 ) {
 
     enum class Status {

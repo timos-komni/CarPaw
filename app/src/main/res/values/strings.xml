@@ -75,6 +75,7 @@
     <string name="view_details__button">View Details</string>
     <string name="login__button">Login</string>
     <string name="create_account__button">Create Account</string>
+    <string name="ask_ride__button">Ask Ride</string>
 
     <!--LoginScreen-->
     <string name="login_card__title__text">Welcome to your CarPaw account</string>
@@ -97,5 +98,8 @@
     <!--preferences-->
     <string name="preferences_file" translatable="false">carpaw_shared_preferences</string>
     <string name="supabase_refresh_token_pref_key" translatable="false">SUPABASE_REFRESH_TOKEN</string>
+
+
+    <string name="driver_description">I use to drive a lot and I have over ten years of experience and a deep love for animals. I ensure that your companion animals have a safe and comfortable journey with me.</string>
 
 </resources>

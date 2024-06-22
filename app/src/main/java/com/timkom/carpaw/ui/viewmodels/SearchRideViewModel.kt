@@ -14,20 +14,24 @@ import java.lang.ref.WeakReference
 import java.util.UUID
 
 class SearchRideViewModel : ViewModel() {
+    // MutableState objects to hold the search text inputs
     val startSearchText = mutableStateOf("")
     val destinationSearchText = mutableStateOf("")
+    // State objects to track if the search inputs are active
     val isStartSearchActive = mutableStateOf(false)
     val isDestinationActive = mutableStateOf(false)
+    // List of search history or suggestions
     val items = mutableStateListOf("Athens", "Kavala")
+    // State object to track the currently expanded item in the UI
     val expandedItem = mutableIntStateOf(0)
-
     // Date picker state for search ride screen
     val selectedDate = mutableStateOf("")
     val isDialogOpen = mutableStateOf(false)
-
     // Companion animal add state
     val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
+    // State to hold the selected ride for the ride details screen
+    val selectedRide = mutableStateOf<Ride?>(null)
 
     // TODO remove
     // Sample list of rides. Replace with actual data fetching logic
@@ -43,12 +47,14 @@ class SearchRideViewModel : ViewModel() {
             status = Ride.Status.Scheduled,
             startTime = "08:00",
             endTime = "13:00",
-            price = 20.0f
+            price = 20f,
+            startAddress = "Egnatia 122",
+            endAddress = "Monastiriou"
         ),
         // Add more sample rides
     )
 
-    private fun getUserById(id: Long): User {
+     fun getUserById(id: Long): User {
         // Replace with actual user fetching logic
         return User(
             id = UUID.randomUUID().toString(),
@@ -62,7 +68,7 @@ class SearchRideViewModel : ViewModel() {
         )
     }
 
-    private fun getSelectedAnimalsByRideId(rideId: Long): List<CompanionAnimalItem> {
+    fun getSelectedAnimalsByRideId(rideId: Long): List<CompanionAnimalItem> {
         // Replace with actual animal fetching logic
         return listOf(
             CompanionAnimalItem.SMALL_DOG,
@@ -71,6 +77,7 @@ class SearchRideViewModel : ViewModel() {
         )
     }
 
+    // Functions to set and control the date picker state
     fun setDate(date: String) {
         selectedDate.value = date
     }
@@ -83,6 +90,7 @@ class SearchRideViewModel : ViewModel() {
         isDialogOpen.value = false
     }
 
+    // Function to handle query changes in the search input fields
     fun onQueryChange(contentType: SearchContentType, newText: String) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> startSearchText.value = newText
@@ -90,6 +98,7 @@ class SearchRideViewModel : ViewModel() {
         }
     }
 
+    // Function to handle search actions
     fun onSearch(contentType: SearchContentType) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> {
@@ -103,6 +112,7 @@ class SearchRideViewModel : ViewModel() {
         }
     }
 
+    // Function to handle active state changes in the search input fields
     fun onActiveChange(contentType: SearchContentType, newActive: Boolean) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> isStartSearchActive.value = newActive
@@ -144,6 +154,7 @@ class SearchRideViewModel : ViewModel() {
                 selectedAnimalsSummary.value.isNotBlank()
     }
 
+    // Function to get available rides based on search criteria
     fun getAvailableRides(): List<SearchResultCardData> {
         // Retrieve the user's selected animals
         val selectedAnimals = animals.filter { it.count > 0 }
@@ -163,5 +174,13 @@ class SearchRideViewModel : ViewModel() {
                 selectedAnimals = getSelectedAnimalsByRideId(ride.id)
             )
         }
+    }
+
+    fun getRideById(rideId: Long): Ride? {
+        return allRides.find { it.id == rideId }
+    }
+
+    fun setSelectedRide(ride: Ride) {
+        selectedRide.value = ride
     }
 }

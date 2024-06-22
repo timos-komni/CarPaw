@@ -3,8 +3,10 @@ package com.timkom.carpaw.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 fun openLink(context: Context, url: String) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -17,4 +19,25 @@ fun convertMillisecondsToDate(milliseconds: Long): String {
     val date = Date(milliseconds)
     val format = SimpleDateFormat("dd/MM/yyyy")
     return format.format(date)
+}
+
+fun formatDateTime(dateTime: String): String {
+    val possibleFormats = listOf(
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        "yyyy-MM-dd"
+    )
+
+    for (format in possibleFormats) {
+        try {
+            val parser = SimpleDateFormat(format, Locale.getDefault())
+            val formatter = SimpleDateFormat("EEE, dd MMM, yyyy - hh:mm a", Locale.getDefault())
+            return parser.parse(dateTime)?.let {
+                formatter.format(it)
+            } ?: dateTime
+        } catch (e: ParseException) {
+            // Continue to the next format
+        }
+    }
+
+    return dateTime // Return the original string if no formats matched
 }

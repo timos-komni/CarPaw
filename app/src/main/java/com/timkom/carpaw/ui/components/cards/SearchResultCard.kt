@@ -51,7 +51,10 @@ data class SearchResultCardData(
 
 @SuppressLint("ResourceType")
 @Composable
-fun SearchResultCard(data: SearchResultCardData) {
+fun SearchResultCard(
+    data: SearchResultCardData,
+    onClick: () -> Unit
+) {
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { data.selectedAnimals.contains(it) }
     val context = LocalContext.current
     Card(
@@ -59,7 +62,6 @@ fun SearchResultCard(data: SearchResultCardData) {
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
             .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(
@@ -164,7 +166,7 @@ fun SearchResultCard(data: SearchResultCardData) {
 
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { /* TODO: Handle view details action */ },
+                onClick = onClick,
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.elevatedButtonColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -192,7 +194,9 @@ fun SearchResultCardPreview() {
         status = Ride.Status.Scheduled,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
-        price = 20.0f
+        price = 20.0f,
+        startAddress = "Egnatia 122",
+        endAddress = "Monastiriou"
     )
 
     val sampleUser = User(
@@ -224,7 +228,7 @@ fun SearchResultCardPreview() {
     )
 
     CarPawTheme(dynamicColor = false) {
-        SearchResultCard(data = sampleData)
+        SearchResultCard(data = sampleData, onClick = {})
     }
 }
 
