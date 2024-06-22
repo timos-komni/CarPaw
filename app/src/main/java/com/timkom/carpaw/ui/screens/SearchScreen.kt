@@ -118,14 +118,10 @@ fun SearchScreen(
                 ) {
                     ElevatedIconButton(
                         title = R.string.search_ride__title,
-                        icon = Either.Left(Icons.Default.Search)
-                    ) {
-                        if (viewModel.isFormValid()) {
-                            onSearchClick()
-                        } else {
-                            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                        icon = Either.Left(Icons.Default.Search),
+                        onClick = onSearchClick,
+                        enabled = viewModel.isFormValid()
+                    )
 
                 }
 

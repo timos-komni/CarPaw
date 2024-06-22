@@ -165,7 +165,7 @@ fun SearchResultCard(data: SearchResultCardData) {
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = { /* TODO: Handle view details action */ },
-                shape = RoundedCornerShape(14.dp),
+                shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.elevatedButtonColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
@@ -188,7 +188,7 @@ fun SearchResultCardPreview() {
         ownerId = 1,
         start = "Thessaloniki",
         destination = "Ioannina",
-        date = "2024-06-10",
+        date = "2024-06-29",
         status = Ride.Status.Scheduled,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),

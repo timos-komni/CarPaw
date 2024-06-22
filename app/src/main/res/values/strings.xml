@@ -38,7 +38,7 @@
     <!--Create/Search Ride Screen-->
     <string name="leaving_from__title">Leaving from…</string>
     <string name="travelling_to__title">Travelling to…</string>
-    <string name="date_time__title">Date and Time</string>
+    <string name="date_time__title">Date </string>
     <string name="date__title">Date </string>
     <string name="passengers__title">Passengers</string>
     <string name="preferred_passengers__title">Passengers I want to travel with…</string>

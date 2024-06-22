@@ -1,13 +1,17 @@
 package com.timkom.carpaw.ui.viewmodels
 
+import SearchResultCardData
 import android.content.Context
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.timkom.carpaw.data.model.Ride
+import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
 import java.lang.ref.WeakReference
+import java.util.UUID
 
 class SearchRideViewModel : ViewModel() {
     val startSearchText = mutableStateOf("")
@@ -25,9 +29,47 @@ class SearchRideViewModel : ViewModel() {
     val animals = mutableStateListOf(*CompanionAnimalItem.entries.toTypedArray())
     val selectedAnimalsSummary = mutableStateOf("")
 
-    /*init {
-        updateSelectedAnimalsSummary()
-    }*/
+    // TODO remove
+    // Sample list of rides. Replace with actual data fetching logic
+    private val allRides = listOf(
+        Ride(
+            id = 1,
+            createdAt = "2024-01-01T10:00:00Z",
+            hostId = 1,
+            ownerId = 1,
+            start = "Thessaloniki",
+            destination = "Athens",
+            date = "2024-06-29",
+            status = Ride.Status.Scheduled,
+            startTime = "08:00",
+            endTime = "13:00",
+            price = 20.0f
+        ),
+        // Add more sample rides
+    )
+
+    private fun getUserById(id: Long): User {
+        // Replace with actual user fetching logic
+        return User(
+            id = UUID.randomUUID().toString(),
+            createdAt = "2024-01-01T10:00:00Z",
+            uuid = "123-456-789",
+            firstName = "Olga",
+            lastName = "S.",
+            birthdate = "1990-01-01",
+            rating = 4.5f,
+            imageUrl = null
+        )
+    }
+
+    private fun getSelectedAnimalsByRideId(rideId: Long): List<CompanionAnimalItem> {
+        // Replace with actual animal fetching logic
+        return listOf(
+            CompanionAnimalItem.SMALL_DOG,
+            CompanionAnimalItem.CAT,
+            CompanionAnimalItem.BIRD
+        )
+    }
 
     fun setDate(date: String) {
         selectedDate.value = date
@@ -53,14 +95,10 @@ class SearchRideViewModel : ViewModel() {
             SearchContentType.STARTING_POINT -> {
                 items.add(startSearchText.value)
                 isStartSearchActive.value = false
-                // TODO (Chloe)
-                startSearchText.value = ""
             }
             SearchContentType.DESTINATION -> {
                 items.add(destinationSearchText.value)
                 isDestinationActive.value = false
-                // TODO (Chloe)
-                destinationSearchText.value = ""
             }
         }
     }
@@ -98,11 +136,32 @@ class SearchRideViewModel : ViewModel() {
             .joinToString(separator = ", ") { "${it.count} ${context.get()?.resources?.getQuantityString(it.animalName, it.count)}" }
     }
 
-    //Checks for empty inputs
+    //Form validation method
     fun isFormValid(): Boolean {
         return startSearchText.value.isNotBlank() &&
                 destinationSearchText.value.isNotBlank() &&
                 selectedDate.value.isNotBlank() &&
                 selectedAnimalsSummary.value.isNotBlank()
+    }
+
+    fun getAvailableRides(): List<SearchResultCardData> {
+        // Retrieve the user's selected animals
+        val selectedAnimals = animals.filter { it.count > 0 }
+
+        return allRides.filter { ride ->
+           // ride.start.equals(startSearchText.value, ignoreCase = true) &&
+                    //ride.destination.equals(destinationSearchText.value, ignoreCase = true) &&
+                  //  ride.date == selectedDate.value &&
+            //TODO REMOVE COMMENT: this works well
+                    selectedAnimals.any { selectedAnimal ->
+                        getSelectedAnimalsByRideId(ride.id).contains(selectedAnimal)
+                    }
+        }.map { ride ->
+            SearchResultCardData(
+                ride = ride,
+                user = getUserById(ride.ownerId),
+                selectedAnimals = getSelectedAnimalsByRideId(ride.id)
+            )
+        }
     }
 }
