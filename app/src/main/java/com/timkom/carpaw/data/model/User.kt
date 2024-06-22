@@ -16,7 +16,9 @@ data class User(
     val birthdate: String?,
     @SerialName("image_url")
     val imageUrl: String?,
-    val rating: Float
+    val rating: Float,
+    @SerialName("other_info")
+    val otherInfo: String?
 ) {
     companion object {
         const val TABLE_NAME = "users"

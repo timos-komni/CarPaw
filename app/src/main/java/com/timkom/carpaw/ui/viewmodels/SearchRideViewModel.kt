@@ -65,6 +65,13 @@ class SearchRideViewModel : ViewModel() {
         }
     }
 
+    fun onResulSelected(contentType: SearchContentType, selection: String) {
+        when (contentType) {
+            SearchContentType.STARTING_POINT -> startSearchText.value = selection
+            SearchContentType.DESTINATION -> destinationSearchText.value = selection
+        }
+    }
+
     fun onActiveChange(contentType: SearchContentType, newActive: Boolean) {
         when (contentType) {
             SearchContentType.STARTING_POINT -> isStartSearchActive.value = newActive

@@ -112,6 +112,20 @@ class CreateRideViewModel : ViewModel() {
         }
     }
 
+    fun onLocationResultSelected(contentType: CreateContentType, selection: String) {
+        when (contentType) {
+            CreateContentType.STARTING_POINT -> startData.value.searchLocationText.value = selection
+            CreateContentType.DESTINATION -> destinationData.value.searchLocationText.value = selection
+        }
+    }
+
+    fun onAddressResultSelected(contentType: CreateContentType, selection: String) {
+        when (contentType) {
+            CreateContentType.STARTING_POINT -> startData.value.searchAddressText.value = selection
+            CreateContentType.DESTINATION -> destinationData.value.searchAddressText.value = selection
+        }
+    }
+
     fun onItemClick(id: Int) {
         expandedItem.intValue = if (expandedItem.intValue == id) -1 else id
     }

@@ -192,7 +192,9 @@ fun SearchResultCardPreview() {
         status = Ride.Status.Scheduled,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
-        price = 20.0f
+        price = 20.0f,
+        startAddress = "",
+        destinationAddress = ""
     )
 
     val sampleUser = User(
@@ -208,7 +210,8 @@ fun SearchResultCardPreview() {
         /*email = "olga@example.com",
         phoneNumber = "1234567890",*/
         rating = 4.5f,
-        imageUrl = null
+        imageUrl = null,
+        otherInfo = null
     )
 
     val sampleAnimals = listOf(

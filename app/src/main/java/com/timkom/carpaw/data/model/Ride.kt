@@ -23,7 +23,11 @@ data class Ride(
      * TODO Make it an enum
      */
     val status: Status,
-    val price: Float
+    val price: Float,
+    @SerialName("start_address")
+    val startAddress: String,
+    @SerialName("destination_address")
+    val destinationAddress: String
 ) {
 
     enum class Status {

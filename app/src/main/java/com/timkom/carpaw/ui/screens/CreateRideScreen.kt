@@ -1,6 +1,5 @@
 package com.timkom.carpaw.ui.screens
 
-import CreateRideScreenContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
@@ -22,18 +19,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.components.PageHeading
-import com.timkom.carpaw.ui.components.cards.ExpandableCard
-import com.timkom.carpaw.ui.content.createContentList
-import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
+import com.timkom.carpaw.ui.components.cards.ExpandableCard
 import com.timkom.carpaw.ui.content.AnimalListMode
 import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.content.CreateContentType
+import com.timkom.carpaw.ui.content.CreateRideScreenContent
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.PriceInputContent
+import com.timkom.carpaw.ui.content.createContentList
+import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.CreateRideViewModel
 import com.timkom.carpaw.util.Either
 import java.lang.ref.WeakReference

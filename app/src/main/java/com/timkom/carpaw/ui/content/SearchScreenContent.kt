@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import com.timkom.carpaw.ui.components.SearchLocationBar
 import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.timkom.carpaw.ui.components.SearchLocationBar2
+
 @Composable
 fun SearchScreenContent(
     contentType: SearchContentType,
@@ -11,7 +13,7 @@ fun SearchScreenContent(
     label: Int,
     viewModel: SearchRideViewModel = viewModel()
 ) {
-    SearchLocationBar(
+    /*SearchLocationBar(
         placeholder = placeholder,
         label = label,
         queryText = when(contentType) {
@@ -26,6 +28,11 @@ fun SearchScreenContent(
         onActiveChange = { viewModel.onActiveChange(contentType, it) },
         onSearch = { viewModel.onSearch(contentType) },
         items = viewModel.items
+    )*/
+    SearchLocationBar2(
+        placeholder = placeholder,
+        label = label,
+        onSelection = { viewModel.onResulSelected(contentType, it?.getFullText(null).toString()) }
     )
 }
 
