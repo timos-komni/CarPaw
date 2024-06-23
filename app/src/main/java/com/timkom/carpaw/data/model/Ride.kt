@@ -24,8 +24,10 @@ data class Ride(
      */
     val status: Status,
     val price: Float,
-    val startAddress: String, // TODO TIMOS : Add this field
-    val endAddress: String, // TODO TIMOS : Add this field
+    @SerialName("start_address")
+    val startAddress: String,
+    @SerialName("destination_address")
+    val destinationAddress: String
 ) {
 
     enum class Status {

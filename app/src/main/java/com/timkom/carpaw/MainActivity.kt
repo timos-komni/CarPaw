@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         enableEdgeToEdge()
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 if (GlobalData.user == null) {
                     val prefs = getSharedPreferences(
                         getString(R.string.preferences_file),
@@ -76,16 +76,21 @@ class MainActivity : ComponentActivity() {
                     val refreshTokenPrefKey = getString(R.string.supabase_refresh_token_pref_key)
                     val refreshToken = prefs.getString(refreshTokenPrefKey, "")!!
                     val viewModel: MainViewModel by viewModels()
-                    val userInfo = SupabaseManager.getCurrentUser(refreshToken)
-                    prefs.edit()
-                        .putString(refreshTokenPrefKey, userInfo.second)
-                        .apply()
-                    userInfo.first?.let {
-                        viewModel.userIsConnected.value = true
-                        val user = SupabaseManager.fetchUser(it.id)
-                        user?.let { u ->
-                            GlobalData.user = u
+                    if (refreshToken.isNotEmpty()) {
+                        val userInfo = SupabaseManager.getCurrentUser(refreshToken)
+                        prefs.edit()
+                            .putString(refreshTokenPrefKey, userInfo.second)
+                            .apply()
+                        userInfo.first?.let {
+                            val user = SupabaseManager.fetchUser(it.id)
+                            viewModel.userIsConnected.value = user?.let { u ->
+                                GlobalData.user = u
+                                true
+                            } ?: false
                         }
+                    } else {
+                        viewModel.userIsConnected.value = false
+                        // TODO user is disconnected
                     }
                 }
                 Log.d(createTAGForKClass(MainActivity::class), GlobalData.user.toString())

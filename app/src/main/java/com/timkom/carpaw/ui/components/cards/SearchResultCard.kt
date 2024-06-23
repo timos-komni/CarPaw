@@ -51,10 +51,7 @@ data class SearchResultCardData(
 
 @SuppressLint("ResourceType")
 @Composable
-fun SearchResultCard(
-    data: SearchResultCardData,
-    onClick: () -> Unit
-) {
+fun SearchResultCard(data: SearchResultCardData) {
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { data.selectedAnimals.contains(it) }
     val context = LocalContext.current
     Card(
@@ -62,6 +59,7 @@ fun SearchResultCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .padding(10.dp)
             .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(
@@ -166,8 +164,8 @@ fun SearchResultCard(
 
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = onClick,
-                shape = RoundedCornerShape(10.dp),
+                onClick = { /* TODO: Handle view details action */ },
+                shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.elevatedButtonColors().copy(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
@@ -190,13 +188,13 @@ fun SearchResultCardPreview() {
         ownerId = 1,
         start = "Thessaloniki",
         destination = "Ioannina",
-        date = "2024-06-29",
+        date = "2024-06-10",
         status = Ride.Status.Scheduled,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
         price = 20.0f,
-        startAddress = "Egnatia 122",
-        endAddress = "Monastiriou"
+        startAddress = "",
+        destinationAddress = ""
     )
 
     val sampleUser = User(
@@ -212,7 +210,8 @@ fun SearchResultCardPreview() {
         /*email = "olga@example.com",
         phoneNumber = "1234567890",*/
         rating = 4.5f,
-        imageUrl = null
+        imageUrl = null,
+        otherInfo = null
     )
 
     val sampleAnimals = listOf(
@@ -228,7 +227,7 @@ fun SearchResultCardPreview() {
     )
 
     CarPawTheme(dynamicColor = false) {
-        SearchResultCard(data = sampleData, onClick = {})
+        SearchResultCard(data = sampleData)
     }
 }
 

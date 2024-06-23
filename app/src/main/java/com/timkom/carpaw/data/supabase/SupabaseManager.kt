@@ -213,7 +213,7 @@ object SupabaseManager {
             onCatch = {
                 Log.e(TAG, "Exception thrown during session retrieval phase")
                 it.printStackTrace()
-                Pair(null, refreshToken)
+                Pair(null, "")
             },
             RestException::class,
             HttpRequestTimeoutException::class,
