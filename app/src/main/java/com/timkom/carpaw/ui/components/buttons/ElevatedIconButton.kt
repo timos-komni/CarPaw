@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -71,7 +72,8 @@ fun ElevatedIconButton(
                 text = stringResource(id = title),
                 textAlign = TextAlign.Center,
                 lineHeight = 1.33.em,
-                fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight =  FontWeight.Medium,
                 modifier = modifier.wrapContentHeight(align = Alignment.CenterVertically)
             )
         }

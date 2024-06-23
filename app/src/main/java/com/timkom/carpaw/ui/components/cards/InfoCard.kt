@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun InfoCard(
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
         colors = CardDefaults.cardColors( MaterialTheme.colorScheme.secondaryContainer),
         modifier = modifier
             .padding(4.dp)
@@ -74,9 +76,8 @@ fun InfoCard(
                 text = stringResource(id = spec.info),
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 textAlign = TextAlign.Center,
-                lineHeight = 1.40.em,
-                fontSize = 12.sp,
-                fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentHeight(align = Alignment.CenterVertically)

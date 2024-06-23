@@ -32,12 +32,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.ui.components.PriceRow
+import com.timkom.carpaw.ui.components.RatingStars
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import kotlinx.datetime.Clock
@@ -60,15 +63,14 @@ fun SearchResultCard(
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .background(MaterialTheme.colorScheme.secondaryContainer),
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -79,24 +81,12 @@ fun SearchResultCard(
             ){
                 Text(
                     text = "${data.ride.start} to ${data.ride.destination}",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.outfit_semibold)),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Column(){
-                    Row(){
-                        Icon(
-                            painter = painterResource(id = R.drawable.euro_symbol),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                        Text(
-                            text = "${data.ride.price} ",
-                            fontFamily = FontFamily(Font(R.font.outfit_regular)),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    }
-
+                    PriceRow(data.ride.price)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -111,6 +101,7 @@ fun SearchResultCard(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.account_circle),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
                         contentDescription = null,
                         modifier = Modifier
                             .size(48.dp)
@@ -120,8 +111,8 @@ fun SearchResultCard(
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "${data.user.firstName} ${data.user.lastName}",
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.outfit_medium)),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
@@ -150,17 +141,7 @@ fun SearchResultCard(
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        repeat(5) { index ->
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = null,
-                                tint = if (index < data.user.rating.toInt()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        }
-                    }
+                    RatingStars(rating = data.user.rating)
                 }
             }
 
