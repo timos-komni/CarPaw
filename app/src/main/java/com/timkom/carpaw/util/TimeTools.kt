@@ -3,10 +3,12 @@ package com.timkom.carpaw.util
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 fun openLink(context: Context, url: String) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -40,4 +42,23 @@ fun formatDateTime(dateTime: String): String {
     }
 
     return dateTime // Return the original string if no formats matched
+}
+
+fun formatDateString(dateString: String, from: String, to: String, locale: Locale = Locale.ROOT): String? {
+    return tryMultiCatch(
+        runThis = {
+            val parsedDate = SimpleDateFormat(from, locale).parse(dateString)
+            parsedDate?.let {
+                SimpleDateFormat(to, locale).format(parsedDate)
+            }
+        },
+        onCatch = {
+            Log.e("@formatDateString", "Could not format \"$dateString\" from \"$from\" to \"$to\": ${it.message}")
+            it.printStackTrace()
+            null
+        },
+        NullPointerException::class,
+        IllegalStateException::class,
+        ParseException::class
+    )
 }

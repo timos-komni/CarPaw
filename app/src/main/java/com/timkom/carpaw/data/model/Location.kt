@@ -12,7 +12,9 @@ data class Location(
     val placeId: String?,
     val address: String?
     // ...
-) {
+) : TableData() {
+    override val tableName = TABLE_NAME
+
     companion object {
         const val TABLE_NAME = "locations"
     }

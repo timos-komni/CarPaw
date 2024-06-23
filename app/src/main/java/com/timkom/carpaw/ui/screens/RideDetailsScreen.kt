@@ -35,7 +35,7 @@ fun RideDetailsScreen(
     rideId: Long
 ) {
     val ride = viewModel.selectedRide.value
-    val user = ride?.let { viewModel.getUserById(it.ownerId) }
+    val user = ride?.let { viewModel.getUserById(it.ownerId!!.toLong()) }
     val selectedAnimals = ride?.let { viewModel.getSelectedAnimalsByRideId(it.id) }.orEmpty()
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { selectedAnimals.contains(it) }
 

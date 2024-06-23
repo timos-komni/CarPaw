@@ -14,6 +14,9 @@ import com.timkom.carpaw.BuildConfig
 import com.timkom.carpaw.util.createTAGForKClass
 import java.util.concurrent.ExecutionException
 
+/**
+ * Google Maps Places SDK "wrapper" class
+ */
 class PlacesManager private constructor(context: Context) {
 
     private val autocompleteSessionToken = AutocompleteSessionToken.newInstance()

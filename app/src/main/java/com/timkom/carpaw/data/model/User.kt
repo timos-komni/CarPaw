@@ -19,7 +19,9 @@ data class User(
     val rating: Float,
     @SerialName("other_info")
     val otherInfo: String?
-) {
+) : TableData() {
+    override val tableName: String = TABLE_NAME
+
     companion object {
         const val TABLE_NAME = "users"
     }

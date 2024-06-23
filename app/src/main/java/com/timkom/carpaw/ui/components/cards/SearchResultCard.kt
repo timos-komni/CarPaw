@@ -167,8 +167,8 @@ fun SearchResultCardPreview() {
     val sampleRide = Ride(
         id = 1,
         createdAt = "2024-01-01T10:00:00Z",
-        hostId = 1,
-        ownerId = 1,
+        hostId = UUID.randomUUID().toString(),
+        ownerId = null,
         start = "Thessaloniki",
         destination = "Ioannina",
         date = "2024-06-29",

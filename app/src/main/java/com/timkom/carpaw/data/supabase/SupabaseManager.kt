@@ -2,9 +2,11 @@ package com.timkom.carpaw.data.supabase
 
 import android.util.Log
 import com.timkom.carpaw.BuildConfig
+import com.timkom.carpaw.data.model.Location
 import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.RidePetRelation
+import com.timkom.carpaw.data.model.TableData
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.util.checkIfAnyBlank
 import com.timkom.carpaw.util.createTAGForKClass
@@ -19,12 +21,9 @@ import io.github.jan.supabase.exceptions.UnknownRestException
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
-import io.github.jan.supabase.gotrue.providers.builtin.IDToken
 import io.github.jan.supabase.gotrue.user.UserInfo
-import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.result.PostgrestResult
 import io.github.jan.supabase.storage.Storage
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.util.Digest
@@ -32,8 +31,10 @@ import io.ktor.util.InternalAPI
 import io.ktor.util.build
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import kotlin.jvm.Throws
 
+/**
+ * Supabase backend manager
+ */
 object SupabaseManager {
 
     private val TAG = createTAGForKClass(SupabaseManager::class)
@@ -246,5 +247,33 @@ object SupabaseManager {
             null
         }
     }
+
+    private suspend inline fun <reified T : TableData> insert(data: T): T? {
+        val result = runCatching {
+            client.from(data.tableName).insert(data) {
+                select()
+            }
+        }
+
+        return if (result.isSuccess) {
+            val value = result.getOrNull()?.decodeSingle<T>()
+            Log.e(TAG, "${T::class} inserted: $value")
+            value
+        } else {
+            result.exceptionOrNull()?.let {
+                Log.e(TAG, "Could not insert ${T::class}: $data")
+                it.printStackTrace()
+            }
+            null
+        }
+    }
+
+    suspend fun insertRide(ride: Ride): Ride? = insert(ride)
+
+    suspend fun insertRidePetRelation(ridePetRelation: RidePetRelation): RidePetRelation? = insert(ridePetRelation)
+
+    suspend fun insertPet(pet: Pet): Pet? = insert(pet)
+
+    suspend fun insertLocation(location: Location): Location? = insert(location)
 
 }

@@ -9,10 +9,10 @@ data class Pet(
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("owner_id")
-    val ownerId: Long,
+    val ownerId: String,
     val name: String,
     val kind: Kind
-) {
+) : TableData() {
     enum class Kind {
         CAT,
         SMALL_DOG,
@@ -21,6 +21,8 @@ data class Pet(
         SMALL_MAMMAL,
         BIRD
     }
+
+    override val tableName: String = TABLE_NAME
 
     companion object {
         const val TABLE_NAME = "pets"

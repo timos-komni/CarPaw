@@ -1,5 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +35,8 @@ import com.timkom.carpaw.ui.content.createContentList
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.CreateRideViewModel
 import com.timkom.carpaw.util.Either
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 
 @Composable
@@ -41,6 +45,7 @@ fun CreateRideScreen(
     modifier: Modifier = Modifier
 ) {
     val contentList = createContentList()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = modifier
@@ -137,7 +142,14 @@ fun CreateRideScreen(
                     ElevatedIconButton(
                         title = R.string.create_ride__title,
                         icon = Either.Left(Icons.Default.Add),
-                        onClick = {},
+                        onClick = {
+                            coroutineScope.launch {
+                                val ride = viewModel.createRide().await()
+                                ride?.let { r ->
+                                    Log.e("@CreateRideScreen", "Created Ride: $r")
+                                }
+                            }
+                        },
                         enabled = viewModel.isFormValid()
                     )
                 }

@@ -25,7 +25,7 @@ inline fun <R> tryMultiCatch(noinline runThis: () -> R, onCatch: (Throwable) -> 
     )
 }
 
-suspend inline fun <R> tryMultiCatch(noinline runThis: suspend () -> R, onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
+suspend inline fun <R> tryMultiCatchSuspend(noinline runThis: suspend () -> R, onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
     return runThis.multiCatch(
         onCatch,
         *exceptions
