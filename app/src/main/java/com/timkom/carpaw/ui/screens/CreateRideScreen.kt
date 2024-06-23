@@ -71,7 +71,9 @@ fun CreateRideScreen(
                             location1Placeholder = content.locationPlaceholder,
                             location1Label = content.locationLabel,
                             location2Placeholder = content.addressPlaceholder,
-                            location2Label = content.addressLabel
+                            location2Label = content.addressLabel,
+                            searchBarLocationViewModelKey = "CreateRideScreenContent_Location${content.id}",
+                            searchBarAddressViewModelKey = "CreateRideScreenContent_Address${content.id}"
                         )
                     }
                 )

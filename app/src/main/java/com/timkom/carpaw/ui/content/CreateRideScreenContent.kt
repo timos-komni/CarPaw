@@ -15,9 +15,6 @@ import com.timkom.carpaw.ui.components.SearchLocationBar2
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.CreateRideViewModel
 
-const val LOCATION_SEARCH_VIEW_MODEL_KEY = "CreateRideLocation"
-const val ADDRESS_SEARCH_VIEW_MODEL_KEY = "CreateRideAddress"
-
 @Composable
 fun CreateRideScreenContent(
     contentType: CreateContentType,
@@ -25,7 +22,9 @@ fun CreateRideScreenContent(
     location1Label: Int,
     location2Placeholder: Int,
     location2Label: Int,
-    viewModel: CreateRideViewModel = viewModel()
+    viewModel: CreateRideViewModel = viewModel(),
+    searchBarLocationViewModelKey: String = "CreateRideScreenContent_Location",
+    searchBarAddressViewModelKey: String = "CreateRideScreenContent_Address"
 ) {
     Column(modifier = Modifier.padding(8.dp)) {
         /*SearchLocationBar(
@@ -65,7 +64,7 @@ fun CreateRideScreenContent(
             placeholder = location1Placeholder,
             label = location1Label,
             onSelection = { viewModel.onLocationResultSelected(contentType, it?.getFullText(null).toString()) },
-            viewModelKey = LOCATION_SEARCH_VIEW_MODEL_KEY
+            viewModelKey = searchBarLocationViewModelKey
         )
         Spacer(modifier = Modifier.height(16.dp))
         SearchLocationBar2(
@@ -73,7 +72,7 @@ fun CreateRideScreenContent(
             label = location2Label,
             onSelection = { viewModel.onAddressResultSelected(contentType, it?.getFullText(null).toString()) },
             typeFilter = PlacesManager.SearchType.ADDRESS,
-            viewModelKey = ADDRESS_SEARCH_VIEW_MODEL_KEY
+            viewModelKey = searchBarAddressViewModelKey
         )
     }
 }
