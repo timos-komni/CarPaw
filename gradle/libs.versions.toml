@@ -44,6 +44,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 io-supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
 io-supabase-postgrest-kt = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
 io-supabase-storage-kt = { group = "io.github.jan-tennert.supabase", name = "storage-kt" }
+io-supabase-coil-integration = { group = "io.github.jan-tennert.supabase", name = "coil-integration" }
 io-ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 google-accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "pagerIndicators" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin" }

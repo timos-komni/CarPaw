@@ -11,7 +11,8 @@ fun SearchScreenContent(
     contentType: SearchContentType,
     placeholder: Int,
     label: Int,
-    viewModel: SearchRideViewModel = viewModel()
+    viewModel: SearchRideViewModel = viewModel(),
+    searchBarViewModelKey: String = "SearchScreenContent_Location"
 ) {
     /*SearchLocationBar(
         placeholder = placeholder,
@@ -32,7 +33,8 @@ fun SearchScreenContent(
     SearchLocationBar2(
         placeholder = placeholder,
         label = label,
-        onSelection = { viewModel.onResulSelected(contentType, it?.getFullText(null).toString()) }
+        onSelection = { viewModel.onResulSelected(contentType, it?.getFullText(null).toString()) },
+        viewModelKey = searchBarViewModelKey
     )
 }
 

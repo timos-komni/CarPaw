@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.squareup.okhttp.Address
+import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
@@ -175,7 +176,7 @@ fun RideDetails(ride: Ride) {
         RideInfoRow(
             icon = R.drawable.route,
             location = ride.destination,
-            address = ride.endAddress,
+            address = ride.destinationAddress,
             dateTime = ride.date
         )
     }

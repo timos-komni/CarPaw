@@ -10,6 +10,7 @@ import com.timkom.carpaw.util.checkIfAnyBlank
 import com.timkom.carpaw.util.createTAGForKClass
 import com.timkom.carpaw.util.multiCatch
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.coil.CoilIntegration
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.BadRequestRestException
 import io.github.jan.supabase.exceptions.HttpRequestException
@@ -44,6 +45,7 @@ object SupabaseManager {
         install(Postgrest)
         install(Storage)
         install(Auth)
+        install(CoilIntegration)
     }
 
     @OptIn(InternalAPI::class, ExperimentalStdlibApi::class)

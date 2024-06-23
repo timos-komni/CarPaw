@@ -72,7 +72,8 @@ fun SearchScreen(
                         SearchScreenContent(
                             content.type as SearchContentType,
                             placeholder = content.locationPlaceholder,
-                            label = content.locationLabel
+                            label = content.locationLabel,
+                            searchBarViewModelKey = "SearchScreenContent_Location${content.id}"
                         )
                     }
                 )
