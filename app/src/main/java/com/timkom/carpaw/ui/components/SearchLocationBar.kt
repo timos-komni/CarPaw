@@ -245,12 +245,12 @@ fun SearchLocationBar2(
                     modifier = Modifier
                         .padding(all = 10.dp)
                         .clickable {
-                            //searchLocationViewModel.items.clear()
+                            searchLocationViewModel.items.clear()
                             searchLocationViewModel.result.value = it
-                            //isActive = false
-                            //queryText = ""
+                            isActive = false
+                            queryText = it.getFullText(null).toString()
                             onSelection.invoke(searchLocationViewModel.result.value)
-                            searchLocationViewModel.reset()
+                            //searchLocationViewModel.reset()
                         }
                 ) {
                     Icon(
