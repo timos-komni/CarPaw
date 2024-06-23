@@ -34,6 +34,7 @@
     <string name="forgot_password__title">Forgot Password</string>
     <string name="pre_login_create_ride__title">Create a Ride</string>
     <string name="pre_login_my_rides__title">My Rides</string>
+    <string name="profile__title">Profile</string>
 
     <!--Create/Search Ride Screen-->
     <string name="leaving_from__title">Leaving from…</string>
