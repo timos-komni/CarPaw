@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -55,14 +56,9 @@ fun HeroCard(
                 text = stringResource(id = R.string.hero_text),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
-                lineHeight = 1.4.em,
-                style = TextStyle(
-                    fontSize = 22.sp,
-                    fontFamily = FontFamily(Font(R.font.outfit_semibold)),
-                    letterSpacing = 0.15.sp),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier
-                    .requiredWidth(width = 322.dp)
-                    .requiredHeight(height = 56.dp)
                     .wrapContentHeight(align = Alignment.CenterVertically))
         }
 

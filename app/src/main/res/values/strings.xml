@@ -99,7 +99,9 @@
     <string name="preferences_file" translatable="false">carpaw_shared_preferences</string>
     <string name="supabase_refresh_token_pref_key" translatable="false">SUPABASE_REFRESH_TOKEN</string>
 
+    <!-- Ride Details Screen-->
+    <string name="driver_details__title">Driver Details</string>
 
-    <string name="driver_description">I use to drive a lot and I have over ten years of experience and a deep love for animals. I ensure that your companion animals have a safe and comfortable journey with me.</string>
+    <string name="driver_description">I really enjoy driving and I have over ten years of experience and a deep love for animals. I ensure that your companion animals have a safe and comfortable journey with me.</string>
 
 </resources>

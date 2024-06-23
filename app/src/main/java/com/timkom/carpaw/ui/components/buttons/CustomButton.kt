@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun CustomButton(
@@ -37,6 +38,9 @@ fun CustomButton(
         colors = colors,
         enabled = enabled
     ) {
-        Text(text = stringResource(id = title))
+        Text(text = stringResource(id = title),
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight =  FontWeight.Medium
+            )
     }
 }

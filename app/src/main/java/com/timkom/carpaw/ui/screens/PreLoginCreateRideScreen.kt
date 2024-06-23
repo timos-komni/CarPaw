@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,10 +52,8 @@ fun PreLoginCreateRideScreen(
             text = stringResource(id = R.string.login__create_ride_text),
             color = MaterialTheme.colorScheme.onBackground,
             lineHeight = 1.4.em,
-            style = TextStyle(
-                fontSize = 24.sp,
-                fontFamily = FontFamily(Font(R.font.outfit_semibold)),
-                letterSpacing = 0.15.sp),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 16.dp)
         )
         Text(
@@ -62,10 +61,7 @@ fun PreLoginCreateRideScreen(
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             lineHeight = 1.4.em,
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontFamily = FontFamily(Font(R.font.outfit_medium)),
-                letterSpacing = 0.15.sp),
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(vertical = 16.dp)
         )
         CustomButton(
