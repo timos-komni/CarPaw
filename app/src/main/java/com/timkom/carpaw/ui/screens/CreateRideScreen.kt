@@ -134,10 +134,10 @@ fun CreateRideScreen(
                 ) {
                     ElevatedIconButton(
                         title = R.string.create_ride__title,
-                        icon = Either.Left(Icons.Default.Add)
-                    ) {
-                        // TODO
-                    }
+                        icon = Either.Left(Icons.Default.Add),
+                        onClick = {},
+                        enabled = viewModel.isFormValid()
+                    )
                 }
             }
         }

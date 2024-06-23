@@ -115,6 +115,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.google.android.libraries.places)
     implementation(libs.kotlinx.datetime)
+   // implementation(libs.coil.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

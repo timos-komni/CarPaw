@@ -30,7 +30,8 @@ fun ElevatedIconButton(
     @StringRes title: Int,
     icon: Either<ImageVector, Int>,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    enabled: Boolean
 ) {
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
@@ -47,7 +48,8 @@ fun ElevatedIconButton(
         } else {
             Modifier.width(400.dp).padding(horizontal = 32.dp)
         },
-        onClick = onClick
+        onClick = onClick,
+        enabled = enabled
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
@@ -83,10 +85,12 @@ private fun IconButtonPreview() {
     CarPawTheme(dynamicColor = false){
         ElevatedIconButton(
             title = R.string.create_ride__title,
-            icon =  Either.Right(R.drawable.add_location)
-        ) {
+            icon =  Either.Right(R.drawable.add_location),
+            onClick = {},
+            enabled = true
 
-        }
+        )
+
     }
 
 }

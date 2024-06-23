@@ -157,5 +157,15 @@ class CreateRideViewModel : ViewModel() {
     fun closePriceDialog() {
         isPriceDialogOpen.value = false
     }
+
+    //Form validation method
+    fun isFormValid(): Boolean {
+        return startData.value.searchLocationText.value.isNotEmpty() &&
+                startData.value.searchAddressText.value.isNotEmpty() &&
+                destinationData.value.searchLocationText.value.isNotEmpty() &&
+                destinationData.value.searchAddressText.value.isNotEmpty() &&
+                selectedDate.value.isNotEmpty() &&
+                price.value.isNotEmpty()
+    }
 }
 

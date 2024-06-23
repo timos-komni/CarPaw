@@ -18,14 +18,17 @@ import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
 import com.timkom.carpaw.ui.screens.PreLoginCreateRideScreen
 import com.timkom.carpaw.ui.screens.PreLoginMyRidesScreen
+import com.timkom.carpaw.ui.screens.RideDetailsScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
+import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel = viewModel()
+    mainViewModel: MainViewModel = viewModel(),
+    searchRideViewModel: SearchRideViewModel = viewModel()
 ) {
     NavHost(
         navController = navController,
@@ -80,7 +83,27 @@ fun BottomNavGraph(
                 screenTitle = stringResource(R.string.available_rides__title),
                 onBackButton = { navController.popBackStack() }
             )
-            AvailableRidesScreen(/*onBackClick = { navController.popBackStack() }*/)
+            AvailableRidesScreen(
+                viewModel = searchRideViewModel,
+                onViewRideDetailsClick = { ride ->
+                    searchRideViewModel.setSelectedRide(ride)
+                    navController.currentBackStackEntry?.savedStateHandle?.set("selected_ride", ride.id)
+                    navController.navigate("ride_details")
+                }
+            )
+        }
+        composable(route = "ride_details") {
+            mainViewModel.setAll(
+                screenTitle = stringResource(R.string.ride_details__title),
+                onBackButton = { navController.popBackStack() }
+            )
+            val rideId = navController.previousBackStackEntry?.savedStateHandle?.get<Long>("selected_ride")
+            if (rideId != null) {
+                RideDetailsScreen(
+                    viewModel = searchRideViewModel,
+                    rideId = rideId
+                )
+            }
         }
         composable(route = BottomNavigationItem.MyRides.route) {
             mainViewModel.setAll(stringResource(R.string.my_rides__title))
