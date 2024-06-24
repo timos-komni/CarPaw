@@ -39,7 +39,6 @@ fun LoginNavGraph(
             }, onUserLogin = {
                 dialogViewModel.shouldDismiss.value = true
                 mainViewModel.userIsConnected.value = true
-                navController.navigate("profile")
             })
         }
         composable(route = "create_account") {

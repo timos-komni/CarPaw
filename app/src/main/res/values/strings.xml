@@ -103,6 +103,11 @@
     <!-- Ride Details Screen-->
     <string name="driver_details__title">Driver Details</string>
 
+    <!-- Available Rides Screen-->
+    <string name="no_available_rides__text">Sorry, there are no available rides at the moment. Please try again later or change your search criteria.</string>
+
+
+
     <string name="driver_description">I really enjoy driving and I have over ten years of experience and a deep love for animals. I ensure that your companion animals have a safe and comfortable journey with me.</string>
 
 </resources>
