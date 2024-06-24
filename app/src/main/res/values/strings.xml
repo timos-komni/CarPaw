@@ -44,6 +44,10 @@
     <string name="passengers__title">Passengers</string>
     <string name="preferred_passengers__title">Passengers I want to travel with…</string>
     <string name="set_price__title">Set the price</string>
+    <string name="online__text"> Your ride is online!</string>
+    <string name="go_to_my_rides__text">Go to \'My rides\' section to view and edit your rides.</string>
+
+
 
     <!-- SearchBar -->
     <string name="search_departure__placeholder">Leaving from</string>
@@ -77,6 +81,7 @@
     <string name="login__button">Login</string>
     <string name="create_account__button">Create Account</string>
     <string name="ask_ride__button">Ask Ride</string>
+    <string name="create_ride__button">Create Ride</string>
 
     <!--LoginScreen-->
     <string name="login_card__title__text">Welcome to your CarPaw account</string>

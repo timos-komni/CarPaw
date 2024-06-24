@@ -69,7 +69,16 @@ fun BottomNavGraph(
         composable(route = BottomNavigationItem.CreateRide.route) {
             mainViewModel.setAll(stringResource(R.string.create_ride__title))
             if (mainViewModel.userIsConnected.value) {
-                CreateRideScreen()
+                CreateRideScreen(onNavigateToMyRides = {
+                    navController.navigate(BottomNavigationItem.MyRides.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    mainViewModel.navigationSelectedItem.intValue = 3
+                })
             } else {
                 PreLoginCreateRideScreen(mainViewModel = mainViewModel)
             }
