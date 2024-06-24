@@ -240,6 +240,7 @@ class MainActivity : ComponentActivity() {
                 
                 if (showProfileDialog) {
                     SimpleFullScreenDialog(onDismissRequest = { showProfileDialog = false }) {
+                        // TODO (Chloe) replace with Profile screen/NavGraph
                         val loginNavController = rememberNavController()
                         LoginNavGraph(navController = loginNavController)
                     }
