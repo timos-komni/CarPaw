@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,149 +69,144 @@ fun LoginScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // TODO (Chloe) Γιατί LazyColumn και όχι Column?!
-        LazyColumn(
+        Column(
             modifier = Modifier.padding(3.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            item {
-                Image(
-                    painter = painterResource(R.drawable.city_driver_decor_foreground),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1.5f)
-                )
-            }
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(40.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    EmailTextField(
-                        value = username,
-                        onValueChange = viewModel::onUsernameChange,
-                        placeholder = stringResource(R.string.login_card__email_field__placeholder),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    PasswordTextField(
-                        value = password,
-                        onValueChange = viewModel::onPasswordChange,
-                        placeholder = stringResource(R.string.login_card__password_field__placeholder),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.login_card__forgot_password_ling__text),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 22.sp,
-                            fontFamily = FontFamily(Font(R.font.outfit)),
-                            fontWeight = FontWeight(400),
-                            color = MaterialTheme.colorScheme.primary,
-                            letterSpacing = 0.25.sp,
-                            textDecoration = TextDecoration.Underline,
-                        ),
-                        modifier = Modifier
-                            .padding(top = 8.dp)
-                            .align(Alignment.End)
-                            .clickable { onForgotPasswordClick() }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CustomButton(
-                        title = R.string.login_card__login_button__text,
-                        onClick = {
-                            if (username.isNotBlank() && password.isNotBlank()) {
-                                coroutineScope.launch {
-                                    val result = viewModel.login().await() // wait for the login coroutine
-                                    val userSession = result.first
-                                    val user = result.second
-                                    val userIsConfirmed = user != null && loginStatus
-                                    val refreshToken = if (userIsConfirmed) userSession?.refreshToken else null
-                                    val accessToken = if (userIsConfirmed) userSession?.accessToken else null
-                                    GlobalData.user = if (userIsConfirmed) user else null
-                                    withContext(Dispatchers.Main) {
-                                        val prefsEditor = context.getSharedPreferences(
-                                            context.getString(R.string.preferences_file),
-                                            Context.MODE_PRIVATE
-                                        ).edit()
-                                        refreshToken?.let {
-                                            prefsEditor
-                                                .putString(
-                                                    context.getString(R.string.supabase_refresh_token_pref_key),
-                                                    refreshToken
-                                                )
-                                        }
-                                        accessToken?.let {
-                                            prefsEditor
-                                                .putString(
-                                                    context.getString(R.string.supabase_access_token_pref_key),
-                                                    accessToken
-                                                )
-                                        }
-                                        prefsEditor.apply()
-
-                                        dialogMessage = if (userIsConfirmed) {
-                                            onUserLogin.invoke()
-                                            // TODO (Chloe) Δεν θα δουλέψει σε αυτήν την περίπτωση, από την άποψη ότι θα έχει κλείσει ήδη το παράθυρο
-                                            "Welcome back, ${user!!.firstName} ${user.lastName}!"
-                                        } else if (user != null) {
-                                            "Please check your email to confirm your account before login!"
-                                        } else {
-                                            "Login failed. Please check your username and password."
-                                        }
-                                        showDialog = true
-                                    }
+            Image(
+                painter = painterResource(R.drawable.city_driver_decor_foreground),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1.5f)
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            EmailTextField(
+                value = username,
+                onValueChange = viewModel::onUsernameChange,
+                placeholder = stringResource(R.string.login_card__email_field__placeholder),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            PasswordTextField(
+                value = password,
+                onValueChange = viewModel::onPasswordChange,
+                placeholder = stringResource(R.string.login_card__password_field__placeholder),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(R.string.login_card__forgot_password_ling__text),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 22.sp,
+                    fontFamily = FontFamily(Font(R.font.outfit)),
+                    fontWeight = FontWeight(400),
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = 0.25.sp,
+                    textDecoration = TextDecoration.Underline,
+                ),
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.End)
+                    .clickable { onForgotPasswordClick() }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CustomButton(
+                title = R.string.login_card__login_button__text,
+                onClick = {
+                    if (username.isNotBlank() && password.isNotBlank()) {
+                        coroutineScope.launch {
+                            val result = viewModel.login().await() // wait for the login coroutine
+                            val userSession = result.first
+                            val user = result.second
+                            val userIsConfirmed = user != null && loginStatus
+                            val refreshToken = if (userIsConfirmed) userSession?.refreshToken else null
+                            val accessToken = if (userIsConfirmed) userSession?.accessToken else null
+                            GlobalData.user = if (userIsConfirmed) user else null
+                            withContext(Dispatchers.Main) {
+                                val prefsEditor = context.getSharedPreferences(
+                                    context.getString(R.string.preferences_file),
+                                    Context.MODE_PRIVATE
+                                ).edit()
+                                refreshToken?.let {
+                                    prefsEditor
+                                        .putString(
+                                            context.getString(R.string.supabase_refresh_token_pref_key),
+                                            refreshToken
+                                        )
                                 }
+                                accessToken?.let {
+                                    prefsEditor
+                                        .putString(
+                                            context.getString(R.string.supabase_access_token_pref_key),
+                                            accessToken
+                                        )
+                                }
+                                prefsEditor.apply()
+
+                                dialogMessage = if (userIsConfirmed) {
+                                    onUserLogin.invoke()
+                                    // TODO (Chloe) Δεν θα δουλέψει σε αυτήν την περίπτωση, από την άποψη ότι θα έχει κλείσει ήδη το παράθυρο
+                                    "Welcome back, ${user!!.firstName} ${user.lastName}!"
+                                } else if (user != null) {
+                                    "Please check your email to confirm your account before login!"
+                                } else {
+                                    "Login failed. Please check your username and password."
+                                }
+                                showDialog = true
                             }
-                        },
-                        enabled = username.isNotBlank() && password.isNotBlank()
+                        }
+                    }
+                },
+                enabled = username.isNotBlank() && password.isNotBlank()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = stringResource(R.string.login_card__no_account_prompt__text),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 22.sp,
+                    fontFamily = FontFamily(Font(R.font.outfit)),
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF555252),
+                    textAlign = TextAlign.Center,
+                    letterSpacing = 0.25.sp,
+                ),
+                modifier = Modifier
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 8.dp,
+                        bottom = 2.dp
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(R.string.login_card__no_account_prompt__text),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 22.sp,
-                            fontFamily = FontFamily(Font(R.font.outfit)),
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF555252),
-                            textAlign = TextAlign.Center,
-                            letterSpacing = 0.25.sp,
-                        ),
-                        modifier = Modifier
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = 8.dp,
-                                bottom = 2.dp
-                            )
+            )
+            Text(
+                text = stringResource(R.string.login_card__create_account__text),
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 22.sp,
+                    fontFamily = FontFamily(Font(R.font.outfit)),
+                    fontWeight = FontWeight(400),
+                    color = MaterialTheme.colorScheme.primary,
+                    letterSpacing = 0.25.sp,
+                ),
+                modifier = Modifier
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 0.dp,
+                        bottom = 8.dp
                     )
-                    Text(
-                        text = stringResource(R.string.login_card__create_account__text),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 22.sp,
-                            fontFamily = FontFamily(Font(R.font.outfit)),
-                            fontWeight = FontWeight(400),
-                            color = MaterialTheme.colorScheme.primary,
-                            letterSpacing = 0.25.sp,
-                        ),
-                        modifier = Modifier
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = 0.dp,
-                                bottom = 8.dp
-                            )
-                            .clickable { onCreateAccountClick() }
-                    )
-                }
-            }
+                    .clickable { onCreateAccountClick() }
+            )
         }
     }
     if (showDialog) {

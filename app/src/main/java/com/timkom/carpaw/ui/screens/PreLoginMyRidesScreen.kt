@@ -45,7 +45,7 @@ fun PreLoginMyRidesScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.person_dog_phone_decor_foreground),
-            contentDescription = null,
+            contentDescription = "decorative",
             modifier = Modifier.size(200.dp)
         )
         Text(

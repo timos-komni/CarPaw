@@ -78,7 +78,7 @@ fun ProfileScreen(onLogoutClick: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Log out",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.clickable { onLogoutClick() }
             )

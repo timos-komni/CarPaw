@@ -170,6 +170,37 @@ fun FullScreenDialog(
 }
 
 @Composable
+fun FullScreenDialogWithoutTitle(
+    properties: DialogProperties = DialogProperties(),
+    onDismissRequest: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    Dialog(
+        onDismissRequest = onDismissRequest,
+        properties = DialogProperties(
+            securePolicy = properties.securePolicy,
+            usePlatformDefaultWidth = false,
+            decorFitsSystemWindows = false
+        )
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            content = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    content.invoke()
+                }
+            }
+        )
+    }
+}
+
+@Composable
 fun CustomAlertDialog(
     message: String,
     onDismissRequest: () -> Unit,
@@ -195,3 +226,4 @@ fun CustomAlertDialog(
         textContentColor = MaterialTheme.colorScheme.onBackground,
     )
 }
+
