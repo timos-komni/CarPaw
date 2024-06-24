@@ -27,8 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +49,6 @@ import com.timkom.carpaw.ui.BottomNavGraph
 import com.timkom.carpaw.ui.FullScreenDialog
 import com.timkom.carpaw.ui.LoginNavGraph
 import com.timkom.carpaw.ui.ProfileNavGraph
-import com.timkom.carpaw.ui.SimpleFullScreenDialog
 import com.timkom.carpaw.ui.components.buttons.ArrowBackButton
 import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
@@ -73,9 +70,10 @@ class MainActivity : ComponentActivity() {
                     connectUser()
                 }
                 Log.d(createTAGForKClass(MainActivity::class), GlobalData.user.toString())
+                Log.d(createTAGForKClass(MainActivity::class), GlobalData.anonSession.toString())
             }
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                if (GlobalData.user != null) {
+                if (GlobalData.user != null || GlobalData.anonSession != null) {
                     SupabaseManager.refreshCurrentSession()
                 }
             }
@@ -287,13 +285,17 @@ class MainActivity : ComponentActivity() {
                 refreshSession(refreshToken)
             } else {
                 viewModel.userIsConnected.value = false
-                // TODO user is disconnected
             }
         } else if (refreshToken.isNotBlank()) {
             refreshSession(refreshToken)
         } else {
             viewModel.userIsConnected.value = false
-            // TODO user is disconnected
+        }
+
+        GlobalData.anonSession = if (!viewModel.userIsConnected.value) {
+            SupabaseManager.createAnonUser()
+        } else {
+            null
         }
     }
 

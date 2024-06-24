@@ -11,8 +11,6 @@ import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.util.checkIfAnyBlank
 import com.timkom.carpaw.util.createTAGForKClass
 import com.timkom.carpaw.util.multiCatch
-import com.timkom.carpaw.util.tryMultiCatch
-import com.timkom.carpaw.util.tryMultiCatchSuspend
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.coil.CoilIntegration
 import io.github.jan.supabase.createSupabaseClient
@@ -321,6 +319,27 @@ object SupabaseManager {
         )
     }
 
+    suspend fun createAnonUser(): UserSession? {
+        return suspend {
+            client.auth.signInAnonymously(buildJsonObject {
+                put("first_name", "anonymous")
+                put("last_name", "anonymous")
+            })
+            client.auth.currentSessionOrNull()
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during anon-user creation phase")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+    }
+
     private suspend inline fun <reified T : TableData> insert(data: T): T? {
         val result = runCatching {
             client.from(data.tableName).insert(data) {
@@ -348,5 +367,44 @@ object SupabaseManager {
     suspend fun insertPet(pet: Pet): Pet? = insert(pet)
 
     suspend fun insertLocation(location: Location): Location? = insert(location)
+
+    suspend fun fetchScheduledRides(
+        start: String,
+        destination: String,
+        date: String,
+        acceptedPets: List<Pet.Kind>
+    ): List<Ride>? {
+        val result = runCatching {
+            client.from(Ride.TABLE_NAME)
+                .select {
+                    filter {
+                        Ride::start eq start
+                        Ride::destination eq destination
+                        if (date.isNotBlank()) Ride::date eq date
+                        Ride::status eq Ride.Status.Scheduled
+                        Ride::ownerId isExact null
+                        Ride::acceptedPets contains acceptedPets
+                        /*Ride::start eq "Thane, Maharashtra, India"
+                        Ride::destination eq "York, UK"
+                        Ride::date eq "2024-06-23"
+                        Ride::status eq Ride.Status.Scheduled
+                        Ride::ownerId isExact null
+                        /*Ride::acceptedPets contains Pet.Kind.entries*/*/
+                    }
+                }
+        }
+
+        return if (result.isSuccess) {
+            val value = result.getOrNull()?.decodeList<Ride>()
+            Log.e(TAG, "Rides selected: $value")
+            value
+        } else {
+            result.exceptionOrNull()?.let {
+                Log.e(TAG, "Could not find results: $it")
+                it.printStackTrace()
+            }
+            null
+        }
+    }
 
 }

@@ -6,10 +6,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
+import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
+import com.timkom.carpaw.util.formatDateString
 import java.lang.ref.WeakReference
 import java.util.UUID
 
@@ -163,11 +166,26 @@ class SearchRideViewModel : ViewModel() {
     }
 
     // Function to get available rides based on search criteria
-    fun getAvailableRides(): List<SearchResultCardData> {
+    suspend fun getAvailableRides(): List<SearchResultCardData>? {
         // Retrieve the user's selected animals
         val selectedAnimals = animals.filter { it.count > 0 }
+        val result = SupabaseManager.fetchScheduledRides(
+            start = startSearchText.value,
+            destination = destinationSearchText.value,
+            date = formatDateString(selectedDate.value, "dd/MM/yyyy", "yyyy-MM-dd") ?: selectedDate.value,
+            acceptedPets = selectedAnimals.map {
+                when (it) {
+                    CompanionAnimalItem.CAT -> Pet.Kind.CAT
+                    CompanionAnimalItem.SMALL_DOG -> Pet.Kind.SMALL_DOG
+                    CompanionAnimalItem.MEDIUM_DOG -> Pet.Kind.MEDIUM_DOG
+                    CompanionAnimalItem.BIG_DOG -> Pet.Kind.BIG_DOG
+                    CompanionAnimalItem.SMALL_MAMMAL -> Pet.Kind.SMALL_DOG
+                    CompanionAnimalItem.BIRD -> Pet.Kind.BIRD
+                }
+            }
+        )
 
-        return allRides.filter { ride ->
+        return result?.filter { ride ->
            // ride.start.equals(startSearchText.value, ignoreCase = true) &&
                     //ride.destination.equals(destinationSearchText.value, ignoreCase = true) &&
                   //  ride.date == selectedDate.value &&
@@ -175,10 +193,10 @@ class SearchRideViewModel : ViewModel() {
                     selectedAnimals.any { selectedAnimal ->
                         getSelectedAnimalsByRideId(ride.id).contains(selectedAnimal)
                     }
-        }.map { ride ->
+        }?.map { ride ->
             SearchResultCardData(
                 ride = ride,
-                user = getUserById(ride.ownerId!!.toLong()),
+                user = /*getUserById(ride.ownerId!!.toLong())*/ User("", "", "", "", "", null, null, .0f, null),
                 selectedAnimals = getSelectedAnimalsByRideId(ride.id)
             )
         }
