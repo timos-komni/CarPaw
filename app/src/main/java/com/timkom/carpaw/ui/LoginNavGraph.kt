@@ -58,16 +58,5 @@ fun LoginNavGraph(
             )
             ForgotPasswordScreen()
         }
-        composable(route = "profile") {
-            dialogViewModel.setAll(
-                title = stringResource(R.string.profile__title),
-                onBackButton = { navController.popBackStack() }
-            )
-            ProfileScreen(onLogoutClick = {
-                // TODO Handle logout
-               // mainViewModel.userIsConnected.value = false
-                //GlobalData.user = null
-            })
-        }
     }
 }

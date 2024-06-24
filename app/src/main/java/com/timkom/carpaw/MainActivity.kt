@@ -50,6 +50,7 @@ import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.BottomNavGraph
 import com.timkom.carpaw.ui.FullScreenDialog
 import com.timkom.carpaw.ui.LoginNavGraph
+import com.timkom.carpaw.ui.ProfileNavGraph
 import com.timkom.carpaw.ui.SimpleFullScreenDialog
 import com.timkom.carpaw.ui.components.buttons.ArrowBackButton
 import com.timkom.carpaw.ui.data.BottomNavigationItem
@@ -240,9 +241,16 @@ class MainActivity : ComponentActivity() {
                 
                 if (showProfileDialog) {
                     SimpleFullScreenDialog(onDismissRequest = { showProfileDialog = false }) {
-                        // TODO (Chloe) replace with Profile screen/NavGraph
-                        val loginNavController = rememberNavController()
-                        LoginNavGraph(navController = loginNavController)
+                        val profileNavController = rememberNavController()
+                        ProfileNavGraph(
+                            navController = profileNavController,
+                            onLogoutClick = { //TODO
+                               // showProfileDialog = false
+                                //userIsConnected = false
+                               // showLoginDialog = true
+                            }
+                        )
+
                     }
                 }
             }
