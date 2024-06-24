@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.components.RatingStars
+import com.timkom.carpaw.ui.components.UserImage
 
 @Composable
 fun DriverDetailsCard(user: User) {
@@ -38,15 +37,7 @@ fun DriverDetailsCard(user: User) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.account_circle),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
-                contentDescription = "user image",
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+            UserImage(color = MaterialTheme.colorScheme.onSecondaryContainer)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "${user.firstName} ${user.lastName}",

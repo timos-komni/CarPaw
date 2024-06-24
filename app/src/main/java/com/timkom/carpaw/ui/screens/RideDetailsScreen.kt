@@ -49,7 +49,9 @@ fun RideDetailsScreen(
         item{
             ride?.let {
                 RideDetails(ride = it)
-                Spacer(modifier = Modifier.height(36.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider(thickness = 3.dp, color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Animals that ${user?.firstName ?: ""} wants to travel with:",
                     style = MaterialTheme.typography.titleMedium,
@@ -81,6 +83,8 @@ fun RideDetailsScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
+                HorizontalDivider(thickness = 3.dp, color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                Spacer(modifier = Modifier.height(16.dp))
                 PriceRow(price = ride.price)
                 CustomButton(
                     title = R.string.ask_ride__button,
@@ -90,13 +94,14 @@ fun RideDetailsScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(id = R.string.driver_details__title),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 user?.let {
                     DriverDetailsCard(user = it)
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
 
@@ -106,46 +111,45 @@ fun RideDetailsScreen(
 
 @Composable
 fun RideDetails(ride: Ride) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Row(
+        verticalAlignment = Alignment.Top,
         modifier = Modifier.fillMaxWidth()
-
     ) {
-        RideInfoRow(
-            icon = R.drawable.route,
-            location = ride.start,
-            address = ride.startAddress,
-            dateTime = ride.date
+        Icon(
+            painter = painterResource(id = R.drawable.route),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(end = 16.dp).size(36.dp).align(Alignment.CenterVertically)
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        RideInfoRow(
-            icon = R.drawable.route,
-            location = ride.destination,
-            address = ride.destinationAddress,
-            dateTime = ride.date
-        )
+        Column {
+            RideInfoRow(
+                location = ride.start,
+                address = ride.startAddress,
+                dateTime = ride.date
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            RideInfoRow(
+                location = ride.destination,
+                address = ride.destinationAddress,
+                dateTime = ride.date
+            )
+        }
     }
 }
 
 @Composable
-fun RideInfoRow(icon: Int, location: String, dateTime: String, address: String) {
+fun RideInfoRow(location: String, dateTime: String, address: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
 
     ) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(end = 16.dp)
-        )
         Column {
             Text(
                 text = "$address, $location",
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 8.dp)
             )
             Text(
                 text = formatDateTime(dateTime),
