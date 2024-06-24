@@ -128,8 +128,10 @@ fun LoginScreen(
                             val userSession = result.first
                             val user = result.second
                             val userIsConfirmed = user != null && loginStatus
-                            val refreshToken = if (userIsConfirmed) userSession?.refreshToken else null
-                            val accessToken = if (userIsConfirmed) userSession?.accessToken else null
+                            val refreshToken =
+                                if (userIsConfirmed) userSession?.refreshToken else null
+                            val accessToken =
+                                if (userIsConfirmed) userSession?.accessToken else null
                             GlobalData.user = if (userIsConfirmed) user else null
                             withContext(Dispatchers.Main) {
                                 val prefsEditor = context.getSharedPreferences(
