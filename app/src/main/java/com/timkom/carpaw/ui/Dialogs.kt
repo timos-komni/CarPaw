@@ -101,6 +101,7 @@ fun SimpleFullScreenDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FullScreenDialog(
+    viewModelKey: String? = null,
     properties: DialogProperties = DialogProperties(),
     onDismissRequest: () -> Unit,
     actions: @Composable () -> Unit = {},
@@ -117,7 +118,7 @@ fun FullScreenDialog(
         )
     ) {
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-        val dialogViewModel: FullScreenDialogViewModel = viewModel()
+        val dialogViewModel: FullScreenDialogViewModel = viewModel(key = viewModelKey)
         val title: String by dialogViewModel.title
         val onBackButton: (() -> Unit)? by dialogViewModel.onBackButton
         Scaffold(

@@ -12,6 +12,7 @@ class MainViewModel: ViewModel() {
     var shouldHaveProfileAction = mutableStateOf(true)
     var userIsConnected = mutableStateOf(false)
     var showLoginDialog = mutableStateOf(false)
+    var showProfileDialog = mutableStateOf(false)
     var navigationSelectedItem = mutableIntStateOf(0)
 
     /**

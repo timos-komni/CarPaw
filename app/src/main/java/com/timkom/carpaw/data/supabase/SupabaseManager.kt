@@ -11,6 +11,8 @@ import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.util.checkIfAnyBlank
 import com.timkom.carpaw.util.createTAGForKClass
 import com.timkom.carpaw.util.multiCatch
+import com.timkom.carpaw.util.tryMultiCatch
+import com.timkom.carpaw.util.tryMultiCatchSuspend
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.coil.CoilIntegration
 import io.github.jan.supabase.createSupabaseClient
@@ -22,6 +24,7 @@ import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import io.github.jan.supabase.gotrue.user.UserInfo
+import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.storage.Storage
@@ -167,13 +170,13 @@ object SupabaseManager {
     suspend fun loginUser(
         email: String,
         password: String
-    ): UserInfo? {
-        val user = suspend {
+    ): UserSession? {
+        val session = suspend {
             client.auth.signInWith(Email) {
                 this.email = email
                 this.password = password
             }
-            client.auth.currentUserOrNull()
+            client.auth.currentSessionOrNull()
         }.multiCatch(
             onCatch = {
                 Log.e(TAG, "Exception thrown during sign-in phase for user with email ${email}: ${it.message}")
@@ -186,7 +189,27 @@ object SupabaseManager {
             UnknownRestException::class,
             BadRequestRestException::class
         )
-        return user
+        return session
+    }
+
+    suspend fun getAccessToken(): String? {
+        val token = suspend {
+            val session = client.auth.currentSessionOrNull()
+            session?.accessToken
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during session retrieval phase")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+
+        return token
     }
 
     suspend fun getRefreshToken(): String? {
@@ -208,15 +231,14 @@ object SupabaseManager {
         return token
     }
 
-    suspend fun getCurrentUser(refreshToken: String): Pair<UserInfo?, String> {
-        val user = suspend {
-            val userSession = client.auth.refreshSession(refreshToken)
-            Pair(userSession.user, userSession.refreshToken)
+    suspend fun retrieveUser(accessToken: String): UserInfo? {
+        return suspend {
+            client.auth.retrieveUser(accessToken)
         }.multiCatch(
             onCatch = {
                 Log.e(TAG, "Exception thrown during session retrieval phase")
                 it.printStackTrace()
-                Pair(null, "")
+                null
             },
             RestException::class,
             HttpRequestTimeoutException::class,
@@ -224,7 +246,40 @@ object SupabaseManager {
             UnknownRestException::class,
             BadRequestRestException::class
         )
-        return user
+    }
+
+    suspend fun refreshCurrentSession() {
+        suspend {
+            client.auth.refreshCurrentSession()
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during session retrieval phase")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
+    }
+
+    suspend fun refreshSession(refreshToken: String): UserSession? {
+        return suspend {
+            client.auth.refreshSession(refreshToken)
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during session retrieval phase")
+                it.printStackTrace()
+                null
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
     }
 
     suspend fun fetchUser(id: String): User? {
@@ -246,6 +301,24 @@ object SupabaseManager {
             }
             null
         }
+    }
+
+    suspend fun logoutUser(): Boolean {
+        return suspend {
+            client.auth.signOut()
+            true
+        }.multiCatch(
+            onCatch = {
+                Log.e(TAG, "Exception thrown during logout phase")
+                it.printStackTrace()
+                false
+            },
+            RestException::class,
+            HttpRequestTimeoutException::class,
+            HttpRequestException::class,
+            UnknownRestException::class,
+            BadRequestRestException::class
+        )
     }
 
     private suspend inline fun <reified T : TableData> insert(data: T): T? {

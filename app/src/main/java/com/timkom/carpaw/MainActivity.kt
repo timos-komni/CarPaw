@@ -70,31 +70,14 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 if (GlobalData.user == null) {
-                    val prefs = getSharedPreferences(
-                        getString(R.string.preferences_file),
-                        Context.MODE_PRIVATE
-                    )
-                    val refreshTokenPrefKey = getString(R.string.supabase_refresh_token_pref_key)
-                    val refreshToken = prefs.getString(refreshTokenPrefKey, "")!!
-                    val viewModel: MainViewModel by viewModels()
-                    if (refreshToken.isNotEmpty()) {
-                        val userInfo = SupabaseManager.getCurrentUser(refreshToken)
-                        prefs.edit()
-                            .putString(refreshTokenPrefKey, userInfo.second)
-                            .apply()
-                        userInfo.first?.let {
-                            val user = SupabaseManager.fetchUser(it.id)
-                            viewModel.userIsConnected.value = user?.let { u ->
-                                GlobalData.user = u
-                                true
-                            } ?: false
-                        }
-                    } else {
-                        viewModel.userIsConnected.value = false
-                        // TODO user is disconnected
-                    }
+                    connectUser()
                 }
                 Log.d(createTAGForKClass(MainActivity::class), GlobalData.user.toString())
+            }
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                if (GlobalData.user != null) {
+                    SupabaseManager.refreshCurrentSession()
+                }
             }
         }
         setContent {
@@ -108,9 +91,7 @@ class MainActivity : ComponentActivity() {
                 val shouldHaveProfileAction: Boolean by mainViewModel.shouldHaveProfileAction
                 var userIsConnected: Boolean by mainViewModel.userIsConnected
                 var showLoginDialog : Boolean by mainViewModel.showLoginDialog
-                var showProfileDialog by rememberSaveable {
-                    mutableStateOf(false)
-                }
+                var showProfileDialog : Boolean by mainViewModel.showProfileDialog
 
                 //detect the current orientation
                 val configuration = LocalConfiguration.current
@@ -233,17 +214,27 @@ class MainActivity : ComponentActivity() {
                 }
 
                 if (showLoginDialog) {
-                    FullScreenDialog(onDismissRequest = { showLoginDialog = false }) {
+                    FullScreenDialog(
+                        viewModelKey = "LOGIN_DIALOG",
+                        onDismissRequest = { showLoginDialog = false }
+                    ) {
                         val loginNavController = rememberNavController()
-                        LoginNavGraph(navController = loginNavController)
+                        LoginNavGraph(
+                            navController = loginNavController,
+                            dialogViewModel = viewModel(key = "LOGIN_DIALOG")
+                        )
                     }
                 }
                 
                 if (showProfileDialog) {
-                    SimpleFullScreenDialog(onDismissRequest = { showProfileDialog = false }) {
+                    FullScreenDialog(
+                        viewModelKey = "PROFILE_DIALOG",
+                        onDismissRequest = { showProfileDialog = false }
+                    ) {
                         val profileNavController = rememberNavController()
                         ProfileNavGraph(
                             navController = profileNavController,
+                            dialogViewModel = viewModel(key = "PROFILE_DIALOG"),
                             onLogoutClick = { //TODO
                                // showProfileDialog = false
                                 //userIsConnected = false
@@ -256,4 +247,54 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+    private suspend fun connectUser() {
+        val prefs = getSharedPreferences(
+            getString(R.string.preferences_file),
+            Context.MODE_PRIVATE
+        )
+        val accessTokenPrefKey = getString(R.string.supabase_access_token_pref_key)
+        val refreshTokenPrefKey = getString(R.string.supabase_refresh_token_pref_key)
+        val accessToken = prefs.getString(accessTokenPrefKey, "")!!
+        val refreshToken = prefs.getString(refreshTokenPrefKey, "")!!
+        val viewModel: MainViewModel by viewModels()
+
+        val fetchUser: suspend (String) -> Unit = {
+            val user = SupabaseManager.fetchUser(it)
+            viewModel.userIsConnected.value = user?.let { u ->
+                GlobalData.user = u
+                true
+            } ?: false
+        }
+
+        val refreshSession: suspend (String) -> Unit = { token ->
+            val userSession = SupabaseManager.refreshSession(token)
+            prefs.edit()
+                .putString(accessTokenPrefKey, userSession?.accessToken)
+                .putString(refreshTokenPrefKey, userSession?.refreshToken)
+                .apply()
+            userSession?.user?.let {
+                fetchUser(it.id)
+            }
+        }
+
+        if (accessToken.isNotBlank()) {
+            val userInfo = SupabaseManager.retrieveUser(accessToken)
+            userInfo?.let {
+                fetchUser(it.id)
+            } ?: if (refreshToken.isNotBlank()) {
+                refreshSession(refreshToken)
+            } else {
+                viewModel.userIsConnected.value = false
+                // TODO user is disconnected
+            }
+        } else if (refreshToken.isNotBlank()) {
+            refreshSession(refreshToken)
+        } else {
+            viewModel.userIsConnected.value = false
+            // TODO user is disconnected
+        }
+    }
+
 }

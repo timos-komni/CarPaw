@@ -99,6 +99,7 @@
     <!--preferences-->
     <string name="preferences_file" translatable="false">carpaw_shared_preferences</string>
     <string name="supabase_refresh_token_pref_key" translatable="false">SUPABASE_REFRESH_TOKEN</string>
+    <string name="supabase_access_token_pref_key" translatable="false">SUPABASE_ACCESS_TOKEN</string>
 
     <!-- Ride Details Screen-->
     <string name="driver_details__title">Driver Details</string>

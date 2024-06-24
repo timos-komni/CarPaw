@@ -8,7 +8,6 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.screens.AvailableRidesScreen
@@ -19,7 +18,6 @@ import com.timkom.carpaw.ui.screens.HomeScreen
 import com.timkom.carpaw.ui.screens.MyRidesScreen
 import com.timkom.carpaw.ui.screens.PreLoginCreateRideScreen
 import com.timkom.carpaw.ui.screens.PreLoginMyRidesScreen
-import com.timkom.carpaw.ui.screens.ProfileScreen
 import com.timkom.carpaw.ui.screens.RideDetailsScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.viewmodels.MainViewModel

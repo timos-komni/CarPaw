@@ -1,8 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
-import android.app.AlertDialog
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,16 +39,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
-import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.CustomAlertDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.LoginViewModel
-import com.timkom.carpaw.util.checkIfAnyBlank
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -134,22 +128,34 @@ fun LoginScreen(
                         onClick = {
                             if (username.isNotBlank() && password.isNotBlank()) {
                                 coroutineScope.launch {
-                                    val user = viewModel.login().await() // wait for the login coroutine
+                                    val result = viewModel.login().await() // wait for the login coroutine
+                                    val userSession = result.first
+                                    val user = result.second
                                     val userIsConfirmed = user != null && loginStatus
-                                    val token = if (userIsConfirmed) SupabaseManager.getRefreshToken() else null
+                                    val refreshToken = if (userIsConfirmed) userSession?.refreshToken else null
+                                    val accessToken = if (userIsConfirmed) userSession?.accessToken else null
                                     GlobalData.user = if (userIsConfirmed) user else null
                                     withContext(Dispatchers.Main) {
-                                        token?.let {
-                                            context.getSharedPreferences(
-                                                context.getString(R.string.preferences_file),
-                                                Context.MODE_PRIVATE
-                                            ).edit()
+                                        val prefsEditor = context.getSharedPreferences(
+                                            context.getString(R.string.preferences_file),
+                                            Context.MODE_PRIVATE
+                                        ).edit()
+                                        refreshToken?.let {
+                                            prefsEditor
                                                 .putString(
                                                     context.getString(R.string.supabase_refresh_token_pref_key),
-                                                    token
+                                                    refreshToken
                                                 )
-                                                .apply()
                                         }
+                                        accessToken?.let {
+                                            prefsEditor
+                                                .putString(
+                                                    context.getString(R.string.supabase_access_token_pref_key),
+                                                    accessToken
+                                                )
+                                        }
+                                        prefsEditor.apply()
+
                                         dialogMessage = if (userIsConfirmed) {
                                             onUserLogin.invoke()
                                             // TODO (Chloe) Δεν θα δουλέψει σε αυτήν την περίπτωση, από την άποψη ότι θα έχει κλείσει ήδη το παράθυρο

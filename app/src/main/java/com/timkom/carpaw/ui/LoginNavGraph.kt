@@ -4,17 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.ForgotPasswordScreen
 import com.timkom.carpaw.ui.screens.LoginScreen
-import com.timkom.carpaw.ui.screens.ProfileScreen
 import com.timkom.carpaw.ui.viewmodels.FullScreenDialogViewModel
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 
@@ -39,7 +35,6 @@ fun LoginNavGraph(
             }, onUserLogin = {
                 dialogViewModel.shouldDismiss.value = true
                 mainViewModel.userIsConnected.value = true
-                navController.navigate("profile")
             })
         }
         composable(route = "create_account") {
