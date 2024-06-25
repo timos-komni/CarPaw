@@ -26,6 +26,7 @@ fun convertMillisecondsToDate(milliseconds: Long): String {
 fun formatDateTime(dateTime: String): String {
     val possibleFormats = listOf(
         "yyyy-MM-dd'T'HH:mm:ss'Z'",
+        "yyyy-MM-dd'T'HH:mm:ss'Z'",
         "yyyy-MM-dd"
     )
 

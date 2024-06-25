@@ -1,6 +1,5 @@
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,12 +12,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,12 +32,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
@@ -43,19 +42,19 @@ import com.timkom.carpaw.ui.components.PriceRow
 import com.timkom.carpaw.ui.components.RatingStars
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
+import com.timkom.carpaw.util.formatDateTime
 import kotlinx.datetime.Clock
 import java.util.UUID
 
-data class SearchResultCardData(
+data class CreatedRideCardData(
     val ride: Ride,
     val user: User,
     val selectedAnimals: List<CompanionAnimalItem>
 )
-
 @SuppressLint("ResourceType")
 @Composable
-fun SearchResultCard(
-    data: SearchResultCardData,
+fun CreatedRideCard(
+    data: CreatedRideCardData,
     onClick: () -> Unit
 ) {
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { data.selectedAnimals.contains(it) }
@@ -72,54 +71,38 @@ fun SearchResultCard(
                 .fillMaxWidth()
                 .padding(16.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Text(
-                    text = "${data.ride.start.substringBefore(',')} to ${data.ride.destination.substringBefore(',')}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-                Column(){
+                Column {
+                    Text(
+                        text = "${data.ride.start.substringBefore(',')} to ${data.ride.destination.substringBefore(',')}",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = formatDateTime(data.ride.date),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                    )
+                }
+
+                Column {
                     PriceRow(data.ride.price)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
+                horizontalArrangement = Arrangement.Start,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.account_circle),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "${data.user.firstName} ${data.user.lastName}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
+                Column {
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -140,22 +123,48 @@ fun SearchResultCard(
                             Spacer(modifier = Modifier.width(4.dp))
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    RatingStars(rating = data.user.rating)
                 }
             }
-
             Spacer(modifier = Modifier.height(8.dp))
-            Button(
-                onClick = onClick,
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.elevatedButtonColors().copy(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
+            HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = stringResource(id = R.string.view_details__button))
+                Text(
+                    text = "Created at: ${formatDateTime(data.ride.createdAt)}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(
+                    onClick = onClick,
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Rounded.Edit,
+                            contentDescription = stringResource(id = R.string.decorative_icon),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = stringResource(id = R.string.edit__button),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+
+                    }
+                }
             }
         }
     }
@@ -163,13 +172,13 @@ fun SearchResultCard(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchResultCardPreview() {
+fun CreatedRideCardPreview() {
     val sampleRide = Ride(
         id = 1,
-        createdAt = "2024-01-01T10:00:00Z",
+        createdAt = "2024-06-25T20:26:56.982108+00:00",
         hostId = UUID.randomUUID().toString(),
         ownerId = null,
-        start = "Thessaloniki",
+        start = "Thessaloniki, Greece",
         destination = "Ioannina",
         date = "2024-06-29",
         status = Ride.Status.Scheduled,
@@ -203,14 +212,14 @@ fun SearchResultCardPreview() {
         CompanionAnimalItem.BIRD
     )
 
-    val sampleData = SearchResultCardData(
+    val sampleData = CreatedRideCardData(
         ride = sampleRide,
         user = sampleUser,
         selectedAnimals = sampleAnimals
     )
 
     CarPawTheme(dynamicColor = false) {
-        SearchResultCard(data = sampleData, onClick = {})
+        CreatedRideCard(data = sampleData, onClick = {})
     }
 }
 

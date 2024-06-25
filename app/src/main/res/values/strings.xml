@@ -82,6 +82,7 @@
     <string name="create_account__button">Create Account</string>
     <string name="ask_ride__button">Ask Ride</string>
     <string name="create_ride__button">Create Ride</string>
+    <string name="edit__button">Edit</string>
 
     <!--LoginScreen-->
     <string name="login_card__title__text">Welcome to your CarPaw account</string>
