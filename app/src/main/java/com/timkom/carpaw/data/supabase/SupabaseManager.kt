@@ -368,7 +368,7 @@ object SupabaseManager {
 
     suspend fun insertLocation(location: Location): Location? = insert(location)
 
-    suspend fun fetchScheduledRides(
+    suspend fun fetchUpcomingRides(
         start: String,
         destination: String,
         date: String,
@@ -381,15 +381,15 @@ object SupabaseManager {
                         Ride::start eq start
                         Ride::destination eq destination
                         if (date.isNotBlank()) Ride::date eq date
-                        Ride::status eq Ride.Status.Scheduled
+                        Ride::status eq Ride.Status.Upcoming
                         Ride::ownerId isExact null
                         Ride::acceptedPets contains acceptedPets
                         /*Ride::start eq "Thane, Maharashtra, India"
                         Ride::destination eq "York, UK"
                         Ride::date eq "2024-06-23"
-                        Ride::status eq Ride.Status.Scheduled
+                        Ride::status eq Ride.Status.Upcoming
                         Ride::ownerId isExact null
-                        /*Ride::acceptedPets contains Pet.Kind.entries*/*/
+                        Ride::acceptedPets contains Pet.Kind.entries*/
                     }
                 }
         }
@@ -397,6 +397,31 @@ object SupabaseManager {
         return if (result.isSuccess) {
             val value = result.getOrNull()?.decodeList<Ride>()
             Log.e(TAG, "Rides selected: $value")
+            value
+        } else {
+            result.exceptionOrNull()?.let {
+                Log.e(TAG, "Could not find results: $it")
+                it.printStackTrace()
+            }
+            null
+        }
+    }
+
+    suspend fun fetchUserById(
+        id: String
+    ): User? {
+        val result = runCatching {
+            client.from(User.TABLE_NAME)
+                .select {
+                    filter {
+                        User::id eq id
+                    }
+                }
+        }
+
+        return if (result.isSuccess) {
+            val value = result.getOrNull()?.decodeSingle<User>()
+            Log.e(TAG, "User selected: $value")
             value
         } else {
             result.exceptionOrNull()?.let {

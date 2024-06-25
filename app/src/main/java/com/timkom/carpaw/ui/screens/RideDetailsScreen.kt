@@ -3,13 +3,24 @@ package com.timkom.carpaw.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -24,6 +35,7 @@ import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.ui.components.PriceRow
 import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.components.cards.DriverDetailsCard
+import com.timkom.carpaw.ui.components.cards.SearchResultCardData
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 import com.timkom.carpaw.util.formatDateTime
@@ -32,11 +44,11 @@ import com.timkom.carpaw.util.formatDateTime
 @Composable
 fun RideDetailsScreen(
     viewModel: SearchRideViewModel = viewModel(),
-    rideId: Long
+    data: SearchResultCardData?,
 ) {
-    val ride = viewModel.selectedRide.value
-    val user = ride?.let { viewModel.getUserById(it.ownerId!!.toLong()) }
-    val selectedAnimals = ride?.let { viewModel.getSelectedAnimalsByRideId(it.id) }.orEmpty()
+    //val ride = viewModel.selectedRide.value
+    val user = data?.user
+    val selectedAnimals = data?.selectedAnimals ?: emptyList()
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { selectedAnimals.contains(it) }
 
     LazyColumn(
@@ -47,8 +59,8 @@ fun RideDetailsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     )  {
         item{
-            ride?.let {
-                RideDetails(ride = it)
+            data?.let {
+                RideDetails(ride = it.ride)
                 Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider(thickness = 3.dp, color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 Spacer(modifier = Modifier.height(16.dp))
@@ -85,7 +97,7 @@ fun RideDetailsScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 HorizontalDivider(thickness = 3.dp, color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 Spacer(modifier = Modifier.height(16.dp))
-                PriceRow(price = ride.price)
+                PriceRow(price = it.ride.price)
                 CustomButton(
                     title = R.string.ask_ride__button,
                     onClick = { /*TODO*/ },

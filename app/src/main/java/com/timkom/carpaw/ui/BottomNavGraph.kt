@@ -1,5 +1,6 @@
 package com.timkom.carpaw.ui
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -9,7 +10,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.components.cards.SearchResultCardData
 import com.timkom.carpaw.ui.data.BottomNavigationItem
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.screens.AvailableRidesScreen
 import com.timkom.carpaw.ui.screens.CreateAccountScreen
 import com.timkom.carpaw.ui.screens.CreateRideScreen
@@ -83,7 +86,13 @@ fun BottomNavGraph(
         }
         composable(route = BottomNavigationItem.Search.route) {
             mainViewModel.setAll(stringResource(R.string.search_ride__title))
-            SearchScreen(onSearchClick = {
+            SearchScreen(onSearchClick = { startLocation, destinationLocation, date, animals ->
+                navController.currentBackStackEntry?.savedStateHandle?.apply {
+                    set("start_location", startLocation)
+                    set("destination_location", destinationLocation)
+                    set("date", date)
+                    set("selected_animals", animals)
+                }
                 navController.navigate("available_rides")
             })
         }
@@ -93,10 +102,13 @@ fun BottomNavGraph(
                 onBackButton = { navController.popBackStack() }
             )
             AvailableRidesScreen(
-                viewModel = searchRideViewModel,
-                onViewRideDetailsClick = { ride ->
-                    searchRideViewModel.setSelectedRide(ride)
-                    navController.currentBackStackEntry?.savedStateHandle?.set("selected_ride", ride.id)
+                navController.previousBackStackEntry?.savedStateHandle?.get<String>("start_location"),
+                navController.previousBackStackEntry?.savedStateHandle?.get<String>("destination_location"),
+                navController.previousBackStackEntry?.savedStateHandle?.get<String>("date"),
+                navController.previousBackStackEntry?.savedStateHandle?.get<List<CompanionAnimalItem>>("selected_animals"),
+                onViewRideDetailsClick = { data ->
+                    //searchRideViewModel.setSelectedRide(ride)
+                    navController.currentBackStackEntry?.savedStateHandle?.set("selected_data", data)
                     navController.navigate("ride_details")
                 }
             )
@@ -106,13 +118,10 @@ fun BottomNavGraph(
                 screenTitle = stringResource(R.string.ride_details__title),
                 onBackButton = { navController.popBackStack() }
             )
-            val rideId = navController.previousBackStackEntry?.savedStateHandle?.get<Long>("selected_ride")
-            if (rideId != null) {
-                RideDetailsScreen(
-                    viewModel = searchRideViewModel,
-                    rideId = rideId
-                )
-            }
+            RideDetailsScreen(
+                data = navController.previousBackStackEntry?.savedStateHandle?.get<SearchResultCardData>("selected_data"),
+                //viewModel = searchRideViewModel,
+            )
         }
         composable(route = BottomNavigationItem.MyRides.route) {
             mainViewModel.setAll(stringResource(R.string.my_rides__title))

@@ -236,7 +236,7 @@ class CreateRideViewModel : ViewModel() {
                             start = startData.value.searchLocationText.value,
                             destination = destinationData.value.searchLocationText.value,
                             date = formatDateString(selectedDate.value,"dd/MM/yyyy", "yyyy-MM-dd").toString(),
-                            status = Ride.Status.Scheduled,
+                            status = Ride.Status.Upcoming,
                             price = price.value.toFloat(),
                             startAddress = startData.value.searchAddressText.value,
                             destinationAddress = destinationData.value.searchAddressText.value,

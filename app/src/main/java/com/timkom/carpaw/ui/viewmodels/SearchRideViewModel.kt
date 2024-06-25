@@ -1,6 +1,5 @@
 package com.timkom.carpaw.ui.viewmodels
 
-import SearchResultCardData
 import android.content.Context
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
@@ -10,6 +9,7 @@ import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.data.supabase.SupabaseManager
+import com.timkom.carpaw.ui.components.cards.SearchResultCardData
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.SearchContentType
 import com.timkom.carpaw.util.formatDateString
@@ -47,7 +47,7 @@ class SearchRideViewModel : ViewModel() {
             start = "Thessaloniki",
             destination = "Athens",
             date = "2024-06-29",
-            status = Ride.Status.Scheduled,
+            status = Ride.Status.Upcoming,
             startTime = "08:00",
             endTime = "13:00",
             price = 20f,
@@ -169,7 +169,7 @@ class SearchRideViewModel : ViewModel() {
     suspend fun getAvailableRides(): List<SearchResultCardData>? {
         // Retrieve the user's selected animals
         val selectedAnimals = animals.filter { it.count > 0 }
-        val result = SupabaseManager.fetchScheduledRides(
+        val result = SupabaseManager.fetchUpcomingRides(
             start = startSearchText.value,
             destination = destinationSearchText.value,
             date = formatDateString(selectedDate.value, "dd/MM/yyyy", "yyyy-MM-dd") ?: selectedDate.value,

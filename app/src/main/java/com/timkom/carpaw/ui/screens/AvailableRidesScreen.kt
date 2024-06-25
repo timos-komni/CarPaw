@@ -1,8 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
 
-import SearchResultCard
-import SearchResultCardData
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +22,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,23 +33,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
-import com.timkom.carpaw.data.model.Ride
+import com.timkom.carpaw.ui.components.cards.SearchResultCard
+import com.timkom.carpaw.ui.components.cards.SearchResultCardData
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
+import com.timkom.carpaw.ui.viewmodels.AvailableRidesViewModel
 
 @Composable
 fun AvailableRidesScreen(
-    viewModel: SearchRideViewModel = viewModel(),
-    onViewRideDetailsClick: (Ride) -> Unit
-
+    pmStartLocation: String?,
+    pmDestinationLocation: String?,
+    pmDate: String?,
+    pmAnimals: List<CompanionAnimalItem>?,
+    onViewRideDetailsClick: (SearchResultCardData) -> Unit
 ) {
-    var availableRides = emptyList<SearchResultCardData>()
+    val viewModel: AvailableRidesViewModel = viewModel()
+
+    var startLocation by viewModel.startLocation
+    var destination by viewModel.destinationLocation
+    var date by viewModel.date
+    startLocation = pmStartLocation ?: ""
+    destination = pmDestinationLocation ?: ""
+    date = pmDate ?: ""
+    pmAnimals?.let { viewModel.setAnimalsFromList(it) }
+
     LaunchedEffect(Unit) {
-        availableRides = viewModel.getAvailableRides() ?: emptyList()
+        viewModel.availableRides.clear()
+        viewModel.availableRides.addAll(viewModel.getAvailableRides().await())
     }
-    val startLocation = viewModel.startSearchText.value
-    val destination = viewModel.destinationSearchText.value
-    val date = viewModel.selectedDate.value
 
     Column(
         modifier = Modifier
@@ -60,17 +71,17 @@ fun AvailableRidesScreen(
         SearchTitle(startLocation = startLocation, destination = destination, date = date)
         Spacer(modifier = Modifier.height(16.dp))
 
-        if(availableRides.isEmpty()){
+        if(viewModel.availableRides.isEmpty()){
             NoAvailableRidesMessage()
         }else{
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(availableRides) { data ->
+                items(viewModel.availableRides) { data ->
                     SearchResultCard(
                         data = data,
-                        onClick = { onViewRideDetailsClick(data.ride)}
+                        onClick = { onViewRideDetailsClick(data) }
                     )
                 }
             }
@@ -146,7 +157,7 @@ fun NoAvailableRidesMessage() {
 @Composable
 fun AvailableRidesScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        AvailableRidesScreen(onViewRideDetailsClick = {})
+        AvailableRidesScreen("", "", "", emptyList(), onViewRideDetailsClick = {})
     }
 }
 

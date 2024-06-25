@@ -30,8 +30,7 @@ data class Ride(
 ) : TableData() {
 
     enum class Status {
-        Scheduled,
-        Ongoing,
+        Upcoming,
         Completed
     }
 
