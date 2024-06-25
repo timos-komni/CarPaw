@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.supabase.SupabaseManager
+import com.timkom.carpaw.ui.CustomAlertDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.GenericTextField
 import com.timkom.carpaw.ui.components.PageHeading
@@ -55,6 +56,8 @@ fun CreateAccountScreen(
     var passwordError by rememberSaveable {
         mutableStateOf(false)
     }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    var dialogMessage by rememberSaveable { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val passwordCheck = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]{8,}\$".toRegex()
@@ -96,27 +99,13 @@ fun CreateAccountScreen(
                             firstName = firstName,
                             lastName = lastName
                         )
-                        if (result.first) {
-                            withContext(Dispatchers.Main) {
-                                AlertDialog.Builder(context)
-                                    .setCancelable(false)
-                                    .setMessage("Your account has been created successfully! Please check your email to confirm your account.")
-                                    .setNeutralButton("OK") { dialog, _ ->
-                                        onAccountCreation.invoke()
-                                        dialog.dismiss()
-                                    }
-                                    .create().show()
+                        withContext(Dispatchers.Main) {
+                            dialogMessage = if (result.first) {
+                                "Your account has been created successfully! Please check your email to confirm your account."
+                            } else {
+                                "Account could not be created."
                             }
-                        } else {
-                            withContext(Dispatchers.Main) {
-                                AlertDialog.Builder(context)
-                                    .setCancelable(false)
-                                    .setMessage("Account could not be created.")
-                                    .setNeutralButton("OK") { dialog, _ ->
-                                        dialog.dismiss()
-                                    }
-                                    .create().show()
-                            }
+                            showDialog = true
                         }
                         Log.d("@CreateAccount", result.second.toString())
                     }
@@ -124,7 +113,19 @@ fun CreateAccountScreen(
                 enabled = !checkIfAnyBlank(email, password, firstName, lastName) && !passwordError
             )
         }
+    if (showDialog) {
+        CustomAlertDialog(
+            message = dialogMessage,
+            onDismissRequest = { showDialog = false },
+            onConfirm = {
+                showDialog = false
+                if (dialogMessage == "Your account has been created successfully! Please check your email to confirm your account.") {
+                    onAccountCreation()
+                }
+            }
+        )
     }
+}
 
 
 @Preview(showBackground = true)

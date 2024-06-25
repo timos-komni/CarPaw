@@ -153,8 +153,8 @@ fun SearchLocationBar(
                 ) {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(R.drawable.history),
-                        contentDescription = "History Icon"
+                        painter = painterResource(R.drawable.add_location),
+                        contentDescription = "Add location icon"
                     )
                     Text(text = it, fontFamily = FontFamily(Font(R.font.outfit_regular)))
                 }
@@ -255,7 +255,7 @@ fun SearchLocationBar2(
                 ) {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(R.drawable.history),
+                        painter = painterResource(R.drawable.add_location),
                         contentDescription = "History Icon"
                     )
                     Text(text = it.getFullText(null).toString(), fontFamily = FontFamily(Font(R.font.outfit_regular)))
