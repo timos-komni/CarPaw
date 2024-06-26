@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
+import com.timkom.carpaw.ui.FullScreenDialog
 import com.timkom.carpaw.ui.FullScreenDialogWithoutTitle
 import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton

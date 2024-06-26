@@ -67,7 +67,6 @@ fun RideDetailsScreen(
                 Text(
                     text = "Animals that ${user?.firstName ?: ""} wants to travel with:",
                     style = MaterialTheme.typography.titleMedium,
-                    //fontWeight = FontWeight.Bold
                 )
                 LazyRow(
                     modifier = Modifier.padding(vertical = 8.dp),
@@ -135,13 +134,11 @@ fun RideDetails(ride: Ride) {
         )
         Column {
             RideInfoRow(
-                location = ride.start,
                 address = ride.startAddress,
                 dateTime = ride.date
             )
             Spacer(modifier = Modifier.height(8.dp))
             RideInfoRow(
-                location = ride.destination,
                 address = ride.destinationAddress,
                 dateTime = ride.date
             )
@@ -150,7 +147,7 @@ fun RideDetails(ride: Ride) {
 }
 
 @Composable
-fun RideInfoRow(location: String, dateTime: String, address: String) {
+fun RideInfoRow(dateTime: String, address: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -158,7 +155,7 @@ fun RideInfoRow(location: String, dateTime: String, address: String) {
     ) {
         Column {
             Text(
-                text = "$address, $location",
+                text = address,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)

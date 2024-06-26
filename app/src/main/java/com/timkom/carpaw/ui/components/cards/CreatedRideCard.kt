@@ -80,7 +80,7 @@ fun CreatedRideCard(
             ){
                 Column {
                     Text(
-                        text = "${data.ride.start.substringBefore(',')} to ${data.ride.destination.substringBefore(',')}",
+                        text = "${data.ride.start.substringBefore(',').substringBefore('-')} to ${data.ride.destination.substringBefore(',').substringBefore('-')}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
@@ -181,7 +181,7 @@ fun CreatedRideCardPreview() {
         start = "Thessaloniki, Greece",
         destination = "Ioannina",
         date = "2024-06-29",
-        status = Ride.Status.Scheduled,
+        status = Ride.Status.Upcoming,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
         price = 20.0f,

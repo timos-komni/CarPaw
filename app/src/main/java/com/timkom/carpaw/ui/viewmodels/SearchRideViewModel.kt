@@ -57,7 +57,7 @@ class SearchRideViewModel : ViewModel() {
         // Add more sample rides
     )
 
-     fun getUserById(id: Long): User {
+    fun getUserById(id: Long): User {
         // Replace with actual user fetching logic
         return User(
             id = UUID.randomUUID().toString(),
@@ -186,13 +186,13 @@ class SearchRideViewModel : ViewModel() {
         )
 
         return result?.filter { ride ->
-           // ride.start.equals(startSearchText.value, ignoreCase = true) &&
-                    //ride.destination.equals(destinationSearchText.value, ignoreCase = true) &&
-                  //  ride.date == selectedDate.value &&
+            // ride.start.equals(startSearchText.value, ignoreCase = true) &&
+            //ride.destination.equals(destinationSearchText.value, ignoreCase = true) &&
+            //  ride.date == selectedDate.value &&
             //TODO REMOVE COMMENT: this works well
-                    selectedAnimals.any { selectedAnimal ->
-                        getSelectedAnimalsByRideId(ride.id).contains(selectedAnimal)
-                    }
+            selectedAnimals.any { selectedAnimal ->
+                getSelectedAnimalsByRideId(ride.id).contains(selectedAnimal)
+            }
         }?.map { ride ->
             SearchResultCardData(
                 ride = ride,

@@ -84,7 +84,7 @@ fun SearchResultCard(
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(
-                    text = "${data.ride.start.substringBefore(',')} to ${data.ride.destination.substringBefore(',')}",
+                    text = "${data.ride.start.substringBefore(',').substringBefore('-')} to ${data.ride.destination.substringBefore(',').substringBefore('-')}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer

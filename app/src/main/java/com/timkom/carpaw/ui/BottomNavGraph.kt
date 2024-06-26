@@ -24,6 +24,7 @@ import com.timkom.carpaw.ui.screens.PreLoginMyRidesScreen
 import com.timkom.carpaw.ui.screens.RideDetailsScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
+import com.timkom.carpaw.ui.viewmodels.MyRidesViewModel
 import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 
 @Composable
@@ -31,7 +32,7 @@ fun BottomNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = viewModel(),
-    searchRideViewModel: SearchRideViewModel = viewModel()
+    myRidesViewModel: MyRidesViewModel = viewModel()
 ) {
     NavHost(
         navController = navController,
@@ -126,7 +127,7 @@ fun BottomNavGraph(
         composable(route = BottomNavigationItem.MyRides.route) {
             mainViewModel.setAll(stringResource(R.string.my_rides__title))
             if (mainViewModel.userIsConnected.value) {
-                MyRidesScreen()
+                MyRidesScreen(viewModel = myRidesViewModel)
             } else {
                 PreLoginMyRidesScreen(mainViewModel = mainViewModel)
             }

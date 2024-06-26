@@ -113,6 +113,9 @@
     <!-- Available Rides Screen-->
     <string name="no_available_rides__text">Sorry, there are no available rides at the moment. Please try again later or change your search criteria.</string>
 
+    <!-- My Rides Screen-->
+    <string name="no_booked_rides__text">You have not booked any rides yet. Start searching for available rides and book your next journey!</string>
+    <string name="no_created_rides__text">You have not created any rides yet. Go to \'Create a Ride\' to schedule a new ride and share your journey with others!".</string>
 
 
     <string name="driver_description">I really enjoy driving and I have over ten years of experience and a deep love for animals. I ensure that your companion animals have a safe and comfortable journey with me.</string>
