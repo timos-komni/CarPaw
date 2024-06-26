@@ -8,8 +8,8 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
+@Suppress("unused")
 fun openLink(context: Context, url: String) {
     val intent = Intent(Intent.ACTION_VIEW).apply {
         data = Uri.parse(url)

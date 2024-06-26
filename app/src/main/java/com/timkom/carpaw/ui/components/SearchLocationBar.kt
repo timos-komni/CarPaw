@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.AddLocation
 import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -72,6 +73,7 @@ class SearchLocationViewModel : ViewModel() {
         }
     }
 
+    @Suppress("unused")
     fun reset() {
         items.clear()
         queryText.value = ""
@@ -255,7 +257,7 @@ fun SearchLocationBar2(
                 ) {
                     Icon(
                         modifier = Modifier.padding(end = 10.dp),
-                        painter = painterResource(R.drawable.add_location),
+                        imageVector = Icons.Rounded.AddLocation,
                         contentDescription = "History Icon"
                     )
                     Text(text = it.getFullText(null).toString(), fontFamily = FontFamily(Font(R.font.outfit_regular)))

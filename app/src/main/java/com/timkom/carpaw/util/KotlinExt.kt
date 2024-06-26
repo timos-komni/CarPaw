@@ -25,6 +25,7 @@ inline fun <R> tryMultiCatch(noinline runThis: () -> R, onCatch: (Throwable) -> 
     )
 }
 
+@Suppress("unused")
 suspend inline fun <R> tryMultiCatchSuspend(noinline runThis: suspend () -> R, onCatch: (Throwable) -> R, vararg exceptions: KClass<out Throwable>): R {
     return runThis.multiCatch(
         onCatch,
@@ -32,6 +33,7 @@ suspend inline fun <R> tryMultiCatchSuspend(noinline runThis: suspend () -> R, o
     )
 }
 
+@Suppress("unused")
 fun containsInAny(check: CharSequence, vararg items: CharSequence, ignoreCase: Boolean = false): Boolean {
     var result = false
     for (item in items) {
@@ -42,6 +44,7 @@ fun containsInAny(check: CharSequence, vararg items: CharSequence, ignoreCase: B
     return result
 }
 
+@Suppress("unused")
 fun checkIfAnyEmpty(vararg items: CharSequence, reverseCheck: Boolean = false): Boolean {
     var result = false
     val method = if (!reverseCheck) CharSequence::isEmpty else CharSequence::isNotEmpty

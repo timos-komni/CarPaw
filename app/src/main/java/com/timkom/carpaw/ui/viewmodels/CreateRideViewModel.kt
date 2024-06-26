@@ -3,23 +3,20 @@ package com.timkom.carpaw.ui.viewmodels
 import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.timkom.carpaw.GlobalData
 import com.timkom.carpaw.data.model.Pet
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.supabase.SupabaseManager
-import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.content.CreateContentType
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.util.formatDateString
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import java.lang.ref.WeakReference
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.Locale
 
 /**
  * The [ViewModel] of the "Create Ride" screen
@@ -27,11 +24,7 @@ import java.util.Locale
 class CreateRideViewModel : ViewModel() {
     data class Data(
         var searchLocationText: MutableState<String> = mutableStateOf(""),
-        var searchAddressText: MutableState<String> = mutableStateOf(""),
-        // TODO remove
-        var isSearchLocationActive: MutableState<Boolean> = mutableStateOf(false),
-        // TODO remove
-        var isSearchAddressActive: MutableState<Boolean> = mutableStateOf(false)
+        var searchAddressText: MutableState<String> = mutableStateOf("")
     )
 
     val startData = mutableStateOf(Data())
@@ -59,84 +52,13 @@ class CreateRideViewModel : ViewModel() {
         selectedDate.value = date
     }
 
+    @Suppress("unused")
     fun openDialog() {
         isDialogOpen.value = true
     }
 
     fun closeDialog() {
         isDialogOpen.value = false
-    }
-
-    // TODO remove
-    fun onLocationQueryChange(contentType: CreateContentType, newText: String) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> startData.value.searchLocationText.value = newText
-            CreateContentType.DESTINATION -> destinationData.value.searchLocationText.value = newText
-        }
-    }
-
-    // TODO remove
-    fun onAddressQueryChange(contentType: CreateContentType, newText: String) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> startData.value.searchAddressText.value = newText
-            CreateContentType.DESTINATION -> destinationData.value.searchAddressText.value = newText
-        }
-    }
-
-    // TODO remove
-    fun onLocationSearch(contentType: CreateContentType) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> {
-                items.add(startData.value.searchLocationText.value)
-                startData.value.apply {
-                    isSearchLocationActive.value = false
-                    searchLocationText.value = ""
-                }
-            }
-            CreateContentType.DESTINATION -> {
-                items.add(destinationData.value.searchLocationText.value)
-                destinationData.value.apply {
-                    isSearchLocationActive.value = false
-                    searchLocationText.value = ""
-                }
-            }
-        }
-    }
-
-    // TODO remove
-    fun onAddressSearch(contentType: CreateContentType) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> {
-                items.add(startData.value.searchAddressText.value)
-                startData.value.apply {
-                    isSearchAddressActive.value = false
-                    searchAddressText.value = ""
-                }
-            }
-            CreateContentType.DESTINATION -> {
-                items.add(destinationData.value.searchAddressText.value)
-                destinationData.value.apply {
-                    isSearchAddressActive.value = false
-                    searchAddressText.value = ""
-                }
-            }
-        }
-    }
-
-    // TODO remove
-    fun onLocationActiveChange(contentType: CreateContentType, newActive: Boolean) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> startData.value.isSearchLocationActive.value = newActive
-            CreateContentType.DESTINATION -> destinationData.value.isSearchLocationActive.value = newActive
-        }
-    }
-
-    // TODO remove
-    fun onAddressActiveChange(contentType: CreateContentType, newActive: Boolean) {
-        when (contentType) {
-            CreateContentType.STARTING_POINT -> startData.value.isSearchAddressActive.value = newActive
-            CreateContentType.DESTINATION -> destinationData.value.isSearchAddressActive.value = newActive
-        }
     }
 
     /**
@@ -190,6 +112,7 @@ class CreateRideViewModel : ViewModel() {
         price.value = newPrice
     }
 
+    @Suppress("unused")
     fun openPriceDialog() {
         isPriceDialogOpen.value = true
     }

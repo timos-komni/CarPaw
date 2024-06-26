@@ -5,9 +5,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class FullScreenDialogViewModel: ViewModel() {
+
+    /**
+     * The dialog title.
+     */
     var title = mutableStateOf("")
+
+    /**
+     * The action to perform when the back-button is pressed.
+     */
     var onBackButton = mutableStateOf<(() -> Unit)?>(null)
+
+    /**
+     * The actions that the dialog bar should have.
+     */
     var actions = mutableStateOf<(@Composable () -> Unit)?>(null)
+
+    /**
+     * Indicates whether the dialog should be dismissed.
+     */
     var shouldDismiss = mutableStateOf(false)
 
     /**
@@ -26,4 +42,5 @@ class FullScreenDialogViewModel: ViewModel() {
         this.actions.value = actions
         this.onBackButton.value = onBackButton
     }
+
 }

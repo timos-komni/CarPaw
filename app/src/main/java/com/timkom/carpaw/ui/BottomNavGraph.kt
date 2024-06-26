@@ -1,6 +1,5 @@
 package com.timkom.carpaw.ui
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,7 +24,6 @@ import com.timkom.carpaw.ui.screens.RideDetailsScreen
 import com.timkom.carpaw.ui.screens.SearchScreen
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 import com.timkom.carpaw.ui.viewmodels.MyRidesViewModel
-import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 
 @Composable
 fun BottomNavGraph(

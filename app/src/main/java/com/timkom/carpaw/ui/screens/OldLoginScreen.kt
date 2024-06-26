@@ -49,7 +49,6 @@ import com.timkom.carpaw.ui.SimpleFullScreenDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import io.ktor.util.InternalAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,7 +74,6 @@ fun LoginScreenPreviewOld() {
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class, InternalAPI::class)
 @Composable
 fun LoginCard(modifier: Modifier = Modifier) {
     var user by rememberSaveable {

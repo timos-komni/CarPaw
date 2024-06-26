@@ -1,3 +1,5 @@
+package com.timkom.carpaw.ui.components.cards
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
@@ -19,16 +20,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,16 +36,13 @@ import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
 import com.timkom.carpaw.ui.components.PriceRow
-import com.timkom.carpaw.ui.components.RatingStars
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.formatDateTime
-import kotlinx.datetime.Clock
 import java.util.UUID
 
 data class CreatedRideCardData(
     val ride: Ride,
-    val user: User,
     val selectedAnimals: List<CompanionAnimalItem>
 )
 @SuppressLint("ResourceType")
@@ -59,6 +53,7 @@ fun CreatedRideCard(
 ) {
     val sortedAnimals = CompanionAnimalItem.entries.sortedByDescending { data.selectedAnimals.contains(it) }
     val context = LocalContext.current
+
     Card(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
@@ -182,8 +177,6 @@ fun CreatedRideCardPreview() {
         destination = "Ioannina",
         date = "2024-06-29",
         status = Ride.Status.Upcoming,
-        startTime = Clock.System.now().toString(),
-        endTime = Clock.System.now().toString(),
         price = 20.0f,
         startAddress = "Egnatia 122",
         destinationAddress = "Monastiriou"
@@ -193,14 +186,9 @@ fun CreatedRideCardPreview() {
         id = UUID.randomUUID().toString(),
         createdAt = "2024-01-01T10:00:00Z",
         uuid = "123-456-789",
-        //username = "olga",
-        //password = "password",
         firstName = "Olga",
-        //middleName = null,
         lastName = "S.",
         birthdate = "1990-01-01",
-        /*email = "olga@example.com",
-        phoneNumber = "1234567890",*/
         rating = 4.5f,
         imageUrl = null,
         otherInfo = null
@@ -214,7 +202,6 @@ fun CreatedRideCardPreview() {
 
     val sampleData = CreatedRideCardData(
         ride = sampleRide,
-        user = sampleUser,
         selectedAnimals = sampleAnimals
     )
 

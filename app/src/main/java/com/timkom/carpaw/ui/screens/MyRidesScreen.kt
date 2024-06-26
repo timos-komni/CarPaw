@@ -1,6 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
-import CreatedRideCard
+import com.timkom.carpaw.ui.components.cards.CreatedRideCard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.NoRidesMessage
-import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.MyRidesViewModel
 
@@ -38,7 +37,7 @@ fun MyRidesScreen(
     modifier: Modifier = Modifier,
     viewModel: MyRidesViewModel = viewModel()
 ) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf("Booked", "Created")
 
     Column(
@@ -77,7 +76,8 @@ fun BookedRidesTab(viewModel: MyRidesViewModel) {
 @Composable
 fun CreatedRidesTab(viewModel: MyRidesViewModel) {
     LaunchedEffect(Unit) {
-        viewModel.loadCreatedRides()
+        viewModel.createdRides.clear()
+        viewModel.createdRides.addAll(viewModel.loadCreatedRides().await())
     }
 
     if (viewModel.createdRides.isEmpty()) {

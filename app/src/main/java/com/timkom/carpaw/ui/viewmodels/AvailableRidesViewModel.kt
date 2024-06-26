@@ -15,12 +15,36 @@ import kotlinx.coroutines.async
 
 class AvailableRidesViewModel : ViewModel() {
 
+    /**
+     * The start location of the ride.
+     */
     val startLocation = mutableStateOf("")
+
+    /**
+     * The destination location of the ride.
+     */
     val destinationLocation = mutableStateOf("")
+
+    /**
+     * The date of the ride.
+     */
     val date = mutableStateOf("")
+
+    /**
+     * The selected animals of the ride.
+     */
     val selectedAnimals = mutableStateMapOf<Pet.Kind, Int>()
+
+    /**
+     * The available rides.
+     */
     val availableRides = mutableListOf<SearchResultCardData>()
 
+    /**
+     * Helper method that transforms a [List] of [CompanionAnimalItem] into a map of [Pet.Kind] and
+     * their respective counts. The map that is used is the [selectedAnimals] map.
+     * @param list The [List] of [CompanionAnimalItem] to transform.
+     */
     fun setAnimalsFromList(list: List<CompanionAnimalItem>) {
         for (animal in list) {
             val kind = when (animal) {
@@ -35,6 +59,9 @@ class AvailableRidesViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Retrieves the available rides from the Supabase backend.
+     */
     suspend fun getAvailableRides(): Deferred<List<SearchResultCardData>> {
         return viewModelScope.async {
             // Retrieve the user's selected animals
@@ -48,6 +75,7 @@ class AvailableRidesViewModel : ViewModel() {
             return@async rideResult?.map { ride ->
                 SearchResultCardData(
                     ride = ride,
+                    // fetch the host user of each ride
                     user = SupabaseManager.fetchUserById(ride.hostId) ?: User(
                         "",
                         "",
@@ -59,6 +87,7 @@ class AvailableRidesViewModel : ViewModel() {
                         .0f,
                         null
                     ),
+                    // transform the selectedAnimals into a list of CompanionAnimalItem
                     selectedAnimals = selectedAnimals.keys.toList().map { kind ->
                         when (kind) {
                             Pet.Kind.CAT -> CompanionAnimalItem.CAT

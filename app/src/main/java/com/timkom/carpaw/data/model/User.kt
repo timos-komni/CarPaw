@@ -3,6 +3,9 @@ package com.timkom.carpaw.data.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The users table in the database.
+ */
 @Serializable
 data class User(
     val id: String, // reference to the internal auth.users table

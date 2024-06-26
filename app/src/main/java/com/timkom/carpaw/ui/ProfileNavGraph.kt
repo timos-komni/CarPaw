@@ -1,8 +1,6 @@
 package com.timkom.carpaw.ui
 
-
 import android.content.Context
-import android.preference.PreferenceManager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -19,7 +17,6 @@ import com.timkom.carpaw.ui.screens.ProfileScreen
 import com.timkom.carpaw.ui.viewmodels.FullScreenDialogViewModel
 import com.timkom.carpaw.ui.viewmodels.MainViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

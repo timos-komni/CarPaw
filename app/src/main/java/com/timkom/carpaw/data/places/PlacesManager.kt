@@ -19,14 +19,31 @@ import java.util.concurrent.ExecutionException
  */
 class PlacesManager private constructor(context: Context) {
 
+    /**
+     * The Places SDK Autocomplete session token.
+     */
     private val autocompleteSessionToken = AutocompleteSessionToken.newInstance()
+    /**
+     * The Places SDK client.
+     */
     private val client: PlacesClient = Places.createClient(context)
 
+    /**
+     * The search type.
+     * @param type The text that represents the search type (should be retrieved from [PlaceTypes]).
+     */
     enum class SearchType(val type: String) {
         CITIES(PlaceTypes.CITIES),
         ADDRESS(PlaceTypes.ADDRESS)
     }
 
+    /**
+     * Requests the autocomplete predictions for the specified query and [SearchType].
+     * **Should be called from a background thread!**
+     * @param query The query to search for.
+     * @param searchType The search type.
+     * @return The [FindAutocompletePredictionsResponse] or null on failure.
+     */
     @WorkerThread
     fun request(query: String?, searchType: SearchType): FindAutocompletePredictionsResponse? {
         val task = client.findAutocompletePredictions(FindAutocompletePredictionsRequest.builder().apply {
@@ -50,8 +67,16 @@ class PlacesManager private constructor(context: Context) {
     companion object {
         private val TAG = createTAGForKClass(PlacesManager::class)
 
+        /**
+         * Instance of the [PlacesManager]
+         */
         private var INSTANCE: PlacesManager? = null
 
+        /**
+         * Returns the instance of the [PlacesManager].
+         * @param context The application context.
+         * @return The [PlacesManager] instance
+         */
         fun getInstance(context: Context): PlacesManager {
             if (INSTANCE == null) {
                 Places.initialize(context, BuildConfig.PLACES_API_KEY)

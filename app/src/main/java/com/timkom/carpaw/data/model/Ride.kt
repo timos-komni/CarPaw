@@ -3,6 +3,9 @@ package com.timkom.carpaw.data.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The rides table in the database.
+ */
 @Serializable
 data class Ride(
     val id: Long = 0,
@@ -15,10 +18,6 @@ data class Ride(
     val start: String,
     val destination: String,
     val date: String,
-    @SerialName("start_time")
-    val startTime: String = "",
-    @SerialName("end_time")
-    val endTime: String = "",
     val status: Status,
     val price: Float,
     @SerialName("start_address")
@@ -26,7 +25,7 @@ data class Ride(
     @SerialName("destination_address")
     val destinationAddress: String,
     @SerialName("accepted_pets")
-    val acceptedPets: List<Pet.Kind> = emptyList()
+    val acceptedPets: List<Pet.Kind>? = emptyList()
 ) : TableData() {
 
     enum class Status {

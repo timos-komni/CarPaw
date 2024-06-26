@@ -3,6 +3,9 @@ package com.timkom.carpaw.data.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The pets table in the database.
+ */
 @Serializable
 data class Pet(
     val id: Long,

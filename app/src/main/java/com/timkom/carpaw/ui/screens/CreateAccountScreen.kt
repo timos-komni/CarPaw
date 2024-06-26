@@ -1,16 +1,17 @@
 package com.timkom.carpaw.ui.screens
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +28,6 @@ import com.timkom.carpaw.data.supabase.SupabaseManager
 import com.timkom.carpaw.ui.CustomAlertDialog
 import com.timkom.carpaw.ui.components.EmailTextField
 import com.timkom.carpaw.ui.components.GenericTextField
-import com.timkom.carpaw.ui.components.PageHeading
 import com.timkom.carpaw.ui.components.PasswordTextField
 import com.timkom.carpaw.ui.components.buttons.CustomButton
 import com.timkom.carpaw.ui.theme.CarPawTheme

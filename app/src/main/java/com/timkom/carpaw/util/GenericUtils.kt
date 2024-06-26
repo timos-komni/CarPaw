@@ -9,6 +9,7 @@ import com.timkom.carpaw.BuildConfig
 import java.util.Arrays
 import kotlin.reflect.KClass
 
+@Suppress("unused")
 @JvmOverloads
 fun isDebug(checkForDebugger: Boolean = false): Boolean {
     return if (!checkForDebugger) {
@@ -25,6 +26,7 @@ fun <T> createTAGForClass(clazz: Class<T>): String {
 
 fun <T: Any> createTAGForKClass(clazz: KClass<T>) = createTAGForClass(clazz.java)
 
+@Suppress("unused")
 fun triggerRebirth(ctx: Context) {
     try {
         val pm = ctx.packageManager
@@ -39,6 +41,7 @@ fun triggerRebirth(ctx: Context) {
     }
 }
 
+@Suppress("unused")
 fun triggerRebirth(activity: Activity) {
     try {
         val pm = activity.packageManager

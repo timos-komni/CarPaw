@@ -1,6 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
-import InfoCardSpec
+import com.timkom.carpaw.ui.components.cards.InfoCardSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,23 +8,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.cards.HeroCard
-import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
 import com.timkom.carpaw.ui.content.ListInfoContent
-import com.timkom.carpaw.ui.data.BottomNavigationItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import com.timkom.carpaw.util.Either
 
 @Composable
 fun HomeScreen(

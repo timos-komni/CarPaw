@@ -13,8 +13,20 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 
 class LoginViewModel : ViewModel() {
+
+    /**
+     * The username of the user.
+     */
     val username = mutableStateOf("")
+
+    /**
+     * The password of the user.
+     */
     val password = mutableStateOf("")
+
+    /**
+     * A boolean value indicating whether the login was successful.
+     */
     val loginStatus = mutableStateOf(false)
 
     fun onUsernameChange(newUsername: String) {
@@ -45,4 +57,5 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
 }

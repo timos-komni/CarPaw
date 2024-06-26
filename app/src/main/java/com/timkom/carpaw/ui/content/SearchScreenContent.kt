@@ -1,10 +1,9 @@
 package com.timkom.carpaw.ui.content
 
 import androidx.compose.runtime.Composable
-import com.timkom.carpaw.ui.components.SearchLocationBar
-import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.timkom.carpaw.ui.components.SearchLocationBar2
+import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 
 @Composable
 fun SearchScreenContent(

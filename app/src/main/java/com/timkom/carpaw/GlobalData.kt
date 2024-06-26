@@ -8,5 +8,9 @@ object GlobalData {
      * The [User] of the app (if connected).
      */
     var user: User? = null
+
+    /**
+     * The [UserSession] of the anonymous user (if connected).
+     */
     var anonSession: UserSession? = null
 }

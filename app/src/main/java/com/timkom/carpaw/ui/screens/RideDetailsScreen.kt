@@ -109,8 +109,8 @@ fun RideDetailsScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                user?.let {
-                    DriverDetailsCard(user = it)
+                user?.let { u ->
+                    DriverDetailsCard(user = u)
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }

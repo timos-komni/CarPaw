@@ -2,7 +2,6 @@ package com.timkom.carpaw.ui.data
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,12 +37,5 @@ sealed class BottomNavigationItem(
         title = R.string.bottom_navigation_item__my_rides__title,
         icon = Either.Right(R.drawable.folder_data)
     )
-
-    data object Profile : BottomNavigationItem(
-        route = "login",
-        title = R.string.bottom_navigation_item__login__title,
-        icon = Either.Left(Icons.Default.AccountCircle)
-    )
-
 
 }

@@ -2,7 +2,6 @@ package com.timkom.carpaw.ui.components.cards
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,13 +13,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,12 +28,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.timkom.carpaw.R
 import com.timkom.carpaw.data.model.Ride
 import com.timkom.carpaw.data.model.User
@@ -45,9 +38,6 @@ import com.timkom.carpaw.ui.components.PriceRow
 import com.timkom.carpaw.ui.components.RatingStars
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
-import kotlinx.datetime.Clock
-import kotlinx.serialization.Serializable
-import java.io.Serial
 import java.util.UUID
 
 data class SearchResultCardData(
@@ -82,14 +72,14 @@ fun SearchResultCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Text(
                     text = "${data.ride.start.substringBefore(',').substringBefore('-')} to ${data.ride.destination.substringBefore(',').substringBefore('-')}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
-                Column(){
+                Column {
                     PriceRow(data.ride.price)
                 }
             }
@@ -177,8 +167,6 @@ fun SearchResultCardPreview() {
         destination = "Ioannina",
         date = "2024-06-29",
         status = Ride.Status.Upcoming,
-        startTime = Clock.System.now().toString(),
-        endTime = Clock.System.now().toString(),
         price = 20.0f,
         startAddress = "Egnatia 122",
         destinationAddress = "Monastiriou"

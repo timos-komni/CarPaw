@@ -6,13 +6,45 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
+
+    /**
+     * The app bar title related to the current screen.
+     */
     var screenTitle = mutableStateOf("")
+
+    /**
+     * The action to perform when the back-button is pressed. If `null`, no back-button is shown.
+     */
     var onBackButton = mutableStateOf<(() -> Unit)?>(null)
+
+    /**
+     * The actions that the app bar should have. If `null`, no action is shown.
+     */
     var actions = mutableStateOf<(@Composable () -> Unit)?>(null)
+
+    /**
+     * If `true` the profile (or login) action is added.
+     */
     var shouldHaveProfileAction = mutableStateOf(true)
+
+    /**
+     * A boolean value indicating whether the user is connected.
+     */
     var userIsConnected = mutableStateOf(false)
+
+    /**
+     * A boolean value indicating whether the login dialog should be shown.
+     */
     var showLoginDialog = mutableStateOf(false)
+
+    /**
+     * A boolean value indicating whether the profile dialog should be shown.
+     */
     var showProfileDialog = mutableStateOf(false)
+
+    /**
+     * The selected item in the bottom navigation bar.
+     */
     var navigationSelectedItem = mutableIntStateOf(0)
 
     /**
@@ -35,7 +67,6 @@ class MainViewModel: ViewModel() {
         this.shouldHaveProfileAction.value = shouldHaveProfileAction
     }
 
-    // TODO (Chloe) Δεν έχω καταλάβει τι κάνει
     /**
      * Toggles the visibility of the login dialog.
      * @param show A boolean value indicating whether the login dialog should be shown.
@@ -43,4 +74,5 @@ class MainViewModel: ViewModel() {
     fun toggleLoginDialog(show: Boolean){
         showLoginDialog.value = show
     }
+
 }

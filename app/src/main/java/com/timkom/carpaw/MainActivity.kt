@@ -126,8 +126,10 @@ class MainActivity : ComponentActivity() {
                                 },
                                 actions = {
                                     actions?.invoke()
-                                    // Should be the last action
+                                    // The profile action should be the last action
                                     if (shouldHaveProfileAction) {
+                                        // If the user is not connected, show the login action
+                                        // else show the profile action
                                         if (!userIsConnected) {
                                             IconButton(
                                                 onClick = { showLoginDialog = true },
@@ -142,7 +144,6 @@ class MainActivity : ComponentActivity() {
                                                 )
                                             }
                                         } else {
-                                            // TODO customize it -> user is connected
                                             IconButton(onClick = { showProfileDialog = true }) {
                                                 Icon(
                                                     imageVector = Icons.Default.AccountCircle,
@@ -155,7 +156,6 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         },
-                    //},
                     bottomBar = {
                         val navItems = listOf(
                             BottomNavigationItem.Home,
@@ -211,6 +211,7 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
+                // if true show the login dialog
                 if (showLoginDialog) {
                     FullScreenDialog(
                         viewModelKey = "LOGIN_DIALOG",
@@ -223,7 +224,8 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-                
+
+                // if true show the profile dialog
                 if (showProfileDialog) {
                     FullScreenDialog(
                         viewModelKey = "PROFILE_DIALOG",
@@ -247,6 +249,9 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    /**
+     * Tries to connect the user.
+     */
     private suspend fun connectUser() {
         val prefs = getSharedPreferences(
             getString(R.string.preferences_file),
@@ -258,6 +263,9 @@ class MainActivity : ComponentActivity() {
         val refreshToken = prefs.getString(refreshTokenPrefKey, "")!!
         val viewModel: MainViewModel by viewModels()
 
+        /**
+         * Local function that fetches the actual user by his ID.
+         */
         val fetchUser: suspend (String) -> Unit = {
             val user = SupabaseManager.fetchUser(it)
             viewModel.userIsConnected.value = user?.let { u ->
@@ -266,6 +274,10 @@ class MainActivity : ComponentActivity() {
             } ?: false
         }
 
+        /**
+         * Local function that refreshes the session using the refresh token, saves the new refresh
+         * and access tokens, and fetches the actual user.
+         */
         val refreshSession: suspend (String) -> Unit = { token ->
             val userSession = SupabaseManager.refreshSession(token)
             prefs.edit()
@@ -277,8 +289,14 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // if the access token is not blank, try to retrieve the user
+        // else if the refresh token is not blank, try to refresh the session
+        // else the user is not connected
         if (accessToken.isNotBlank()) {
             val userInfo = SupabaseManager.retrieveUser(accessToken)
+            // if the userInfo is not null, fetch the actual user
+            // else if the refresh token is not blank, refresh the session
+            // else the user is not connected
             userInfo?.let {
                 fetchUser(it.id)
             } ?: if (refreshToken.isNotBlank()) {
@@ -292,6 +310,7 @@ class MainActivity : ComponentActivity() {
             viewModel.userIsConnected.value = false
         }
 
+        // if the user is not connected, create an anonymous user
         GlobalData.anonSession = if (!viewModel.userIsConnected.value) {
             SupabaseManager.createAnonUser()
         } else {
