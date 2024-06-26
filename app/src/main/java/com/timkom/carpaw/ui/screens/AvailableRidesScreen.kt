@@ -47,8 +47,8 @@ fun AvailableRidesScreen(
     LaunchedEffect(Unit) {
         availableRides = viewModel.getAvailableRides() ?: emptyList()
     }
-    val startLocation = viewModel.startSearchText.value.substringBefore(',')
-    val destination = viewModel.destinationSearchText.value.substringBefore(',')
+    val startLocation = viewModel.startSearchText.value
+    val destination = viewModel.destinationSearchText.value
     val date = viewModel.selectedDate.value
 
     Column(

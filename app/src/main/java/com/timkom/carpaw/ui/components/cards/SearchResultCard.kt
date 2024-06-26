@@ -1,3 +1,5 @@
+package com.timkom.carpaw.ui.components.cards
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -44,13 +46,15 @@ import com.timkom.carpaw.ui.components.RatingStars
 import com.timkom.carpaw.ui.data.CompanionAnimalItem
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import kotlinx.datetime.Clock
+import kotlinx.serialization.Serializable
+import java.io.Serial
 import java.util.UUID
 
 data class SearchResultCardData(
     val ride: Ride,
     val user: User,
     val selectedAnimals: List<CompanionAnimalItem>
-)
+) : java.io.Serializable
 
 @SuppressLint("ResourceType")
 @Composable
@@ -172,7 +176,7 @@ fun SearchResultCardPreview() {
         start = "Thessaloniki",
         destination = "Ioannina",
         date = "2024-06-29",
-        status = Ride.Status.Scheduled,
+        status = Ride.Status.Upcoming,
         startTime = Clock.System.now().toString(),
         endTime = Clock.System.now().toString(),
         price = 20.0f,

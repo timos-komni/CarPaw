@@ -1,6 +1,6 @@
 package com.timkom.carpaw.ui.screens
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,18 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.timkom.carpaw.R
-import com.timkom.carpaw.ui.components.PageHeading
-import com.timkom.carpaw.ui.components.cards.ExpandableCard
-import com.timkom.carpaw.ui.content.SearchScreenContent
-import com.timkom.carpaw.ui.content.searchContentList
-import com.timkom.carpaw.ui.theme.CarPawTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.timkom.carpaw.ui.content.CompanionAnimalList
+import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.buttons.ElevatedIconButton
+import com.timkom.carpaw.ui.components.cards.ExpandableCard
 import com.timkom.carpaw.ui.content.AnimalListMode
+import com.timkom.carpaw.ui.content.CompanionAnimalList
 import com.timkom.carpaw.ui.content.DatePickerContent
 import com.timkom.carpaw.ui.content.SearchContentType
+import com.timkom.carpaw.ui.content.SearchScreenContent
+import com.timkom.carpaw.ui.content.searchContentList
+import com.timkom.carpaw.ui.data.CompanionAnimalItem
+import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.ui.viewmodels.SearchRideViewModel
 import com.timkom.carpaw.util.Either
 import java.lang.ref.WeakReference
@@ -40,7 +40,7 @@ import java.lang.ref.WeakReference
 fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchRideViewModel = viewModel(),
-    onSearchClick: () -> Unit
+    onSearchClick: (String, String, String, List<CompanionAnimalItem>) -> Unit
 ) {
     val contentList = searchContentList()
     val context = LocalContext.current
@@ -120,7 +120,14 @@ fun SearchScreen(
                     ElevatedIconButton(
                         title = R.string.search_ride__title,
                         icon = Either.Left(Icons.Default.Search),
-                        onClick = onSearchClick,
+                        onClick = {
+                            onSearchClick.invoke(
+                                viewModel.startSearchText.value,
+                                viewModel.destinationSearchText.value,
+                                viewModel.selectedDate.value,
+                                viewModel.animals.filter { it.count > 0 }
+                            )
+                        },
                         enabled = viewModel.isFormValid()
                     )
 
@@ -139,6 +146,6 @@ fun SearchScreen(
 @Composable
 fun SearchScreenPreview() {
     CarPawTheme(dynamicColor = false) {
-        SearchScreen(onSearchClick ={})
+        SearchScreen(onSearchClick = { _, _, _, _ ->})
     }
 }
