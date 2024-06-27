@@ -34,6 +34,15 @@ import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.components.buttons.ArrowBackButton
 import com.timkom.carpaw.ui.viewmodels.FullScreenDialogViewModel
 
+/**
+ * A simple dialog that covers the entire screen.
+ * @param properties The dialog properties.
+ * @param onDismissRequest The on dismiss request listener.
+ * @param title The title of the dialog.
+ * @param hasNavigationIcon Whether the navigation icon should be shown or not.
+ * @param actions The actions to display in the top right corner.
+ * @param content The content of the dialog.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleFullScreenDialog(
@@ -93,6 +102,14 @@ fun SimpleFullScreenDialog(
     }
 }
 
+/**
+ * A custom dialog that covers the entire screen.
+ * @param viewModelKey The key of the [FullScreenDialogViewModel].
+ * @param properties The dialog properties.
+ * @param onDismissRequest The on dismiss request listener.
+ * @param actions The actions to display in the top right corner.
+ * @param content The content of the dialog.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FullScreenDialog(
@@ -164,6 +181,12 @@ fun FullScreenDialog(
     }
 }
 
+/**
+ * A simple dialog that covers the entire screen and has no title.
+ * @param properties The dialog properties.
+ * @param onDismissRequest The on dismiss request listener.
+ * @param content The content of the dialog.
+ */
 @Composable
 fun FullScreenDialogWithoutTitle(
     properties: DialogProperties = DialogProperties(),
@@ -195,6 +218,13 @@ fun FullScreenDialogWithoutTitle(
     }
 }
 
+/**
+ * A custom alert dialog.
+ * @param message The message to display.
+ * @param onDismissRequest The on dismiss request listener.
+ * @param onConfirm The on confirm listener.
+ * @param confirmButtonText The text of the confirm button.
+ */
 @Composable
 fun CustomAlertDialog(
     message: String,

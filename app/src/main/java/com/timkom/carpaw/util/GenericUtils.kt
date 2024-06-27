@@ -9,6 +9,11 @@ import com.timkom.carpaw.BuildConfig
 import java.util.Arrays
 import kotlin.reflect.KClass
 
+/**
+ * Check if the app is in debug mode ([BuildConfig.DEBUG] is `true`).
+ * @param checkForDebugger If `true`, also checks if the debugger is connected.
+ * @return `true` if the app is debuggable.
+ */
 @Suppress("unused")
 @JvmOverloads
 fun isDebug(checkForDebugger: Boolean = false): Boolean {
@@ -19,13 +24,35 @@ fun isDebug(checkForDebugger: Boolean = false): Boolean {
     }
 }
 
+/**
+ * Creates a TAG (for use in logging) for the given class (Java class...[Class]). It respects the
+ * 23 character limit that existed until Android 7 (API 25). The TAG has the format @[class name] (
+ * max 23 characters - to get the class name the [Class.getSimpleName] is called). e.g. the TAG for
+ * the MainActivity will be @MainActivity.
+ * @param clazz The class to get the TAG for.
+ * @param T The type param of the [Class].
+ * @return The TAG for the given class.
+ */
 fun <T> createTAGForClass(clazz: Class<T>): String {
     val className = clazz.simpleName.toCharArray()
     return "@${String(Arrays.copyOfRange(className, 0, className.size.coerceAtMost(22)))}"
 }
 
+/**
+ * Creates a TAG (for use in logging) for the given class (Kotlin class...[KClass]). It respects the
+ * 23 character limit that existed until Android 7 (API 25). The TAG has the format @[class name] (
+ * max 23 characters - to get the class name the [Class.getSimpleName] is called). e.g. the TAG for
+ * the MainActivity will be @MainActivity.
+ * @param clazz The class to get the TAG for.
+ * @param T The type param of the [Class].
+ * @return The TAG for the given class.
+ */
 fun <T: Any> createTAGForKClass(clazz: KClass<T>) = createTAGForClass(clazz.java)
 
+/**
+ * Restarts the app.
+ * @param ctx The (activity) context to use.
+ */
 @Suppress("unused")
 fun triggerRebirth(ctx: Context) {
     try {
@@ -41,6 +68,10 @@ fun triggerRebirth(ctx: Context) {
     }
 }
 
+/**
+ * Restarts the app.
+ * @param activity The activity to use.
+ */
 @Suppress("unused")
 fun triggerRebirth(activity: Activity) {
     try {

@@ -31,19 +31,27 @@ import com.timkom.carpaw.R
 import com.timkom.carpaw.ui.theme.CarPawTheme
 import com.timkom.carpaw.util.Either
 
+/**
+ * A custom elevated button with an icon.
+ * @param title The title of the button.
+ * @param icon The icon to display.
+ * @param onClick The on click listener.
+ * @param enabled Whether the button is enabled or not.
+ * @param modifier The modifier.
+ */
 @Composable
 fun ElevatedIconButton(
     @StringRes title: Int,
     icon: Either<ImageVector, Int>,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enabled: Boolean
+    enabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 
     ElevatedButton(
-        contentPadding = PaddingValues(horizontal =  8.dp, vertical = 4.dp),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.elevatedButtonColors().copy(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -95,9 +103,6 @@ private fun IconButtonPreview() {
             icon =  Either.Right(R.drawable.add_location),
             onClick = {},
             enabled = true
-
         )
-
     }
-
 }

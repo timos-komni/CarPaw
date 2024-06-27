@@ -21,6 +21,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.timkom.carpaw.ui.theme.CarPawTheme
 
+/**
+ * A custom text field for email input.
+ * @param modifier The modifier to apply to the text field.
+ * @param value The current value of the text field.
+ * @param onValueChange The callback to be invoked when the value changes.
+ * @param label The label for the text field.
+ * @param placeholder The placeholder text for the text field.
+ * @param isError Whether the text field is in error state.
+ * @param errorText The error text to be displayed when the text field is in error state.
+ */
 @Composable
 fun EmailTextField(
     modifier: Modifier = Modifier,
@@ -50,6 +60,16 @@ fun EmailTextField(
     )
 }
 
+/**
+ * A custom text field for password input.
+ * @param modifier The modifier to apply to the text field.
+ * @param value The current value of the text field.
+ * @param onValueChange The callback to be invoked when the value changes.
+ * @param label The label for the text field.
+ * @param placeholder The placeholder text for the text field.
+ * @param isError Whether the text field is in error state.
+ * @param errorText The error text to be displayed when the text field is in error state.
+ */
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
@@ -90,6 +110,16 @@ fun PasswordTextField(
     )
 }
 
+/**
+ * A custom text field for phone number input.
+ * @param modifier The modifier to apply to the text field.
+ * @param value The current value of the text field.
+ * @param onValueChange The callback to be invoked when the value changes.
+ * @param label The label for the text field.
+ * @param placeholder The placeholder text for the text field.
+ * @param isError Whether the text field is in error state.
+ * @param errorText The error text to be displayed when the text field is in error state.
+ */
 @Suppress("unused")
 @Composable
 fun PhoneTextField(
@@ -120,6 +150,16 @@ fun PhoneTextField(
     )
 }
 
+/**
+ * A custom text field for generic input.
+ * @param modifier The modifier to apply to the text field.
+ * @param value The current value of the text field.
+ * @param onValueChange The callback to be invoked when the value changes.
+ * @param label The label for the text field.
+ * @param placeholder The placeholder text for the text field.
+ * @param isError Whether the text field is in error state.
+ * @param errorText The error text to be displayed when the text field is in error state.
+ */
 @Composable
 fun GenericTextField(
     modifier: Modifier = Modifier,

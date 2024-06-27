@@ -10,6 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * A custom arrow back button.
+ * @param onClick The on click listener.
+ * @param modifier The modifier.
+ */
 @Composable
 fun ArrowBackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     IconButton(onClick = onClick, modifier = modifier) {

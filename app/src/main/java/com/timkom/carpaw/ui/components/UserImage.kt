@@ -13,8 +13,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.timkom.carpaw.R
 
+/**
+ * A custom user image.
+ * @param color The color of the image.
+ */
 @Composable
-fun UserImage(color: Color){
+fun UserImage(color: Color) {
     Image(
         painter = painterResource(id = R.drawable.account_circle),
         colorFilter = ColorFilter.tint(color),

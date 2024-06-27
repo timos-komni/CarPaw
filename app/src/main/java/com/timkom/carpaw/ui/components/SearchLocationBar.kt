@@ -51,12 +51,37 @@ import com.timkom.carpaw.util.createTAGForKClass
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
+/**
+ * A view model for the search location bar.
+ */
 class SearchLocationViewModel : ViewModel() {
+
+    /**
+     * The list of autocomplete predictions.
+     */
     val items = mutableStateListOf<AutocompletePrediction>()
+
+    /**
+     * The query text.
+     */
     var queryText = mutableStateOf("")
+
+    /**
+     * Whether the search bar is active.
+     */
     var isActive = mutableStateOf(false)
+
+    /**
+     * The selected autocomplete prediction.
+     */
     var result = mutableStateOf<AutocompletePrediction?>(null)
 
+    /**
+     * Searches for autocomplete predictions using the Google Maps Places SDK.
+     * @param context The context to use.
+     * @param query The query to search for.
+     * @param searchType The type of search to perform.
+     */
     fun searchLocation(context: Context, query: String, searchType: PlacesManager.SearchType) {
         val placesManager = PlacesManager.getInstance(context)
         viewModelScope.launch {
@@ -80,6 +105,7 @@ class SearchLocationViewModel : ViewModel() {
         isActive.value = false
         result.value = null
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -166,6 +192,15 @@ fun SearchLocationBar(
     }
 }
 
+/**
+ * Search location bar with autocomplete.
+ * @param placeholder The placeholder text for the search bar.
+ * @param label The label for the search bar.
+ * @param onSelection The callback to be invoked when a location is selected.
+ * @param modifier The modifier to apply to the search bar.
+ * @param typeFilter The type of search to perform.
+ * @param viewModelKey The key to use for the view model.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchLocationBar2(
