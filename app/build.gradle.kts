@@ -133,3 +133,10 @@ secrets {
 
     ignoreList.add("sdk.*")
 }
+
+android.applicationVariants.configureEach {
+    outputs.configureEach {
+        val outputImpl = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+        outputImpl.outputFileName = "${applicationId}-${name}-${versionName}.apk"
+    }
+}
